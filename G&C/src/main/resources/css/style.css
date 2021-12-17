@@ -1,0 +1,164 @@
+*{
+    margin: 0;
+    font-weight: 500;
+}
+:root{
+    font-family: 'Manrope', sans-serif;
+    font-size: 20px;
+}
+body{
+    min-width: 547px;
+}
+.center{
+    text-align: center;
+    margin: auto;
+}
+
+
+  /* HEADER */
+.header{
+    height: 6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: #5BB964;
+    margin-bottom: 0.8rem;
+    width: 100%;
+    padding: 1rem;
+}
+.header_btn{
+    background-color: #EBEEE2;
+    color: #302E2E;
+    border: 0;
+    
+
+    padding: 0.4rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    
+    border-radius: 10px;
+    
+
+    font-size: x-large;
+
+}
+.header_btn::before {
+    font-family: fontAwesome;
+    content: "\f0c9\00a0";      
+}
+
+/* LOGO */
+.header_logo{
+    width: 30%;
+}
+/* PROFILE */
+.profile{
+    background-color: #EBEEE2;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 10px 50px 50px 10px;
+    padding-left: 0.3rem;
+    
+    
+}
+.profile > h3{
+    margin:0;
+    padding: 0.4rem;
+}
+.profile_img{
+    width: 4rem;
+    height: 4rem;
+    margin-left: 0.4rem;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
+.dropdown-menu{
+    background-color: #5BB964;
+    padding: 1.5rem;
+    padding-top: 0.5rem;
+}
+.dropdown-menu > a{
+    background-color: #EBEEE2;
+    margin-top: 1rem;
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+
+#profile_dropdown{
+    padding: 0;
+    border: 0;
+    
+    height: 2.7rem;
+    padding-left: 0.6rem;
+}
+
+/* HEADER -> PROFILE -> LANGUAGE */
+.language{
+    display: flex;
+    justify-content: space-around;
+
+    width: 100%;
+
+    background-color: #EBEEE2;
+    margin-top: 1rem;
+    padding: 0.3rem;
+    border-radius: 10px;
+}
+.dropdown_language_item{
+    
+    width: 30%;
+    background-color: #302E2E;
+    color: #EBEEE2;
+    border-radius: 10px;
+    padding: 0.3rem;
+}
+.dropdown_language_item_selected{
+    background-color: #babbb8;
+    color: #302E2E;
+}
+
+/* MAIN */
+hr {
+    height: 1px;
+    width: 70%;
+    background-color: #302E2E;
+    margin: 3rem auto;
+    text-align: center;
+}
+
+/* FOOTER */
+.footer_main{
+    margin-top: 1rem;
+}
+.footer_main > p{
+    margin: 2rem;
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+/* Agrandar LOGO */
+
+}
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+.header_logo {
+        width: 25%;
+}
+
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+.header_logo {
+        width: 15%;
+}  
+}
