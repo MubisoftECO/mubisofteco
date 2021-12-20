@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"org.eco.mubisoft.good_and_cheap"},{"l":"org.eco.mubisoft.good_and_cheap.application.control"},{"l":"org.eco.mubisoft.good_and_cheap.user.domain.model"},{"l":"org.eco.mubisoft.good_and_cheap.user.domain.repo"}];updateSearchResults();

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Form</title>
+</head>
+<body>
+    <h1>Create User</h1>
+    <form action="/user/save" method="post">
+        <table>
+            <tbody>
+                <tr>
+                    <td><label for="name">Name</label></td>
+                    <td><input type="text" id="name" name="name"></td>
+                </tr>
+                <tr>
+                    <td><label for="second-name">Surname</label></td>
+                    <td><input type="text" id="second-name" name="secondName"></td>
+                </tr>
+                <tr>
+                    <td><label for="username">Email</label></td>
+                    <td><input type="text" id="username" name="username"></td>
+                </tr>
+                <tr>
+                    <td><label for="password">Password</label></td>
+                    <td><input type="password" id="password" name="password"></td>
+                </tr>
+                <tr style="text-align: center">
+                    <td><input type="submit" value="Submit"></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</body>
+</html>
