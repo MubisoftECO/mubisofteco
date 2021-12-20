@@ -2,9 +2,14 @@
     margin: 0;
     font-weight: 500;
 }
+
 :root{
     font-family: 'Manrope', sans-serif;
     font-size: 20px;
+    --color-btn-bg-dark: #302E2E;
+    --color-btn-bg-lightgrey: #EBEEE2;
+    --color-text-bg-dark: white;
+    --color-text-bg-white: black;
 }
 body{
     min-width: 547px;
@@ -43,10 +48,11 @@ body{
     font-size: x-large;
 
 }
-.header_btn::before {
-    font-family: fontAwesome;
-    content: "\f0c9\00a0";      
-}
+
+/*.header_btn::before {*/
+/*    font-family: "Font Awesome 5 Free";*/
+/*    content: "\f0c9\00a0";   */
+/*}*/
 
 /* LOGO */
 .header_logo{
@@ -161,4 +167,12 @@ hr {
 .header_logo {
         width: 15%;
 }  
+}
+
+.index-banner {
+    width: 100%;
+}
+
+.card-banner {
+    text-align: center;
 }

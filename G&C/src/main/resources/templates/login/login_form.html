@@ -1,23 +1,55 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:include="includes/head :: head">
+<head th:insert="includes/head :: head">
+
+
     <title>Login</title>
 </head>
 <body>
     <!-- Header -->
+
     <header th:replace="includes/header :: header"></header>
+
 
     <!-- Main -->
     <main>
-        <form action="/login" method="post">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" required/>
-            <br>
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required/>
-            <br><br>
-            <input type="submit" value="Submit">
-        </form>
+        <div class="container">
+            <div class="row" >
+                <div class="btn-group mt-3" id="button-parent">
+                    <a id="signin"  th:classappend="${pageTitle == 'login_form' ? 'current' : ''}" class="col btn custom-btn-signin btn-lg selected"  th:href="@{'/login/sign-in'}">SIGN IN</a>
+                    <a id="signup"  th:classappend="${pageTitle == 'user_form' ? 'current' : ''}" class=" col btn custom-btn-signup btn-lg" th:href="@{'/user/create'}">SIGN UP</a>
+                </div>
+
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6 hidden">
+                    <img src="back.jpg" alt="" style="width:100%";>
+                </div>
+
+                <div class="mt-4 col-12 col-sm-12 col-md-6 col-lg-6">
+                    <form action="/login" method="post"  class="justify-content-center">
+                        <div class="row gy-4" id="form-customer">
+                            <div class="col-12 col-sm-6 input-box">
+                                <input type="email" class="form-control" placeholder="Email"  name="username" id="inputEmail">
+                                <span>
+                                    <i class="fas fa-envelope custom-form-icon" id="iconEmail"></i>
+                                </span>
+                            </div>
+                            <div class="col-12 col-sm-6 input-box">
+                                <input type="password" placeholder="Password" name="password" class="form-control" id="inputPassword">
+                                <span>
+                                    <i class="fas fa-lock custom-form-icon" id="iconPassword"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row gy-2 mt-3">
+                            <div class="col-12">
+                                <button type="submit" class="form-control btn btn-dark">SUBMIT</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
     </main>
 
     <!-- Footer -->

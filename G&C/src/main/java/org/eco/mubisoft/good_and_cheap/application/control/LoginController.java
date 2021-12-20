@@ -3,6 +3,7 @@ package org.eco.mubisoft.good_and_cheap.application.control;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -18,8 +19,9 @@ import java.io.IOException;
 public class LoginController {
 
     @GetMapping("/sign-in")
-    public String getLoginForm(HttpServletResponse response) throws IOException {
+    public String getLoginForm(HttpServletResponse response, Model model) throws IOException {
         log.info("Request login form");
+        model.addAttribute("pageTitle", "login_form");
         return "/login/login_form";
     }
 

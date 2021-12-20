@@ -1,0 +1,77 @@
+/*:root {*/
+/*    --color-btn-bg-dark: #302E2E;*/
+/*    --color-btn-bg-lightgrey: #EBEEE2;*/
+/*    --color-text-bg-dark: white;*/
+/*    --color-text-bg-white: black;*/
+/*}*/
+
+.input-box {
+    position: relative;
+    text-align: end;
+}
+
+form-control {
+    outline: none;
+    margin:20px 0 0 0;
+}
+
+.custom-form-icon {
+    position:absolute;
+    font-size: 25px;
+    margin: -32px 0 0 -32px;
+}
+
+#iconPassword {
+    cursor: pointer;
+}
+
+/* -- Buttons --*/
+
+.custom-btn-signin {
+    background-color: var(--color-btn-bg-lightgrey);
+    color:var(--color-text-bg-white);
+}
+
+
+.custom-btn-signin:hover {
+    background-color: var(--color-btn-bg-dark);
+    color:var(--color-text-bg-dark);
+}
+
+
+
+.custom-btn-signup {
+    background-color: var(--color-btn-bg-lightgrey);
+    color:var(--color-text-bg-white);
+}
+
+.custom-btn-signup:hover{
+    background-color: var(--color-btn-bg-dark);
+    color:var(--color-text-bg-dark);
+}
+
+
+.custom-btn-submit {
+    background-color: var(--color-btn-bg-dark);
+    color: var(--color-text-bg-dark);
+
+    /*margin: 30px 0 0 0;*/
+}
+
+.custom-btn-submit:hover {
+    background-color: var(--color-btn-bg-dark);
+    color: var(--color-text-bg-dark);
+
+    /*margin: 30px 0 0 0;*/
+}
+
+/* -- actions --*/
+
+.current {
+    background-color: var(--color-btn-bg-dark);
+    color: var(--color-text-bg-dark);
+}
+
+.hidden {
+    display:none;
+}
