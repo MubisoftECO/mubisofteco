@@ -13,6 +13,8 @@ import java.util.Optional;
  */
 public interface UserRepository extends JpaRepository<AppUser, Location> {
 
+    Optional<AppUser> findById(Long id);
+
     /**
      * <p><b>FIND BY EMAIL</b></p>
      * <p>Search a user in the database using it's email. All emails in the database are
@@ -20,7 +22,7 @@ public interface UserRepository extends JpaRepository<AppUser, Location> {
      * @param email The email of the user that is going to be searched.
      * @return Optional value, if the user email was found will return the user.
      */
-    Optional<AppUser> findByEmail(String email);
+    Optional<AppUser> findByUsername(String email);
 
     /**
      * <p><b>FIND BY EMAIL AND PASSWORD</b></p>
@@ -30,6 +32,6 @@ public interface UserRepository extends JpaRepository<AppUser, Location> {
      * @param password The password of the user account referenced by the email.
      * @return Optional value, if the user email was found will return the user.
      */
-    Optional<AppUser> findByEmailAndPassword(String email, String password);
+    Optional<AppUser> findByUsernameAndPassword(String email, String password);
 
 }

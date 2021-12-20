@@ -1,7 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.user.domain.service;
 
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
-import org.eco.mubisoft.good_and_cheap.user.domain.model.Role;
 
 /**
  * <p><b>USER SERVICE</b></p>
@@ -21,13 +20,20 @@ public interface UserService {
     AppUser saveUser(AppUser user);
 
     /**
-     * <p><b>SAVE ROLE</b></p>
-     * <p>Save a new role on the database. Each role must be unique, so it will make
-     * sure the role is not already created.</p>
-     * @param role The role that is going to be added.
-     * @return The user role that has been created on the database.
+     * <p><b>GET USER BY ID</b></p>
+     * <p>Get a user form the database using it's user ID.</p>
+     * @param id The ID of the user that is going to be searched.
+     * @return The user from the database.
      */
-    Role saveRole(Role role);
+    AppUser getUser(Long id);
+
+    /**
+     * <p><b>GET USER BY USERNAME</b></p>
+     * <p>Get a user form the database using its email.</p>
+     * @param username The email of the user that is going to be searched.
+     * @return The user from the database.
+     */
+    AppUser getUser(String username);
 
     /**
      * <p><b>DELETE USER</b></p>
@@ -36,33 +42,4 @@ public interface UserService {
      * @return The user that has been removed from the database.
      */
     AppUser deleteUser(AppUser user);
-
-    /**
-     * <p><b>DELETE ROLE</b></p>
-     * <p>Delete a new role from the database. If the role doesn't exist it won't
-     * return anything.</p>
-     * @param role The role that is going to be removed.
-     * @return The user role that has been removed from the database.
-     */
-    Role deleteRole(Role role);
-
-    /**
-     * <p><b>SET USER ROLE</b></p>
-     * <p>Give a user a new role. As the user cannot have the same role multiple times, if
-     * the user already has the role, it won't add it.</p>
-     * @param user The user that is going to have a new role assigned.
-     * @param role The role that is going to be assigned.
-     * @return TRUE if the operation was successful, else FALSE.
-     */
-    boolean setUserRole(AppUser user, Role role);
-
-    /**
-     * <p><b>REMOVE USER ROLE</b></p>
-     * <p>Remove a role from a user. If a user with a lower power role tries to remove
-     * a higher power role, an error will happen.</p>
-     * @param user The user that is going to have a role removed.
-     * @param role The role that is going to be removed.
-     * @return TRUE if the operation was successful, else FALSE.
-     */
-    boolean removeUserRole(AppUser user, Role role);
 }

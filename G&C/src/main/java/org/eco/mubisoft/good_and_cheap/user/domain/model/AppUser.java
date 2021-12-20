@@ -41,12 +41,12 @@ public class AppUser {
      */
     private String secondName;
     /**
-     * <p><b>EMAIL</b></p>
-     * <p>The email will be used as the username for the account. It will be used by
+     * <p><b>USERNAME</b></p>
+     * <p>An email will be used as the username for the account. It will be used by
      * the authentication system. Each email must be unique.</p>
      */
     @Column(unique = true)
-    private String email;
+    private String username;
     /**
      * <p><b>PASSWORD</b></p>
      * <p>Authentication values for the user.</p>
@@ -63,7 +63,7 @@ public class AppUser {
      * <p><b>IMAGE SOURCE</b></p>
      * <p>A list with the different roles of the user.</p>
      */
-    private String imgSrc;
+    private String imgSrc = null;
 
     /**
      * <p><b>LOCATION</b></p>

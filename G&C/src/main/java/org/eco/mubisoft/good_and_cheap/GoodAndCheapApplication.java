@@ -2,6 +2,8 @@ package org.eco.mubisoft.good_and_cheap;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * <p><b>Good and Cheap Application</b></p>
@@ -18,4 +20,10 @@ public class GoodAndCheapApplication {
         SpringApplication.run(GoodAndCheapApplication.class, args);
     }
 
+    /**
+     * Get a password encoder.
+     * @return A BCryptPasswordEncoder.
+     */
+    @Bean
+    BCryptPasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
 }
