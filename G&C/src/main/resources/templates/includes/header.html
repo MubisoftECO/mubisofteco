@@ -1,0 +1,40 @@
+<header th:fragment="headerbar" class="header">
+    <div class="dropdown menu">
+        <button class="dropdown-toggle header_btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            MENU
+        </button>
+        <div class="dropdown-menu center" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">PRODUCTS</a>
+            <a class="dropdown-item" href="#">RECIPES</a>
+            <a class="dropdown-item" href="#">ANALYTICS</a>
+            <a class="dropdown-item" href="#">PROFILE</a>
+        </div>
+    </div>
+
+    <img class="header_logo" th:src="@{'/media/imgs/header_logo.png'}" alt="Logo G%C">
+
+    <div class="dropdown header_profile">
+        <button id="profile_dropdown" class="dropdown-toggle profile " type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            EN<span id="img_profile"><img id="profile_img" src="https://avatars.githubusercontent.com/u/56298271?v=4" alt="Imagen Foto de Perfil" class="rounded-circle profile_img">
+              </span>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right center" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">MY USER</a>
+            <a class="dropdown-item" href="#">SETTINGS</a>
+            <a class="dropdown-item" href="#">LOGOUT
+                <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
+                            <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+                        </svg>
+                    </span>
+            </a>
+
+            <div class="language">
+                <a class="dropdown_language_item" href="#">EN</a>
+                <a class="dropdown_language_item dropdown_language_item_selected" href="#">ES</a>
+                <a class="dropdown_language_item dropdown_language_item_selected" href="#">EU</a>
+            </div>
+        </div>
+    </div>
+</header>

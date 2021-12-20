@@ -18,9 +18,9 @@ import java.io.IOException;
 public class LoginController {
 
     @GetMapping("/sign-in")
-    public void getLoginForm(HttpServletResponse response) throws IOException {
+    public String getLoginForm(HttpServletResponse response) throws IOException {
         log.info("Request login form");
-        response.sendRedirect("/login/login_form");
+        return "/login/login_form";
     }
 
     @GetMapping("/logout")

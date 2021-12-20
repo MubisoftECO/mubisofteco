@@ -1,18 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="includes/head :: head">
     <title>Login</title>
 </head>
 <body>
-    <form action="/login" method="post">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" required/>
-        <br>
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required/>
-        <br><br>
-        <input type="submit" value="Submit">
-    </form>
+    <!-- Header -->
+    <header th:replace="includes/header :: header"></header>
+
+    <!-- Main -->
+    <main>
+        <form action="/login" method="post">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required/>
+            <br>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required/>
+            <br><br>
+            <input type="submit" value="Submit">
+        </form>
+    </main>
+
+    <!-- Footer -->
+    <footer th:replace="includes/footer :: footer"></footer>
 </body>
 </html>
