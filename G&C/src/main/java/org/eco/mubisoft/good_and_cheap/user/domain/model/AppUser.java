@@ -1,5 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.user.domain.model;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,24 +34,28 @@ public class AppUser {
      * <p>Depending on the user, the name attribute will store the first name of the user or
      * the CIF number of the business.</p>
      */
+    @NotNull
     private String name;
     /**
      * <p><b>SECOND NAME</b></p>
      * <p>Depending on the user, the name attribute will store the second name of the user or
      * the name of the business.</p>
      */
+    @NotNull
     private String secondName;
     /**
      * <p><b>USERNAME</b></p>
      * <p>An email will be used as the username for the account. It will be used by
      * the authentication system. Each email must be unique.</p>
      */
+    @NotNull
     @Column(unique = true)
     private String username;
     /**
      * <p><b>PASSWORD</b></p>
      * <p>Authentication values for the user.</p>
      */
+    @NotNull
     private String password;
     /**
      * <p><b>ROLES</b></p>
