@@ -58,6 +58,11 @@ body{
 .header_logo{
     width: 30%;
 }
+
+.header_image {
+    width: 100%;
+}
+
 /* PROFILE */
 .profile{
     background-color: #EBEEE2;
@@ -65,13 +70,13 @@ body{
     align-items: center;
     border-radius: 10px 50px 50px 10px;
     padding-left: 0.3rem;
-    
-    
 }
+
 .profile > h3{
     margin:0;
     padding: 0.4rem;
 }
+
 .profile_img{
     width: 4rem;
     height: 4rem;
@@ -81,11 +86,12 @@ body{
 .dropdown-toggle::after {
     display: none;
 }
+
 .dropdown-menu{
     background-color: #5BB964;
-    padding: 1.5rem;
-    padding-top: 0.5rem;
+    padding: 0.5rem 1.5rem 1.5rem;
 }
+
 .dropdown-menu > a{
     background-color: #EBEEE2;
     margin-top: 1rem;
@@ -93,13 +99,10 @@ body{
     font-weight: 500;
 }
 
-
 #profile_dropdown{
-    padding: 0;
     border: 0;
-    
     height: 2.7rem;
-    padding-left: 0.6rem;
+    padding: 0 0 0 0.6rem;
 }
 
 /* HEADER -> PROFILE -> LANGUAGE */

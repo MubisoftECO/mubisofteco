@@ -2,7 +2,6 @@ package org.eco.mubisoft.good_and_cheap.user.control.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.application.data.MilliTime;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,12 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Collectors;
-
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
 public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
