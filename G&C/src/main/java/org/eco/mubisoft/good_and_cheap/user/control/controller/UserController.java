@@ -47,7 +47,7 @@ public class UserController {
         userService.saveUser(user);
 
         // Send response
-        response.setStatus(HttpServletResponse.SC_OK);
+        response.setStatus(HttpServletResponse.SC_CREATED);
         response.sendRedirect(response.encodeRedirectURL("/"));
     }
 
@@ -63,6 +63,7 @@ public class UserController {
                         ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/view").toUriString()
                 )
         ).body(userService.getUser(id));
+
     }
 
 }
