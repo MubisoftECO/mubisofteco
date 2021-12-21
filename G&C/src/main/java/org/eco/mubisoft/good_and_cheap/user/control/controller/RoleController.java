@@ -28,6 +28,9 @@ public class RoleController {
     @PostMapping("/save")
     public void saveRole(HttpServletRequest request, HttpServletResponse response) throws IOException {
         roleService.saveRole(new Role(null, request.getParameter("name")));
+
+        // Send response
+        response.setStatus(HttpServletResponse.SC_OK);
         response.sendRedirect("/role/view");
     }
 
@@ -42,6 +45,9 @@ public class RoleController {
                 request.getParameter("username"),
                 request.getParameter("name")
         );
+
+        // Send response
+        response.setStatus(HttpServletResponse.SC_OK);
         response.sendRedirect("/");
     }
 

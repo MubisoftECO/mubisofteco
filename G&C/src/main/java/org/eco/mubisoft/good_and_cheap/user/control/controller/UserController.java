@@ -46,6 +46,8 @@ public class UserController {
         roleService.setUserRole(user.getUsername(), "ROLE_USER");
         userService.saveUser(user);
 
+        // Send response
+        response.setStatus(HttpServletResponse.SC_OK);
         response.sendRedirect(response.encodeRedirectURL("/"));
     }
 

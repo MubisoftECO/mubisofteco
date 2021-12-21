@@ -45,8 +45,12 @@ public class LoginController {
     public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
         log.info("Login user out");
         HttpSession session = request.getSession();
+
         session.removeAttribute("accessToken");
         session.removeAttribute("refreshToken");
+
+        // Send response
+        response.setStatus(HttpServletResponse.SC_OK);
         response.sendRedirect("/");
     }
 
