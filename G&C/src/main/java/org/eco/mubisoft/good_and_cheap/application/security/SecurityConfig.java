@@ -15,24 +15,46 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * <p><b>Custom WebSecurityConfigurerAdapter</b></p>
+ * <p>Manage the security of the application, applying different ACLs to modify
+ * the security of the application.</p>
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    /**
+     * 
+     */
     private final UserDetailsService userDetailsService;
+    /**
+     *
+     */
     private final BCryptPasswordEncoder passwordEncoder;
 
+    /**
+     *
+     * @param auth
+     * @throws Exception
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
+    /**
+     *
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         UserAuthenticationFilter authenticationFilter = new UserAuthenticationFilter(authenticationManagerBean());
         authenticationFilter.setFilterProcessesUrl("/login");
 
+        // Disable the default
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
@@ -45,6 +67,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(new UserAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
