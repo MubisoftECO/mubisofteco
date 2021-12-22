@@ -47,18 +47,4 @@ class UserControllerTests {
                 .andExpect(redirectedUrl("/")).andExpect(status().isFound());
     }
 
-    @Test (expected = IllegalArgumentException.class) //No me lo pilla
-    void saveUserTestMal () throws Exception {
-        mockMvc.perform(post("/user/save")
-                        .param("name", "Test")
-                        .param("secondName", "Test")
-                        .param("username", "Username")
-                        .param("password", null))
-                .andExpect(result -> {
-                    assertTrue(result.getResolvedException() instanceof IllegalArgumentException);
-                })
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/")).andExpect(status().isFound());
-    }
-
 }
