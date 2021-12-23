@@ -33,5 +33,4 @@ public class Recipe {
     private Collection<ProductType> ingredients = new ArrayList<>();
     @ManyToMany
     private Collection<Flag> recipeFlags = new ArrayList<>();
-
 }
