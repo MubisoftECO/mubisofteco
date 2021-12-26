@@ -27,6 +27,7 @@ public class RoleController {
 
     @PostMapping("/save")
     public void saveRole(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
         roleService.saveRole(new Role(null, request.getParameter("name")));
 
         // Send response

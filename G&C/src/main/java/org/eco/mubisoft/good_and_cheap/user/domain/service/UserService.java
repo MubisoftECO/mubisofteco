@@ -2,6 +2,9 @@ package org.eco.mubisoft.good_and_cheap.user.domain.service;
 
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 
+import javax.transaction.Transactional;
+import java.util.List;
+
 /**
  * <p><b>USER SERVICE</b></p>
  * <p>Interface that manages the interactions between the controller
@@ -42,4 +45,16 @@ public interface UserService {
      * @return The user that has been removed from the database.
      */
     AppUser deleteUser(AppUser user);
+
+    /**
+     * <p><b>GET ALL USERS</b></p>
+     * <p>Fetch all the users from the database. If there are no users, it returns a empty list.</p>
+     * @return The list of users from the database.
+     */
+
+    List<AppUser> getAllUsers();
+
+    AppUser editUser (AppUser user);
+
+    AppUser updateUser(Long id, String name, String secondName, String username);
 }

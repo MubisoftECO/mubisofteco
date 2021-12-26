@@ -38,4 +38,11 @@ public class TokenChecker {
         );
     }
 
+    public String getUsernameFromToken (String authToken) throws NullPointerException{
+        String token = authToken.substring("Bearer ".length());
+        DecodedJWT decodedJWT = verifier.verify(token);
+
+        return decodedJWT.getSubject();
+    }
+
 }

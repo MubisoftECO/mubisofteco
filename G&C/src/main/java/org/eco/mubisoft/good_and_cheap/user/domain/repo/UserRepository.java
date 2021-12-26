@@ -4,6 +4,7 @@ import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.Location;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 /**
@@ -33,5 +34,4 @@ public interface UserRepository extends JpaRepository<AppUser, Location> {
      * @return Optional value, if the user email was found will return the user.
      */
     Optional<AppUser> findByUsernameAndPassword(String email, String password);
-
 }

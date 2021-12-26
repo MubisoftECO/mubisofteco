@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -47,7 +49,22 @@ public class UserServiceFacade implements UserService, UserDetailsService {
 
     @Override
     public AppUser deleteUser(AppUser user) {
-        return null;
+        log.info("Deleting user {} from database", user.getUsername());
+        userRepo.delete(user);
+        return user;
+    }
+
+    @Override
+    public List<AppUser> getAllUsers(){
+        log.info("Fetching all the users from the database");
+        //Aqui marca un code smell. Segun sonar, la funcion findAll no devuelve null. Pero segun internet, si.
+        //Asi que compruebo si es null para devolver una lista vacia en vez de un null. Para que luego el
+        //programa no se queje.
+        List<AppUser> userList = userRepo.findAll();
+        if (userList == null){
+            userList = new ArrayList<>();
+        }
+        return userList;
     }
 
 
@@ -69,5 +86,31 @@ public class UserServiceFacade implements UserService, UserDetailsService {
 
         // Return the user, password and authorities.
         return new User(user.getUsername(), user.getPassword(), authorities);
+    }
+
+    @Override
+    public AppUser editUser(AppUser user) {
+        userRepo.findByUsername(user.getUsername());
+        return null;
+    }
+
+    @Override
+    @Transactional
+    public AppUser updateUser(Long id, String name, String secondName, String username) {
+        AppUser user = userRepo.findById(id).orElseThrow(() -> new IllegalStateException(
+                "User not found when updating user"
+        ));
+
+        if (name != null && name.length() > 0 && !Objects.equals(user.getName(), name)){
+            user.setName(name);
+        }
+
+        if (secondName != null && secondName.length() > 0 && !Objects.equals(user.getSecondName(), secondName)){
+            user.setSecondName(secondName);
+        }
+        if (username != null && username.length() > 0 && !Objects.equals(user.getUsername(), username)){
+            user.setUsername(username);
+        }
+        return user;
     }
 }

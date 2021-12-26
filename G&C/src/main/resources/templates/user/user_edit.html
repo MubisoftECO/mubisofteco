@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="includes/head :: head">
+    <title id="pageTitle">User Form</title>
+</head>
+<body>
+<!-- Header -->
+<header th:replace="includes/header :: header"></header>
+
+<!-- Main -->
+<main>
+    <div class="container">
+                <form action="/user/update"  method="post" class="justify-content-center">
+                    <div class="row gy-2" id="form-customer">
+                        <div class="col-12 col-sm-6">
+                            <input type="text" th:value="${user.getName()}" name="name" class="form-control">
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <input type="text" th:value="${user.getSecondName()}" name="secondName" class="form-control">
+                        </div>
+                        <div class="col-12">
+                            <input type="email" th:value="${user.getUsername()}" name="username" class="form-control">
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <input type="text" placeholder="SIN IMPLEMENTAR" name="city" class="form-control">
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <input type="text" placeholder="SIN IMPLEMENTAR" name="province" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row gy-2 mt-3">
+                        <div class="col-12">
+                            <button type="submit" class="form-control btn btn-dark">SUBMIT</button>
+                        </div>
+                    </div>
+                </form>
+    </div>
+</main>
+<!-- Footer -->
+<footer th:replace="includes/footer :: footer"></footer>
+</body>
+</html>

@@ -59,7 +59,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         // ACL list
-        http.authorizeRequests().antMatchers("/user/view").hasAuthority("ROLE_USER");
+        http.authorizeRequests().antMatchers("/user/view/**").hasAuthority("ROLE_ADMIN");
+        http.authorizeRequests().antMatchers("/user/delete/**").hasAuthority("ROLE_ADMIN");
         http.authorizeRequests().anyRequest().permitAll();
 
         // Add filters

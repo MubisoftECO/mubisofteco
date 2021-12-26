@@ -1,11 +1,18 @@
 package org.eco.mubisoft.good_and_cheap.user.control.controller;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eco.mubisoft.good_and_cheap.application.security.TokenChecker;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.service.RoleService;
 import org.eco.mubisoft.good_and_cheap.user.domain.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,8 +21,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.security.Principal;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -52,7 +63,9 @@ public class UserController {
     }
 
     @GetMapping("/view")
-    public String getView() {
+    public String getView(Model model) {
+        List<AppUser> userList = userService.getAllUsers();
+        model.addAttribute("userList", userList);
         return "user/user_list";
     }
 
@@ -64,6 +77,39 @@ public class UserController {
                 )
         ).body(userService.getUser(id));
 
+    }
+
+    @GetMapping("/delete/{userID}")
+    public void deleteUser (@PathVariable("userID") Long id, HttpServletResponse response) throws IOException {
+        userService.deleteUser(userService.getUser(id));
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.sendRedirect(response.encodeRedirectURL("/user/view/"));
+    }
+
+    @GetMapping("/edit")
+    public String editUser(Model model, HttpServletRequest request, HttpServletResponse response){
+        HttpSession session = request.getSession();
+        String accessToken = (String) session.getAttribute("accessToken");
+        TokenChecker tokenChecker = new TokenChecker();
+        String username = tokenChecker.getUsernameFromToken(accessToken);
+        AppUser loggedUser = userService.getUser(username);
+        model.addAttribute("user", loggedUser);
+        return "user/user_edit";
+    }
+
+    @PostMapping("/update")
+    public void updateUser(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        HttpSession session = request.getSession();
+        String accessToken = (String) session.getAttribute("accessToken");
+        TokenChecker tokenChecker = new TokenChecker();
+        String username = tokenChecker.getUsernameFromToken(accessToken);
+        AppUser user = userService.getUser(username);
+        userService.updateUser(user.getId(), request.getParameter("name"), request.getParameter("secondName"),
+                request.getParameter("username"));
+
+        response.setStatus(HttpServletResponse.SC_OK);
+        //Mandar a pantalla usuario (NO IMPLEMENTADO)
+        response.sendRedirect(response.encodeRedirectURL("/"));
     }
 
 }
