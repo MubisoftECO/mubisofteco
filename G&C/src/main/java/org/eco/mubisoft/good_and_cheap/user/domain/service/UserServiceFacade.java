@@ -88,11 +88,6 @@ public class UserServiceFacade implements UserService, UserDetailsService {
         return new User(user.getUsername(), user.getPassword(), authorities);
     }
 
-    @Override
-    public AppUser editUser(AppUser user) {
-        userRepo.findByUsername(user.getUsername());
-        return null;
-    }
 
     @Override
     @Transactional
@@ -112,5 +107,18 @@ public class UserServiceFacade implements UserService, UserDetailsService {
             user.setUsername(username);
         }
         return user;
+    }
+
+    @Override
+    public boolean checkPassword(String username, String password) {
+        AppUser user = userRepo.findByUsername(username).orElse(null);
+        return passwordEncoder.matches(password, user.getPassword());
+    }
+
+    @Override
+    @Transactional
+    public void updatePassword(String username, String password) {
+        AppUser user = userRepo.findByUsername(username).orElse(null);
+        user.setPassword(passwordEncoder.encode(password));
     }
 }

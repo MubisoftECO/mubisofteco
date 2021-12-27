@@ -21,7 +21,8 @@ public class UserAuthorizationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         if (request.getServletPath().startsWith("/role") ||
-            request.getServletPath().startsWith("/user/view")) {
+            request.getServletPath().startsWith("/user/view") ||
+            request.getServletPath().startsWith("/user/delete")) {
 
             HttpSession session = request.getSession();
             TokenChecker tokenChecker = new TokenChecker();

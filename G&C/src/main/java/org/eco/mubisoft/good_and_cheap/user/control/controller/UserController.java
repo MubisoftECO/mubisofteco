@@ -88,13 +88,33 @@ public class UserController {
 
     @GetMapping("/edit")
     public String editUser(Model model, HttpServletRequest request, HttpServletResponse response){
-        HttpSession session = request.getSession();
-        String accessToken = (String) session.getAttribute("accessToken");
-        TokenChecker tokenChecker = new TokenChecker();
-        String username = tokenChecker.getUsernameFromToken(accessToken);
-        AppUser loggedUser = userService.getUser(username);
+        AppUser loggedUser = getLoggedUser(request);
         model.addAttribute("user", loggedUser);
         return "user/user_edit";
+    }
+
+    @GetMapping("/changepassword")
+    public String editPassword(){
+        //igual hay que poner un @PreAutorized con los roles
+        return "user/user_password_edit";
+    }
+
+    @PostMapping("/changepassword")
+    public void updatePassword(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String old = request.getParameter("old");
+        String newPassword = request.getParameter("new");
+        String repeat = request.getParameter("repeat");
+
+        AppUser user = getLoggedUser(request);
+
+        if (!old.equals(newPassword) && newPassword.equals(repeat) && userService.checkPassword(user.getUsername(), old)){
+            userService.updatePassword(user.getUsername(), newPassword);
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.sendRedirect("/");
+        } else{
+            response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
+        }
+        //Mandar a la pantalla de user SIN IMPLEMENTAR
     }
 
     @PostMapping("/update")
@@ -110,6 +130,15 @@ public class UserController {
         response.setStatus(HttpServletResponse.SC_OK);
         //Mandar a pantalla usuario (NO IMPLEMENTADO)
         response.sendRedirect(response.encodeRedirectURL("/"));
+    }
+
+    private AppUser getLoggedUser(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        String accessToken = (String) session.getAttribute("accessToken");
+        TokenChecker tokenChecker = new TokenChecker();
+        String username = tokenChecker.getUsernameFromToken(accessToken);
+        AppUser loggedUser = userService.getUser(username);
+        return loggedUser;
     }
 
 }

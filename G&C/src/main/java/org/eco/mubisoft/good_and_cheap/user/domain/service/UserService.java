@@ -3,6 +3,7 @@ package org.eco.mubisoft.good_and_cheap.user.domain.service;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 
 import javax.transaction.Transactional;
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -54,7 +55,20 @@ public interface UserService {
 
     List<AppUser> getAllUsers();
 
-    AppUser editUser (AppUser user);
+    /**
+     * <p><b>Update user</b></p>
+     * <p>Updates the user with the data provided to the method. If the new data is the same that the old one, no change is made.</p>
+     * @param id The id of the user to edit.
+     * @param name The new name of the user.
+     * @param secondName The new second name of the user.
+     * @param username The new username of the user.
+     * @return The list of users from the database.
+     */
+
 
     AppUser updateUser(Long id, String name, String secondName, String username);
+
+    boolean checkPassword (String username, String password);
+
+    void updatePassword (String username, String password);
 }
