@@ -2,7 +2,9 @@ package org.eco.mubisoft.good_and_cheap.application.control;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eco.mubisoft.good_and_cheap.user.domain.service.AutonomousCommunityService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -21,6 +23,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @RequestMapping("/login")
 public class LoginController {
+
+    private final AutonomousCommunityService autonomousCommunityService;
 
     /**
      * <p><b>GET LOGIN FORM</b></p>

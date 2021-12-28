@@ -15,7 +15,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Location {
-
     /**
      * <p><b>ID</b></p>
      * <p>ID of the location.</p>
@@ -32,12 +31,20 @@ public class Location {
      * <p><b>CITY</b></p>
      * <p>City of the location.</p>
      */
-    private String city;
+    @ManyToOne
+    private City city;
     /**
      * <p><b>PROVINCE</b></p>
      * <p>Province of the location.</p>
      */
-    private String province;
+    @ManyToOne
+    private Province province;
+    /**
+     * <p><b>AUTONOMOUS COMMUNITY</b></p>
+     * <p>Autonomous Community of the location.</p>
+     */
+    @ManyToOne
+    private AutonomousCommunity autonomousCommunity;
     /**
      * <p><b>COUNTRY</b></p>
      * <p>Country of the location.</p>

@@ -4,12 +4,17 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eco.mubisoft.good_and_cheap.application.data.HibernateProxyTypeAdapter;
 import org.eco.mubisoft.good_and_cheap.application.security.TokenChecker;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
-import org.eco.mubisoft.good_and_cheap.user.domain.service.RoleService;
-import org.eco.mubisoft.good_and_cheap.user.domain.service.UserService;
+import org.eco.mubisoft.good_and_cheap.user.domain.model.City;
+import org.eco.mubisoft.good_and_cheap.user.domain.model.Location;
+import org.eco.mubisoft.good_and_cheap.user.domain.model.Province;
+import org.eco.mubisoft.good_and_cheap.user.domain.service.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,11 +42,37 @@ public class UserController {
     private final UserService userService;
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
+    private final AutonomousCommunityService autonomousCommunityService;
+    private final ProvinceService provinceService;
+    private final CityService cityService;
+    private final LocationService locationService;
 
     @GetMapping("/create")
     public String createUser(Model model) {
         model.addAttribute("pageTitle", "user_form");
+        model.addAttribute("acList", autonomousCommunityService.getAllAutonomousCommunities());
         return "user/user_form";
+    }
+
+    @GetMapping("/create/getProvince/{acId}")
+    public @ResponseBody String getProvincesByAutonomousCommunity (@PathVariable("acId") Long acId){
+        Gson gson = new Gson();
+        return gson.toJson(
+                provinceService.getProvinceByAutonomousCommunity(
+                        autonomousCommunityService.getAutonomousCommunity(acId)
+                )
+        );
+    }
+
+    @GetMapping("/create/getCity/{provinceId}")
+    public @ResponseBody String getCitiesByProvince (@PathVariable("provinceId") Long provinceId){
+        //Gson gson = new Gson();
+        List<City> cities = cityService.getCityByProvince(provinceService.getProvince(provinceId));
+        log.warn("La provincia que buscas tiene {} ciudades", cities.size());
+        GsonBuilder b = new GsonBuilder();
+        b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
+        Gson gson = b.create();
+        return gson.toJson(cities);
     }
 
     @PostMapping("/save")
@@ -54,6 +85,16 @@ public class UserController {
         user.setPassword(passwordEncoder.encode(
                 request.getParameter("password")
         ));
+
+        Location locationToSave = new Location();
+        locationToSave.setCity(cityService.getCity(Long.parseLong(request.getParameter("city"))));
+        locationToSave.setProvince(provinceService.getProvince(Long.parseLong(request.getParameter("province"))));
+        locationToSave.setAutonomousCommunity(
+                autonomousCommunityService.getAutonomousCommunity(
+                        Long.parseLong(request.getParameter("autonomousCommunity"))));
+        Location savedLocation = locationService.saveLocation(locationToSave);
+
+        user.setLocation(savedLocation);
         roleService.setUserRole(user.getUsername(), "ROLE_USER");
         userService.saveUser(user);
 
@@ -137,8 +178,7 @@ public class UserController {
         String accessToken = (String) session.getAttribute("accessToken");
         TokenChecker tokenChecker = new TokenChecker();
         String username = tokenChecker.getUsernameFromToken(accessToken);
-        AppUser loggedUser = userService.getUser(username);
-        return loggedUser;
+        return userService.getUser(username);
     }
 
 }

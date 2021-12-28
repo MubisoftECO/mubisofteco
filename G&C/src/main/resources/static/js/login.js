@@ -19,7 +19,6 @@ window.onload = function() {
             element.addEventListener('click', change, false);
         }
     }
-
 }
 
 

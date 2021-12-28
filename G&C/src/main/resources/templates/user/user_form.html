@@ -6,7 +6,43 @@
 <body>
 <!-- Header -->
 <header th:replace="includes/header :: header"></header>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#ac-dropdown').on('change', function(){
+            var acId = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '/user/create/getProvince/' + acId,
+                success: function(result) {
+                    var result = JSON.parse(result);
+                    var s = '';
+                    s+='<option  value="" disabled selected>Province</option>';
+                    for(var i = 0; i < result.length; i++) {
+                        s += '<option value="' + result[i].id + '">' + result[i].name + '</option>';
+                    }
+                    $('#province-dropdown').html(s);
+                }
+            });
+        });
+        $('#province-dropdown').on('change', function(){
+            var provinceId = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '/user/create/getCity/' + provinceId,
+                success: function(result) {
+                    var result = JSON.parse(result);
+                    var s = '';
+                    s+='<option  value="" disabled selected>City</option>';
+                    for(var i = 0; i < result.length; i++) {
+                        s += '<option value="' + result[i].id + '">' + result[i].name + '</option>';
+                    }
+                    $('#city-dropdown').html(s);
+                }
+            });
+        });
+    });
 
+</script>
 <!-- Main -->
 <main>
     <div class="container">
@@ -35,12 +71,18 @@
                         <div class="col-12">
                             <input type="password" placeholder="Password" name="password" class="form-control">
                         </div>
-                        <div class="col-12 col-sm-6">
-                            <input type="text" placeholder="City" name="city" class="form-control">
-                        </div>
-                        <div class="col-12 col-sm-6">
-                            <input type="text" placeholder="Province" name="province" class="form-control">
-                        </div>
+                        <select id="ac-dropdown" name="autonomousCommunity" class="col-12 form-select">
+                            <option  value="" disabled selected>Autonomous Community</option>
+                            <th:block th:each="ac : ${acList}">
+                                <option th:value="${ac.getId()}">[[${ac.getName()}]]</option>
+                            </th:block>
+                        </select>
+                        <select class="col-12 form-select" name="province" id="province-dropdown" >
+                            <option  value="" disabled selected>Province</option>
+                        </select>
+                        <select class="col-12 form-select" name="city" id="city-dropdown" >
+                            <option  value="" disabled selected>City</option>
+                        </select>
                     </div>
                     <div class="row gy-2 hidden" id="form-vendor">
                         <div class="col-12 col-sm-6">
