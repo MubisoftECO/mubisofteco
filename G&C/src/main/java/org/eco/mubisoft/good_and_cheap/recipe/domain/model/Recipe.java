@@ -23,6 +23,7 @@ public class Recipe {
     private Long id;
     private String title;
     private String description;
+    private String language;
     private Integer timeInMinutes;
     private String imgSrc = null;
     @ManyToOne

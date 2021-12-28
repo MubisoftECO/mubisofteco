@@ -19,7 +19,9 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
+    private String name_es;
+    private String name_en;
+    private String name_eu;
     @ManyToOne(fetch = FetchType.EAGER)
     private ProductType productType;
     private Double price;
