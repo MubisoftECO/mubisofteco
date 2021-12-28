@@ -110,7 +110,7 @@
                 <configuration>
                     <update>true</update>
                     <server>maven-tomcat-war-deployment-server</server>
-                    <url>https://webmubisofteco.duckdns.org/manager/text</url>
+                    <url>https://goodandcheap.duckdns.org/manager/text</url>
                     <path>/${project.build.finalName}</path>
                 </configuration>
             </plugin>
