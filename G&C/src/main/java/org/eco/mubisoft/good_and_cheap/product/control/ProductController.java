@@ -47,6 +47,12 @@ public class ProductController {
         return "redirect:/product/view/"+product.getId().toString();
     }
 
+    @PostMapping("/back")
+    public String backProduct() {
+
+        return "redirect:/";
+    }
+
     @GetMapping("/view")
     public String productList(Model model) {
         List<Product> list = productService.getAllProducts();
