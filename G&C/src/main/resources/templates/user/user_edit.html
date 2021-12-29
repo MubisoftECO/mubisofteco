@@ -21,12 +21,39 @@
                         <div class="col-12">
                             <input type="email" th:value="${user.getUsername()}" name="username" class="form-control">
                         </div>
-                        <div class="col-12 col-sm-6">
-                            <input type="text" placeholder="SIN IMPLEMENTAR" name="city" class="form-control">
-                        </div>
-                        <div class="col-12 col-sm-6">
-                            <input type="text" placeholder="SIN IMPLEMENTAR" name="province" class="form-control">
-                        </div>
+                        <select id="ac-dropdown" name="autonomousCommunity" class="col-12 form-select">
+                            <option  value="" disabled selected>Autonomous Community</option>
+                            <th:block th:each="ac : ${acList}">
+                                <th:block th:if="${#strings.equals(ac.getId(), user.getLocation().getAutonomousCommunity().getId())}">
+                                    <option selected th:value="${ac.getId()}">[[${ac.getName()}]]</option>
+                                </th:block>
+                                <th:block th:unless="${#strings.equals(ac.getId(), user.getLocation().getAutonomousCommunity().getId())}">
+                                    <option th:value="${ac.getId()}">[[${ac.getName()}]]</option>
+                                </th:block>
+                            </th:block>
+                        </select>
+                        <select class="col-12 form-select" name="province" id="province-dropdown" >
+                            <option  value="" disabled selected>Province</option>
+                            <th:block th:each="province : ${provinceList}">
+                                <th:block th:if="${#strings.equals(province.getId(), user.getLocation().getProvince().getId())}">
+                                    <option selected th:value="${province.getId()}">[[${province.getName()}]]</option>
+                                </th:block>
+                                <th:block th:unless="${#strings.equals(province.getId(), user.getLocation().getProvince().getId())}">
+                                    <option th:value="${province.getId()}">[[${province.getName()}]]</option>
+                                </th:block>
+                            </th:block>
+                        </select>
+                        <select class="col-12 form-select" name="city" id="city-dropdown" >
+                            <option  value="" disabled selected>City</option>
+                            <th:block th:each="city : ${cityList}">
+                                <th:block th:if="${#strings.equals(city.getId(), user.getLocation().getCity().getId())}">
+                                    <option selected th:value="${city.getId()}">[[${city.getName()}]]</option>
+                                </th:block>
+                                <th:block th:unless="${#strings.equals(city.getId(), user.getLocation().getCity().getId())}">
+                                    <option th:value="${city.getId()}">[[${city.getName()}]]</option>
+                                </th:block>
+                            </th:block>
+                        </select>
                     </div>
                     <div class="row gy-2 mt-3">
                         <div class="col-12">

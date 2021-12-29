@@ -1,6 +1,7 @@
 package org.eco.mubisoft.good_and_cheap.user.domain.service;
 
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
+import org.eco.mubisoft.good_and_cheap.user.domain.model.Location;
 
 import javax.transaction.Transactional;
 import java.awt.*;
@@ -66,7 +67,7 @@ public interface UserService {
      */
 
 
-    AppUser updateUser(Long id, String name, String secondName, String username);
+    AppUser updateUser(Long id, String name, String secondName, String username, Location location);
 
     boolean checkPassword (String username, String password);
 
