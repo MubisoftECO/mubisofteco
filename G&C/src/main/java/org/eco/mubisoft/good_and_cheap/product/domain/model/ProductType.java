@@ -18,7 +18,7 @@ public class ProductType {
     private String name_en;
     private String name_eu;
     private String imgSrc = null;
-    private MeasurementUnit measurementUnit;
+    private String measurementUnit;
     @ManyToOne(fetch = FetchType.EAGER)
     private ProductFamily productFamily;
 
