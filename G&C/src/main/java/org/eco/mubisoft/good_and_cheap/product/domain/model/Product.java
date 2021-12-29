@@ -29,7 +29,7 @@ public class Product {
     private Date publishDate;
     private Date expirationDate;
     private Date removedDate;
-    private RemoveReason removeReason;
+    private String removeReason;
     @ManyToOne(fetch = FetchType.EAGER)
     private AppUser vendor;
 
