@@ -71,8 +71,8 @@ public class ProductMysqlDAO implements ProductDAO {
 
     @Override
     public void deleteProductFamilies() {
-        String sqlQuery = "DELETE FROM product_family WHERE id > 0";
-        this.executeDelete(sqlQuery);
+        String sqlQuery = "DELETE FROM product_family";
+        MySQLConfig.executeDelete(mySQLConfig, sqlQuery);
     }
 
     @Override
@@ -145,7 +145,7 @@ public class ProductMysqlDAO implements ProductDAO {
     @Override
     public void deleteProductTypes() {
         String sqlQuery = "DELETE FROM product_type";
-        this.executeDelete(sqlQuery);
+        MySQLConfig.executeDelete(mySQLConfig, sqlQuery);
     }
 
     @Override
@@ -182,7 +182,7 @@ public class ProductMysqlDAO implements ProductDAO {
     @Override
     public void deleteProducts() {
         String sqlQuery = "DELETE FROM product";
-        this.executeDelete(sqlQuery);
+        MySQLConfig.executeDelete(mySQLConfig, sqlQuery);
     }
 
     @Override
@@ -205,20 +205,6 @@ public class ProductMysqlDAO implements ProductDAO {
             mySQLConfig.disconnect(connection, pStm);
         }
         return id;
-    }
-
-    private void executeDelete(String sqlQuery) {
-        Connection connection = mySQLConfig.connect();
-        PreparedStatement pStm = null;
-
-        try {
-            pStm = connection.prepareStatement(sqlQuery);
-            pStm.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            mySQLConfig.disconnect(connection, pStm);
-        }
     }
 
 }

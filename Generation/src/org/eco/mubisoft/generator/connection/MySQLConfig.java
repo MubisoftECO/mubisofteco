@@ -3,10 +3,7 @@ package org.eco.mubisoft.generator.connection;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 /**
@@ -97,6 +94,20 @@ public class MySQLConfig {
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Error disconnecting");
+        }
+    }
+
+    public static void executeDelete(MySQLConfig mySQLConfig, String sqlQuery) {
+        Connection connection = mySQLConfig.connect();
+        PreparedStatement pStm = null;
+
+        try {
+            pStm = connection.prepareStatement(sqlQuery);
+            pStm.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            mySQLConfig.disconnect(connection, pStm);
         }
     }
 }
