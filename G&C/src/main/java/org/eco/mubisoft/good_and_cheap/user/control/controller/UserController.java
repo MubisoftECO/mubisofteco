@@ -1,9 +1,5 @@
 package org.eco.mubisoft.good_and_cheap.user.control.controller;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
@@ -13,11 +9,8 @@ import org.eco.mubisoft.good_and_cheap.application.security.TokenChecker;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.City;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.Location;
-import org.eco.mubisoft.good_and_cheap.user.domain.model.Province;
 import org.eco.mubisoft.good_and_cheap.user.domain.service.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,8 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
-import java.security.Principal;
 import java.util.List;
 
 @Slf4j
@@ -58,7 +49,7 @@ public class UserController {
     public @ResponseBody String getProvincesByAutonomousCommunity (@PathVariable("acId") Long acId){
         Gson gson = new Gson();
         return gson.toJson(
-                provinceService.getProvinceByAutonomousCommunity(
+                provinceService.getProvincesByAutonomousCommunity(
                         autonomousCommunityService.getAutonomousCommunity(acId)
                 )
         );
@@ -66,8 +57,7 @@ public class UserController {
 
     @GetMapping("/create/getCity/{provinceId}")
     public @ResponseBody String getCitiesByProvince (@PathVariable("provinceId") Long provinceId){
-        //Gson gson = new Gson();
-        List<City> cities = cityService.getCityByProvince(provinceService.getProvince(provinceId));
+        List<City> cities = cityService.getCitiesByProvince(provinceService.getProvince(provinceId));
         log.warn("La provincia que buscas tiene {} ciudades", cities.size());
         GsonBuilder b = new GsonBuilder();
         b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
@@ -131,11 +121,11 @@ public class UserController {
     public String editUser(Model model, HttpServletRequest request, HttpServletResponse response){
         AppUser loggedUser = getLoggedUser(request);
         model.addAttribute("acList", autonomousCommunityService.getAllAutonomousCommunities());
-        model.addAttribute("provinceList", provinceService.getProvinceByAutonomousCommunity(
+        model.addAttribute("provinceList", provinceService.getProvincesByAutonomousCommunity(
                 autonomousCommunityService.getAutonomousCommunity(
                         loggedUser.getLocation().getAutonomousCommunity().getId())
         ));
-        model.addAttribute("cityList", cityService.getCityByProvince(
+        model.addAttribute("cityList", cityService.getCitiesByProvince(
                 provinceService.getProvince(loggedUser.getLocation().getProvince().getId())
         ));
         model.addAttribute("user", loggedUser);

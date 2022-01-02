@@ -23,27 +23,27 @@
                 <form action="/user/save"  method="post" class="justify-content-center">
                     <div class="row gy-2" id="form-customer">
                         <div class="col-12 col-sm-6">
-                            <input type="text" placeholder="Name" name="name" class="form-control">
+                            <input type="text" placeholder="Name" name="name" class="form-control" required>
                         </div>
                         <div class="col-12 col-sm-6">
-                            <input type="text" placeholder="Surname" name="secondName" class="form-control">
+                            <input type="text" placeholder="Surname" name="secondName" class="form-control" required>
                         </div>
                         <div class="col-12">
-                            <input type="email" placeholder="Email" name="username" class="form-control">
+                            <input type="email" placeholder="Email" name="username" class="form-control" required>
                         </div>
                         <div class="col-12">
-                            <input type="password" placeholder="Password" name="password" class="form-control">
+                            <input type="password" placeholder="Password" name="password" class="form-control" required>
                         </div>
-                        <select id="ac-dropdown" name="autonomousCommunity" class="col-12 form-select">
+                        <select id="ac-dropdown" name="autonomousCommunity" class="col-12 form-select" required>
                             <option  value="" disabled selected>Autonomous Community</option>
                             <th:block th:each="ac : ${acList}">
                                 <option th:value="${ac.getId()}">[[${ac.getName()}]]</option>
                             </th:block>
                         </select>
-                        <select class="col-12 form-select" name="province" id="province-dropdown" >
+                        <select class="col-12 form-select" name="province" id="province-dropdown" required>
                             <option  value="" disabled selected>Province</option>
                         </select>
-                        <select class="col-12 form-select" name="city" id="city-dropdown" >
+                        <select class="col-12 form-select" name="city" id="city-dropdown" required>
                             <option  value="" disabled selected>City</option>
                         </select>
                     </div>
