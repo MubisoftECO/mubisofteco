@@ -1,0 +1,18 @@
+main{
+  margin:20px;
+}
+
+h3{
+  color: #575252;
+}
+
+input{
+  border: 2px solid grey;
+  border-radius: 7px 7px 7px 7px;
+}
+
+.botones{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="includes/head :: head">
+
+    <title id="pageTitle">Good & Cheap</title>
+</head>
+<body>
+<!-- Header -->
+<header th:replace="includes/header :: header"></header>
+
+<!-- Main -->
+<main>
+    <h1>New Recipe</h1>
+    <form action="/recipe/save" method="post">
+        <section class="section1">
+            <input type="text" id="title" name="title" placeholder="Title" style="width:300px"> <br><br>
+
+            <input type="text" id="description" name="description" placeholder="Description"
+                   style="width:300px; height: 100px"><br><br>
+
+            <input type="number" id="timeInMinutes" name="timeInMinutes" placeholder="Time minutes" style="width:200px">
+        </section>
+        <hr>
+        <!-----------------------------INGREDIENTES---------------------->
+
+        <section class="section2">
+            <h3>Products</h3>
+
+            <div id="add_ingredient">
+                <label class="ingredient" for="ingredient">Ingredient1</label>
+                <input type="text" id="ingredient" name="ingredient" placeholder="Ingredient"><br>
+
+                <label class="form-label">Quantity</label>
+                <select name="productNumber">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                </select>
+
+                <label class="form-label">Unit</label>
+                <select name="productNumber">
+                    <option value="gr">GR</option>
+                    <option value="kg">KG</option>
+                    <option value="cl">CL</option>
+                    <option value="l">L</option>
+                    <!--CARGAR DE LA LISTA DE UNIDADES-->
+                </select>
+            </div>
+
+            <a type=button id="btn-ingredient" class="btn btn-success">+</a><br>
+        </section>
+        <hr>
+        <!-- ------------------------añadir step------------------------------>
+        <section class="section3">
+            <h3>Steps</h3>
+
+            <div id="add_step">
+                <label class="step" for="step1">Step1</label>
+                <input type="text" id="step1" name="step" style="width:250px; height: 90px">
+                <br>
+            </div>
+            <a type=button id="btn-step" class="btn btn-success">+</a><br>
+        </section>
+        <hr>
+        <!-- ------------------------------------------------------------------->
+        <section class="section4">
+            <h3>Alergens</h3>
+            <th:block th:each="flag : ${flagList}">
+                <input type="checkbox" id="flag" name="flag">
+                <label for="flag">[[${flag.getName()}]]</label>
+            </th:block>
+        </section>
+        <hr>
+        <!-- ------------------------------------------------------------------->
+        <section class="section5">
+            <h3>Image</h3>
+
+            <input class="form-control" name="imgSrc" type="file" id="formFile">
+        </section>
+        <hr>
+        <!-- ------------------------------------------------------------------->
+        <div class="botones">
+            <input id="submit" class="btn btn-success" type="submit" value="Submit"><br><br>
+        </div>
+    </form>
+    <form action="/recipe/view" method="post">
+        <div class="botones">
+            <a href="" id="back" type="submit" class="btn btn-secondary" th:href="@{'/recipe/view'}">BACK</a>
+        </div>
+    </form>
+</main>
+<hr>
+
+<!-- Footer -->
+<footer th:replace="includes/footer :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,15 @@
+a{
+    text-decoration: none;
+    color: rgb(48, 46, 46);
+}
+
+a:link, a:visited, a:active{
+    text-decoration: none;
+}
+
+a:hover{
+    color: #EBECE1 !important;
+    background: #302E2E;
+    border-color: black;
+    border-radius: inherit;
+}

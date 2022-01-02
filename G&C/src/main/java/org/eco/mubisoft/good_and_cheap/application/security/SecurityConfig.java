@@ -60,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // ACL list
         http.authorizeRequests().antMatchers("/user/delete/**", "/user/view/**").hasAuthority("ROLE_ADMIN");
+        http.authorizeRequests().antMatchers("/recipe/create/**").hasAuthority("ROLE_USER");
         http.authorizeRequests().anyRequest().permitAll();
 
         // Add filters

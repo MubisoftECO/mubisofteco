@@ -28,6 +28,7 @@ public class Recipe {
     private String imgSrc = null;
     @ManyToOne
     private AppUser author;
+
     @ManyToMany
     private Collection<ProductType> ingredients = new ArrayList<>();
     @ManyToMany
