@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eco.mubisoft.good_and_cheap.application.data.FileUploadUtil;
 import org.eco.mubisoft.good_and_cheap.application.data.HibernateProxyTypeAdapter;
 import org.eco.mubisoft.good_and_cheap.application.security.TokenChecker;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
@@ -14,7 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -66,7 +69,7 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    public void saveUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void saveUser(HttpServletRequest request, HttpServletResponse response, @RequestParam("image") MultipartFile imageFile) throws IOException {
         AppUser user = new AppUser();
 
         user.setName(request.getParameter("name"));
@@ -86,11 +89,19 @@ public class UserController {
 
         user.setLocation(savedLocation);
         roleService.setUserRole(user.getUsername(), "ROLE_USER");
-        userService.saveUser(user);
+
+        String fileName = StringUtils.cleanPath(imageFile.getOriginalFilename());
+        user.setImgSrc(fileName);
+
+        AppUser savedUser = userService.saveUser(user);
+
+        String uploadDir = "user-photos/" + savedUser.getId();
+
+        FileUploadUtil.saveFile(uploadDir, fileName, imageFile);
 
         // Send response
         response.setStatus(HttpServletResponse.SC_CREATED);
-        response.sendRedirect(response.encodeRedirectURL("/"));
+        response.sendRedirect(response.encodeRedirectURL("/login/sign-in/"));
     }
 
     @GetMapping("/view")
@@ -100,14 +111,10 @@ public class UserController {
         return "user/user_list";
     }
 
-    @GetMapping("/view/{userID}")
-    public ResponseEntity<AppUser> getUser(@PathVariable("userID") Long id) {
-        return ResponseEntity.created(
-                URI.create(
-                        ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/view").toUriString()
-                )
-        ).body(userService.getUser(id));
-
+    @GetMapping("/info")
+    public String getUser(Model model, HttpServletRequest request) {
+        model.addAttribute("user", getLoggedUser(request));
+        return "user/user_view";
     }
 
     @GetMapping("/delete/{userID}")
@@ -139,7 +146,7 @@ public class UserController {
     }
 
     @PostMapping("/changepassword")
-    public void updatePassword(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String updatePassword(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String old = request.getParameter("old");
         String newPassword = request.getParameter("new");
         String repeat = request.getParameter("repeat");
@@ -153,11 +160,11 @@ public class UserController {
         } else{
             response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
         }
-        //Mandar a la pantalla de user SIN IMPLEMENTAR
+        return "user/user_view";
     }
 
     @PostMapping("/update")
-    public void updateUser(HttpServletRequest request, HttpServletResponse response) throws IOException{
+    public String updateUser(HttpServletRequest request, HttpServletResponse response) throws IOException{
         HttpSession session = request.getSession();
         String accessToken = (String) session.getAttribute("accessToken");
         TokenChecker tokenChecker = new TokenChecker();
@@ -174,8 +181,7 @@ public class UserController {
                 request.getParameter("username"), locationToSave);
 
         response.setStatus(HttpServletResponse.SC_OK);
-        //Mandar a pantalla usuario (NO IMPLEMENTADO)
-        response.sendRedirect(response.encodeRedirectURL("/"));
+        return "user/user_view";
     }
 
     private AppUser getLoggedUser(HttpServletRequest request){

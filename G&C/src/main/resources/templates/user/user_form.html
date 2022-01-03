@@ -20,7 +20,7 @@
             </div>
 
             <div class="mt-4 col-12 col-sm-12 col-md-6 col-lg-6">
-                <form action="/user/save"  method="post" class="justify-content-center">
+                <form action="/user/save"  method="post" enctype="multipart/form-data" class="justify-content-center">
                     <div class="row gy-2" id="form-customer">
                         <div class="col-12 col-sm-6">
                             <input type="text" placeholder="Name" name="name" class="form-control" required>
@@ -46,6 +46,11 @@
                         <select class="col-12 form-select" name="city" id="city-dropdown" required>
                             <option  value="" disabled selected>City</option>
                         </select>
+                        <div class="col-12">
+                            <label>Profile picture: 1MB MAX</label>
+                            <input type="file" name="image" accept="image/png, image/jpeg" />
+                        </div>
+
                     </div>
                     <div class="row gy-2 hidden" id="form-vendor">
                         <div class="col-12 col-sm-6">

@@ -66,7 +66,7 @@ public class AppUser {
 
     /**
      * <p><b>IMAGE SOURCE</b></p>
-     * <p>A list with the different roles of the user.</p>
+     * <p>The name of the image file.</p>
      */
     private String imgSrc = null;
 
@@ -76,4 +76,10 @@ public class AppUser {
      */
     @ManyToOne(fetch = FetchType.EAGER)
     private Location location;
+
+    @Transient
+    public String getImagePath(){
+        if (imgSrc == null || id == null) return null;
+        return "/user-photos/" + id + "/" + imgSrc;
+    }
 }
