@@ -23,6 +23,13 @@ public interface RoleService {
      * @return The role from the database.
      */
     Role getRole(String roleName);
+    /**
+     * <p><b>GET ROLE BY id</b></p>
+     * <p>Get a role form the database using id.</p>
+     * @param id The id of the role that is going to be searched.
+     * @return The role from the database.
+     */
+    Role getRole(Long id);
 
     /**
      * <p><b>GET ALL ROLES</b></p>

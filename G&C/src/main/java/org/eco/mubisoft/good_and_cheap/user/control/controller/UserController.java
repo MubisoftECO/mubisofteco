@@ -107,8 +107,21 @@ public class UserController {
     @GetMapping("/view")
     public String getView(Model model) {
         List<AppUser> userList = userService.getAllUsers();
-        model.addAttribute("userList", userList);
+        //model.addAttribute("userList", userList);
+        model.addAttribute("roleList", roleService.getAllRoles());
         return "user/user_list";
+    }
+
+    @GetMapping("/view/getUsers/{roleId}")
+    public @ResponseBody String getUsersByRole (@PathVariable("roleId") Long roleId){
+        List<AppUser> users;
+        if(roleId == -1){
+            users = userService.getAllUsers();
+        } else {
+            users = userService.getUsersByRole(roleService.getRole(roleId));
+        }
+        Gson gson = new Gson();
+        return gson.toJson(users);
     }
 
     @GetMapping("/info")

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.Location;
+import org.eco.mubisoft.good_and_cheap.user.domain.model.Role;
 import org.eco.mubisoft.good_and_cheap.user.domain.repo.LocationRepository;
 import org.eco.mubisoft.good_and_cheap.user.domain.repo.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -128,5 +129,11 @@ public class UserServiceFacade implements UserService, UserDetailsService {
     public void updatePassword(String username, String password) {
         AppUser user = userRepo.findByUsername(username).orElse(null);
         user.setPassword(passwordEncoder.encode(password));
+    }
+
+    @Override
+    public List<AppUser> getUsersByRole(Role role) {
+        log.info("Fetching users with role {}", role.getName());
+        return userRepo.findAppUsersByRoles(role);
     }
 }
