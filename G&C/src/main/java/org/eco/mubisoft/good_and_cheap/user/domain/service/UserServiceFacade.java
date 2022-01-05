@@ -93,7 +93,7 @@ public class UserServiceFacade implements UserService, UserDetailsService {
 
     @Override
     @Transactional
-    public AppUser updateUser(Long id, String name, String secondName, String username, Location location) {
+    public AppUser updateUser(Long id, String name, String secondName, String username, Location location, String imageSrc) {
         AppUser user = userRepo.findById(id).orElseThrow(() -> new IllegalStateException(
                 "User not found when updating user"
         ));
@@ -113,6 +113,9 @@ public class UserServiceFacade implements UserService, UserDetailsService {
            locationToEdit.setAutonomousCommunity(location.getAutonomousCommunity());
            locationToEdit.setProvince(location.getProvince());
            locationToEdit.setCity(location.getCity());
+        }
+        if(imageSrc != null && !Objects.equals(user.getImgSrc(), imageSrc)){
+            user.setImgSrc(imageSrc);
         }
 
         return user;

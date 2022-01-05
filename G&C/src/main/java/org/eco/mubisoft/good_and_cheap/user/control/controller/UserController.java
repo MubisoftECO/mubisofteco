@@ -159,7 +159,7 @@ public class UserController {
     }
 
     @PostMapping("/changepassword")
-    public String updatePassword(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void updatePassword(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String old = request.getParameter("old");
         String newPassword = request.getParameter("new");
         String repeat = request.getParameter("repeat");
@@ -173,16 +173,23 @@ public class UserController {
         } else{
             response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
         }
-        return "user/user_view";
+        response.sendRedirect(response.encodeRedirectURL("/user/info/"));
     }
 
     @PostMapping("/update")
-    public String updateUser(HttpServletRequest request, HttpServletResponse response) throws IOException{
+    public void updateUser(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "image", required = false) MultipartFile imageFile) throws IOException{
+        String fileName = null;
         HttpSession session = request.getSession();
         String accessToken = (String) session.getAttribute("accessToken");
         TokenChecker tokenChecker = new TokenChecker();
         String username = tokenChecker.getUsernameFromToken(accessToken);
         AppUser user = userService.getUser(username);
+
+        if (!imageFile.isEmpty()){
+            fileName = StringUtils.cleanPath(imageFile.getOriginalFilename());
+            String uploadDir = "user-photos/" + user.getId();
+            FileUploadUtil.saveFile(uploadDir, fileName, imageFile);
+        }
 
         Location locationToSave = new Location();
         locationToSave.setCity(cityService.getCity(Long.parseLong(request.getParameter("city"))));
@@ -191,10 +198,10 @@ public class UserController {
                 autonomousCommunityService.getAutonomousCommunity(
                         Long.parseLong(request.getParameter("autonomousCommunity"))));
         userService.updateUser(user.getId(), request.getParameter("name"), request.getParameter("secondName"),
-                request.getParameter("username"), locationToSave);
+                request.getParameter("username"), locationToSave, fileName);
 
         response.setStatus(HttpServletResponse.SC_OK);
-        return "user/user_view";
+        response.sendRedirect(response.encodeRedirectURL("/user/info/"));
     }
 
     private AppUser getLoggedUser(HttpServletRequest request){

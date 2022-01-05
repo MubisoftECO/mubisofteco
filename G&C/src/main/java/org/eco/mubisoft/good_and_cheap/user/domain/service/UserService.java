@@ -66,7 +66,7 @@ public interface UserService {
      */
 
 
-    AppUser updateUser(Long id, String name, String secondName, String username, Location location);
+    AppUser updateUser(Long id, String name, String secondName, String username, Location location, String imageSrc);
 
     boolean checkPassword (String username, String password);
 

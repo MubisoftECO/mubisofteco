@@ -10,7 +10,8 @@
 <!-- Main -->
 <main>
     <div class="container">
-                <form action="/user/update"  method="post" class="justify-content-center">
+        <h1>Edit user</h1>
+                <form action="/user/update" method="post" enctype="multipart/form-data" class="justify-content-center">
                     <div class="row gy-2" id="form-customer">
                         <div class="col-12 col-sm-6">
                             <input type="text" th:value="${user.getName()}" name="name" class="form-control">
@@ -54,6 +55,10 @@
                                 </th:block>
                             </th:block>
                         </select>
+                        <div class="col-12">
+                            <label>Profile picture: 1MB MAX</label>
+                            <input type="file" name="image" accept="image/png, image/jpeg" />
+                        </div>
                     </div>
                     <div class="row gy-2 mt-3">
                         <div class="col-12">
