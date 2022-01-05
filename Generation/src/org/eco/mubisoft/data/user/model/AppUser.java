@@ -56,6 +56,10 @@ public class AppUser {
      */
     private Location location;
 
+    public AppUser(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }

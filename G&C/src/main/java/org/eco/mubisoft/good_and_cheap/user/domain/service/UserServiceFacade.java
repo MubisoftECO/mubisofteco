@@ -110,8 +110,6 @@ public class UserServiceFacade implements UserService, UserDetailsService {
         }
         if(location != null && !Objects.equals(user.getLocation().getCity().getName(), location.getCity().getName())){
            Location locationToEdit = locationRepo.getById(user.getLocation().getId());
-           locationToEdit.setAutonomousCommunity(location.getAutonomousCommunity());
-           locationToEdit.setProvince(location.getProvince());
            locationToEdit.setCity(location.getCity());
         }
         if(imageSrc != null && !Objects.equals(user.getImgSrc(), imageSrc)){
@@ -124,7 +122,7 @@ public class UserServiceFacade implements UserService, UserDetailsService {
     @Override
     public boolean checkPassword(String username, String password) {
         AppUser user = userRepo.findByUsername(username).orElse(null);
-        return passwordEncoder.matches(password, user.getPassword());
+        return passwordEncoder.matches(password, Objects.requireNonNull(user).getPassword());
     }
 
     @Override

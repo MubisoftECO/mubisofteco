@@ -81,10 +81,6 @@ public class UserController {
 
         Location locationToSave = new Location();
         locationToSave.setCity(cityService.getCity(Long.parseLong(request.getParameter("city"))));
-        locationToSave.setProvince(provinceService.getProvince(Long.parseLong(request.getParameter("province"))));
-        locationToSave.setAutonomousCommunity(
-                autonomousCommunityService.getAutonomousCommunity(
-                        Long.parseLong(request.getParameter("autonomousCommunity"))));
         Location savedLocation = locationService.saveLocation(locationToSave);
 
         user.setLocation(savedLocation);
@@ -143,10 +139,10 @@ public class UserController {
         model.addAttribute("acList", autonomousCommunityService.getAllAutonomousCommunities());
         model.addAttribute("provinceList", provinceService.getProvincesByAutonomousCommunity(
                 autonomousCommunityService.getAutonomousCommunity(
-                        loggedUser.getLocation().getAutonomousCommunity().getId())
-        ));
+                        loggedUser.getLocation().getCity().getProvince().getAutonomousCommunity().getId()
+        )));
         model.addAttribute("cityList", cityService.getCitiesByProvince(
-                provinceService.getProvince(loggedUser.getLocation().getProvince().getId())
+                provinceService.getProvince(loggedUser.getLocation().getCity().getProvince().getId())
         ));
         model.addAttribute("user", loggedUser);
         return "user/user_edit";
@@ -193,10 +189,6 @@ public class UserController {
 
         Location locationToSave = new Location();
         locationToSave.setCity(cityService.getCity(Long.parseLong(request.getParameter("city"))));
-        locationToSave.setProvince(provinceService.getProvince(Long.parseLong(request.getParameter("province"))));
-        locationToSave.setAutonomousCommunity(
-                autonomousCommunityService.getAutonomousCommunity(
-                        Long.parseLong(request.getParameter("autonomousCommunity"))));
         userService.updateUser(user.getId(), request.getParameter("name"), request.getParameter("secondName"),
                 request.getParameter("username"), locationToSave, fileName);
 

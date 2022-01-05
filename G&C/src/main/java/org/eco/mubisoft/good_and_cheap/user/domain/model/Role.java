@@ -34,7 +34,7 @@ public class Role {
      * roles are the following:</p>
      * <ul>
      *     <li><b>ROLE_USER</b>: Basic user role, it gives the user the ability of creating recipes.</li>
-     *     <li><b>ROLE_VENDOR</b>: Basic role for vendors, it gives the user the ability of publishing
+         *     <li><b>ROLE_VENDOR</b>: Basic role for vendors, it gives the user the ability of publishing
      *     products they want to sell and the ability of managing those products.</li>
      *     <li><b>ROLE_MANAGER</b>: This role allows the user to modify and remove any recipe that has
      *     been reported. It also has the ability to un-report recipes.</li>

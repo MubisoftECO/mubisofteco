@@ -1,33 +1,21 @@
-package org.eco.mubisoft.good_and_cheap.user.domain.model;
+package org.eco.mubisoft.data.user.model;
 
-import lombok.Getter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnJava;
-
-import javax.persistence.*;
-
-@Entity
-@Getter
+/**
+ * <p><b>CITY</b></p>
+ * <p>Each location will have a city. The city will be linked with the province.</p>
+ */
 public class City {
-
-    /**
-     * <p><b>CITY</b></p>
-     * <p>Each location will have a city. The city will be linked with the province.</p>
-     */
 
     /**
      * <p><b>ID</b></p>
      * <p>ID of the City.</p>
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     /**
      * <p><b>Province</b></p>
      * <p>ID of the Province of the city.</p>
      */
-    @ManyToOne
-    @JoinColumn
     private Province province;
 
     /**
@@ -50,4 +38,33 @@ public class City {
      */
     private String name;
 
+    public City(Long id, Province province, int cityCode, int CD, String name) {
+        this.id = id;
+        this.province = province;
+        this.cityCode = cityCode;
+        this.CD = CD;
+        this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getProvinceID() {
+        return province.getId();
+    }
+
+    public Province getProvince() { return  province; }
+
+    public int getCityCode() {
+        return cityCode;
+    }
+
+    public int getCD() {
+        return CD;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
