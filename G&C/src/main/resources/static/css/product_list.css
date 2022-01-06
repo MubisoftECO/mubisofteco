@@ -1,0 +1,60 @@
+.btn_back{
+    width: 100%;
+    background-color: var(--mubisoft-lightgrey);
+    color: var(--mubisoft-darkgrey);
+    border: 0;
+    box-shadow: 0px 0px 6px 3px rgba(48,46,46,0.34);
+}
+
+.product_card{
+    margin: auto;
+    margin-bottom: 5%;
+    padding: 0;
+    width: 80%;
+    border: 1px solid #302E2E;
+    border-radius: 10px;
+}
+.card_title{
+    border-radius: 10px 10px 0 0;
+    background-color: #302E2E;
+    color: #FFFFFF;
+    padding: 1rem;
+    text-align: center;
+
+}
+.card_body{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+}
+.button_bar{
+    margin: auto;
+    padding: 1.5rem;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+
+}
+.button_bar > form{
+    width: 30%;
+
+}
+form + form{
+    margin-left: 1rem;
+}
+.btn_search{
+    align-items: center;
+    width: calc(90% - 3rem);
+    background-color: var(--mubisoft-lightgrey);
+    color: var(--mubisoft-darkgrey);
+    border: 0;
+    box-shadow: 0px 0px 6px 3px rgba(48,46,46,0.34);
+}
+.search{
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+
+}
