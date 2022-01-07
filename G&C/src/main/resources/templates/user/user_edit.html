@@ -25,10 +25,10 @@
                         <select id="ac-dropdown" name="autonomousCommunity" class="col-12 form-select">
                             <option  value="" disabled selected>Autonomous Community</option>
                             <th:block th:each="ac : ${acList}">
-                                <th:block th:if="${#strings.equals(ac.getId(), user.getLocation().getAutonomousCommunity().getId())}">
+                                <th:block th:if="${#strings.equals(ac.getId(), user.getLocation().getCity().getProvince().getAutonomousCommunity().getId())}">
                                     <option selected th:value="${ac.getId()}">[[${ac.getName()}]]</option>
                                 </th:block>
-                                <th:block th:unless="${#strings.equals(ac.getId(), user.getLocation().getAutonomousCommunity().getId())}">
+                                <th:block th:unless="${#strings.equals(ac.getId(), user.getLocation().getCity().getProvince().getAutonomousCommunity().getId())}">
                                     <option th:value="${ac.getId()}">[[${ac.getName()}]]</option>
                                 </th:block>
                             </th:block>
@@ -36,10 +36,10 @@
                         <select class="col-12 form-select" name="province" id="province-dropdown" >
                             <option  value="" disabled selected>Province</option>
                             <th:block th:each="province : ${provinceList}">
-                                <th:block th:if="${#strings.equals(province.getId(), user.getLocation().getProvince().getId())}">
+                                <th:block th:if="${#strings.equals(province.getId(), user.getLocation().getCity().getProvince().getId())}">
                                     <option selected th:value="${province.getId()}">[[${province.getName()}]]</option>
                                 </th:block>
-                                <th:block th:unless="${#strings.equals(province.getId(), user.getLocation().getProvince().getId())}">
+                                <th:block th:unless="${#strings.equals(province.getId(), user.getLocation().getCity().getProvince().getId())}">
                                     <option th:value="${province.getId()}">[[${province.getName()}]]</option>
                                 </th:block>
                             </th:block>

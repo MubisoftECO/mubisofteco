@@ -84,13 +84,12 @@ public class UserController {
         Location savedLocation = locationService.saveLocation(locationToSave);
 
         user.setLocation(savedLocation);
-        roleService.setUserRole(user.getUsername(), "ROLE_USER");
+
 
         String fileName = StringUtils.cleanPath(imageFile.getOriginalFilename());
         user.setImgSrc(fileName);
-
         AppUser savedUser = userService.saveUser(user);
-
+        roleService.setUserRole(savedUser.getUsername(), "ROLE_USER");
         String uploadDir = "user-photos/" + savedUser.getId();
 
         FileUploadUtil.saveFile(uploadDir, fileName, imageFile);
