@@ -60,7 +60,51 @@ public class AppUser {
         this.id = id;
     }
 
+    public AppUser(Long id, String name, String secondName, String username, String password,
+                   Collection<Role> roles, Location location) {
+        this.id = id;
+        this.name = name;
+        this.secondName = secondName;
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+        this.location = location;
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSecondName() {
+        return secondName;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Collection<Long> getRoles() {
+        Collection<Long> roles = new ArrayList<>();
+
+        this.roles.forEach(role -> {
+            roles.add(role.getId());
+        });
+        return roles;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public Long getLocationID() {
+        return location.getId();
     }
 }

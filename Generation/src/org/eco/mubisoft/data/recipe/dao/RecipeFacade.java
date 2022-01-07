@@ -1,6 +1,5 @@
 package org.eco.mubisoft.data.recipe.dao;
 
-import org.eco.mubisoft.data.product.dao.ProductDAO;
 import org.eco.mubisoft.data.product.dao.ProductMysqlDAO;
 import org.eco.mubisoft.data.product.model.ProductType;
 import org.eco.mubisoft.data.recipe.model.Flag;
@@ -29,7 +28,7 @@ public class RecipeFacade {
             new Flag("Celery", "Apio", "Apioa"),
             new Flag("Mustard", "Mostaza", "Mostaza"),
             new Flag("Sulfur Dioxide", "Dioxido de Azufre", "Sufre Dioxidoa"),
-            new Flag("Lupins", "Altamuces", "Lupinak"),
+            new Flag("Lupins", "Altramuces", "Lupinak"),
             new Flag("Seafood", "Crustaceo", "Krustazeoa"),
             new Flag("Gluten", "Gluten", "Glutena"),
             new Flag("Nut", "Frutos Secos", "Fruitu Lehorrak"),
@@ -89,13 +88,6 @@ public class RecipeFacade {
                 Log.info("\t- Generation at " + ((id - currentMaxID) / (quantity / 10) * 10) + "%.");
             }
         }
-
-        recipeNames.forEach(name -> {
-            ProductType product = productTypes.get(new Random().nextInt(productTypes.size()));
-            name.setName_en(product.getName_en());
-            name.setName_es(product.getName_es());
-            name.setName_eu(product.getName_eu());
-        });
     }
 
     public void deleteAll() {

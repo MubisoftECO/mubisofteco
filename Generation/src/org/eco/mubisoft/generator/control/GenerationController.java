@@ -47,7 +47,8 @@ public class GenerationController {
         Log.info("Locations generated.");
 
         // Generate Users
-
+        userFacade.generateAppUsers();
+        Log.info("App users generated.");
     }
 
 }
