@@ -25,4 +25,21 @@ public class Location {
      */
     private City city;
 
+    public Location(Long id, String street, City city) {
+        this.id = id;
+        this.street = street;
+        this.city = city;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public Long getCity() {
+        return city.getId();
+    }
 }
