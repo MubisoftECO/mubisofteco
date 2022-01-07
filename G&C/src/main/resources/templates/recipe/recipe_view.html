@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{'/css/recipe_individual_view.css'}">
+<head th:insert="includes/head :: head">
+
+    <title id="pageTitle">Good & Cheap</title>
+</head>
+<body>
+<!-- Header -->
+<header th:replace="includes/header :: header"></header>
+
+<!-- Main -->
+<main>
+    <h1>[[${recipe.getTitle()}]]</h1>
+
+    <a href="" id="btn-share"><i class="fa fa-link"></i></a>
+
+    <p>[[${recipe.getDescription()}]]</p>
+    <a th:href="@{'/recipe/view/user/'+${recipe.getAuthor().getId}}" class="username">[[${recipe.getAuthor().getUsername}]]</a>
+
+    <img src="/media/imgs/ensalada_prueba.png" class="card-img" alt="...">
+    <a><div class="report">Report<img src="/media/imgs/alert.png"></img></div></a><br>
+    <h4>Duration</h4> <label>[[${recipe.getTimeInMinutes()}]] mins</label><br>
+    <br>
+    <h4>Alergen</h4>
+
+    <th:block th:each="flag : ${recipe.getRecipeFlags}">
+        <input type="checkbox" id="flag" name="flag">
+        <label for="flag">[[${flag.getName_en()}]]</label>
+    </th:block>
+    <br>
+    <br>
+    <h4>Ingredients</h4>
+    <table class="table">
+        <thead>
+            <th>Ingredient</th>
+            <th>Quantity</th>
+            <th>Unit/Value</th>
+        </thead>
+        <tbody>
+        <th:block th:each="ingredients : ${recipe.getIngredients}">
+            <tr>
+                <td>[[${ingredients.getName_en()}]]</td>
+                <td>hola</td>
+                <td>[[${ingredients.getMeasurementUnit()}]]</td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+    <br>
+    <h4 class="elaboration">Elaboration</h4>
+    <th:block th:each="step : ${steps}">
+        <div class="step">
+            <h5>Step [[${step.getStepNum}]]</h5>
+            <label>[[${step.getDescription()}]]</label><br>
+        </div>
+        <br>
+    </th:block>
+
+
+
+</main>
+<hr>
+
+<!-- Footer -->
+<footer th:replace="includes/footer :: footer"></footer>
+</body>
+
+

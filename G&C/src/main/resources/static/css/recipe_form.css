@@ -1,6 +1,34 @@
-main{
-  margin:20px;
+:root{
+  --mubisoft-lightgrey: #EFEFEF;
+  --mubisoft-darkgrey: #302E2E;
+  font-size: 3vh;
 }
+
+.container{
+
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 2rem;
+  width: 100vw;
+}
+
+#form-customer{
+  display: grid;
+  grid-template-areas:
+      'title'
+      'description'
+      'timeInMinutes';
+}
+
+.title{grid-area: title;}
+.description{grid-area: description;}
+.timeInMinutes{grid-area: timeInMinutes;}
+.ingredient{grid-area: ingredient;}
+.quantity{grid-area: quantity;}
+.unit{grid-area: unit;}
+
+
 
 h3{
   color: #575252;

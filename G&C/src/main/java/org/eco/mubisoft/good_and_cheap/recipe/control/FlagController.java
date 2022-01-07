@@ -26,7 +26,7 @@ public class FlagController {
 
     @PostMapping("/save")
     public void setRecipeFlag(HttpServletRequest request, HttpServletResponse response){
-        flagService.saveFlag(new Flag(null, request.getParameter("name")));
+        flagService.saveFlag(new Flag(null, null, request.getParameter("name"), null));
     }
     /*----------------------------------------------*/
 

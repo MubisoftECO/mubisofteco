@@ -1,15 +1,21 @@
-a{
-    text-decoration: none;
-    color: rgb(48, 46, 46);
+main{
+    margin:20px;
+}
+
+a {
+    text-decoration: none !important;
+    color: rgb(48, 46, 46) !important;
 }
 
 a:link, a:visited, a:active{
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
-a:hover{
+.recipe_card:hover{
     color: #EBECE1 !important;
-    background: #302E2E;
+    background: #302E2E !important;
     border-color: black;
     border-radius: inherit;
 }
+
+

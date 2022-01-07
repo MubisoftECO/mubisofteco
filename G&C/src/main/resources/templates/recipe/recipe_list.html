@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{'/css/recipe_view.css'}">
 <head th:insert="includes/head :: head">
+
+
     <title id="pageTitle">Recipe List</title>
+
 </head>
 <body>
 <!-- Header -->
@@ -9,14 +13,11 @@
 
 <!-- Main -->
 <main>
-    <!--CARGAR TODAS LAS RECETAS EN MODO LISTA-->
-
-    <!------------------------CARGAR TITULO DE LA RECETA------------------------------------>
 
     <th:block th:each="recipe : ${recipeList}">
 
        <div class="card mb-3" style="max-width: 540px;">
-           <a th:href="@{'/recipe/view/'+${recipe.getId()}}">
+           <a th:href="@{'/recipe/view/'+${recipe.getId()}}" class="recipe_card">
             <div class="row no-gutters">
                 <div class="col-md-4">
                     <img src="/media/imgs/ensalada_prueba.png" class="card-img" alt="...">
@@ -34,9 +35,6 @@
 
 
     </th:block>
-
-
-    <!------------------------------------------------------------>
 
 </main>
 <hr>

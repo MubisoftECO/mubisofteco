@@ -1,0 +1,29 @@
+main{
+    margin:20px;
+}
+
+.username{
+    color: #66AE61;
+}
+
+h4{
+    color: gray;
+}
+
+.elaboration{
+    text-align: right;
+}
+
+.report{
+    text-align: right;
+}
+
+.step{
+    padding: 20px;
+    border: #302E2E 1px solid;
+    border-radius: 5px 5px 5px 5px;
+}
+
+#btn-share{
+    float: right !important;
+}

@@ -68,6 +68,7 @@ public class AppUser {
      * <p><b>IMAGE SOURCE</b></p>
      * <p>A list with the different roles of the user.</p>
      */
+
     private String imgSrc = null;
 
     /**

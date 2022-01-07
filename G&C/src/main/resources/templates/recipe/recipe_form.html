@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:insert="includes/head :: head">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
     <title id="pageTitle">Good & Cheap</title>
 </head>
@@ -9,28 +12,32 @@
 <header th:replace="includes/header :: header"></header>
 
 <!-- Main -->
-<main>
-    <h1>New Recipe</h1>
-    <form action="/recipe/save" method="post">
-        <section class="section1">
-            <input type="text" id="title" name="title" placeholder="Title" style="width:300px"> <br><br>
+<main class="container align-items-center">
+    <h1 class="title">NEW RECIPE</h1>
+    <form action="/recipe/save" method="post" class="justify-content-center">
+        <div class="row gy-2" id="form-customer">
+            <div class="col-12 col-sm input-box title">
+                <input type="text" id="title" name="title" placeholder="Title" class="form-control">
+            </div>
+            <div class="col-12 col-sm input-box description">
+                <input type="text" id="description" name="description" placeholder="Description"
+                       class="form-control">
+            </div>
+            <div class="col-12 col-sm input-box timeInMinutes">
+                <input type="number" id="timeInMinutes" name="timeInMinutes" placeholder="Time minutes" class="form-control">
+            </div>
+        </div>
 
-            <input type="text" id="description" name="description" placeholder="Description"
-                   style="width:300px; height: 100px"><br><br>
-
-            <input type="number" id="timeInMinutes" name="timeInMinutes" placeholder="Time minutes" style="width:200px">
-        </section>
         <hr>
         <!-----------------------------INGREDIENTES---------------------->
 
-        <section class="section2">
-            <h3>Products</h3>
+            <h3 class="title">Products</h3>
 
-            <div id="add_ingredient">
-                <label class="ingredient" for="ingredient">Ingredient1</label>
-                <input type="text" id="ingredient" name="ingredient" placeholder="Ingredient"><br>
+        <div id="add_ingredient">
+                <label class="ingredient" for="ingredient">Ingredient 1</label>
+                <input type="text" id="ingredient" name="ingredient" placeholder="Ingredient">
 
-                <label class="form-label">Quantity</label>
+                <label class="form-label quantity" name="quantity">Quantity</label>
                 <select name="productNumber">
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -43,7 +50,8 @@
                     <option value="9">9</option>
                 </select>
 
-                <label class="form-label">Unit</label>
+
+                <label class="form-label" name="unit" >Unit</label>
                 <select name="productNumber">
                     <option value="gr">GR</option>
                     <option value="kg">KG</option>
@@ -51,18 +59,19 @@
                     <option value="l">L</option>
                     <!--CARGAR DE LA LISTA DE UNIDADES-->
                 </select>
-            </div>
 
+        </div>
             <a type=button id="btn-ingredient" class="btn btn-success">+</a><br>
-        </section>
         <hr>
+
+
         <!-- ------------------------añadir step------------------------------>
         <section class="section3">
             <h3>Steps</h3>
 
             <div id="add_step">
                 <label class="step" for="step1">Step1</label>
-                <input type="text" id="step1" name="step" style="width:250px; height: 90px">
+                <input type="text" id="step1" name="step" class="form-control" style="height: 90px">
                 <br>
             </div>
             <a type=button id="btn-step" class="btn btn-success">+</a><br>
@@ -73,7 +82,7 @@
             <h3>Alergens</h3>
             <th:block th:each="flag : ${flagList}">
                 <input type="checkbox" id="flag" name="flag">
-                <label for="flag">[[${flag.getName()}]]</label>
+                <label for="flag">[[${flag.getName_en()}]]</label>
             </th:block>
         </section>
         <hr>

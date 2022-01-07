@@ -18,10 +18,8 @@ function addStep(){
     var numSteps = steps.length;
     numSteps++;
 
-    //step.innerHTML += "<tr><td><label htmlFor='step'>Step</label></td><td><input type='text' id='step' name='step'></td></tr>";
-    step.innerHTML += "<br>";
     step.innerHTML += "<label class='step' htmlFor='step"+numSteps+"'>Step"+numSteps+"</label>";
-    step.innerHTML += "<input type='text' id='step"+numSteps+"' name='step' style='width:250px; height: 90px'>";
+    step.innerHTML += "<input type='text' id='step"+numSteps+"' name='step' class='form-control' style='height: 90px'>";
     step.innerHTML += "<br>";
 }
 
@@ -34,10 +32,9 @@ function addIngredient(){
 
     numIngredients++;
 
-    ingredient.innerHTML += "<br><br>";
-    ingredient.innerHTML += "<label class='ingredient' htmlFor='ingredient"+numIngredients+"'>Ingredient"+numIngredients+"</label>";
-    ingredient.innerHTML += "<input type='text' id='ingredient' name='ingredient'>";
-    ingredient.innerHTML += "<br>";
+    ingredient.innerHTML += "<br>"
+    ingredient.innerHTML += "<label class='ingredient' htmlFor='ingredient"+numIngredients+"'>Ingredient "+numIngredients+"</label>";
+    ingredient.innerHTML += "<input type='text' id='ingredient"+numIngredients+"' name='ingredient' placeholder='Ingredient'>";
     ingredient.innerHTML += "<label class='form-label'>Quantity</label>";
     ingredient.innerHTML += "<select name='productNumber'>" +
         "<option value='1'>1</option>" +

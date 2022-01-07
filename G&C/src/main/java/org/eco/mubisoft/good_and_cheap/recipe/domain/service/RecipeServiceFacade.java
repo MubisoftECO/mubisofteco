@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Recipe;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.repo.RecipeRepository;
+import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -47,5 +48,10 @@ public class RecipeServiceFacade implements RecipeService{
         if(id == null) return false;
         recipeRepository.deleteById(id);
         return true;
+    }
+
+    @Override
+    public List<Recipe> getRecipesByAuthor(AppUser author) {
+        return recipeRepository.findRecipesByAuthor(author);
     }
 }

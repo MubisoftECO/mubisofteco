@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{'/css/recipe_view.css'}">
+<head th:insert="includes/head :: head">
+
+    <title id="pageTitle">Personal Recipe List</title>
+
+</head>
+<body>
+<!-- Header -->
+<header th:replace="includes/header :: header"></header>
+
+<!-- Main -->
+<main>
+
+    <th:block th:each="recipe : ${recipeList}">
+        <div class="card mb-3" style="max-width: 540px;">
+            <a th:href="@{'/recipe/view/'+${recipe.getId()}}" class="recipe_card">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="/media/imgs/ensalada_prueba.png" class="card-img" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">[[${recipe.getTitle()}]]</h5>
+                            <p class="card-text">[[${recipe.getDescription()}]]</p>
+                            <p class="card-text">[[${recipe.getTimeInMinutes() + " min"}]]</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </th:block>
+
+</main>
+<hr>
+
+<!-- Footer -->
+<footer th:replace="includes/footer :: footer"></footer>
+</body>
+</html>
