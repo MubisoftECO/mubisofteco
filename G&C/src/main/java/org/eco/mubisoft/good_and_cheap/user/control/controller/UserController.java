@@ -1,27 +1,23 @@
 package org.eco.mubisoft.good_and_cheap.user.control.controller;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eco.mubisoft.good_and_cheap.application.data.FileUploadUtil;
 import org.eco.mubisoft.good_and_cheap.application.data.HibernateProxyTypeAdapter;
 import org.eco.mubisoft.good_and_cheap.application.security.TokenChecker;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.City;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.Location;
-import org.eco.mubisoft.good_and_cheap.user.domain.model.Province;
 import org.eco.mubisoft.good_and_cheap.user.domain.service.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,8 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
-import java.security.Principal;
 import java.util.List;
 
 @Slf4j
@@ -58,7 +52,7 @@ public class UserController {
     public @ResponseBody String getProvincesByAutonomousCommunity (@PathVariable("acId") Long acId){
         Gson gson = new Gson();
         return gson.toJson(
-                provinceService.getProvinceByAutonomousCommunity(
+                provinceService.getProvincesByAutonomousCommunity(
                         autonomousCommunityService.getAutonomousCommunity(acId)
                 )
         );
@@ -66,8 +60,7 @@ public class UserController {
 
     @GetMapping("/create/getCity/{provinceId}")
     public @ResponseBody String getCitiesByProvince (@PathVariable("provinceId") Long provinceId){
-        //Gson gson = new Gson();
-        List<City> cities = cityService.getCityByProvince(provinceService.getProvince(provinceId));
+        List<City> cities = cityService.getCitiesByProvince(provinceService.getProvince(provinceId));
         log.warn("La provincia que buscas tiene {} ciudades", cities.size());
         GsonBuilder b = new GsonBuilder();
         b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
@@ -76,7 +69,7 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    public void saveUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void saveUser(HttpServletRequest request, HttpServletResponse response, @RequestParam("image") MultipartFile imageFile) throws IOException {
         AppUser user = new AppUser();
 
         user.setName(request.getParameter("name"));
@@ -88,36 +81,48 @@ public class UserController {
 
         Location locationToSave = new Location();
         locationToSave.setCity(cityService.getCity(Long.parseLong(request.getParameter("city"))));
-        locationToSave.setProvince(provinceService.getProvince(Long.parseLong(request.getParameter("province"))));
-        locationToSave.setAutonomousCommunity(
-                autonomousCommunityService.getAutonomousCommunity(
-                        Long.parseLong(request.getParameter("autonomousCommunity"))));
         Location savedLocation = locationService.saveLocation(locationToSave);
 
         user.setLocation(savedLocation);
-        roleService.setUserRole(user.getUsername(), "ROLE_USER");
-        userService.saveUser(user);
+
+
+        String fileName = StringUtils.cleanPath(imageFile.getOriginalFilename());
+        user.setImgSrc(fileName);
+        AppUser savedUser = userService.saveUser(user);
+        roleService.setUserRole(savedUser.getUsername(), "ROLE_USER");
+        String uploadDir = "user-photos/" + savedUser.getId();
+
+        FileUploadUtil.saveFile(uploadDir, fileName, imageFile);
 
         // Send response
         response.setStatus(HttpServletResponse.SC_CREATED);
-        response.sendRedirect(response.encodeRedirectURL("/"));
+        response.sendRedirect(response.encodeRedirectURL("/login/sign-in/"));
     }
 
     @GetMapping("/view")
     public String getView(Model model) {
         List<AppUser> userList = userService.getAllUsers();
-        model.addAttribute("userList", userList);
+        //model.addAttribute("userList", userList);
+        model.addAttribute("roleList", roleService.getAllRoles());
         return "user/user_list";
     }
 
-    @GetMapping("/view/{userID}")
-    public ResponseEntity<AppUser> getUser(@PathVariable("userID") Long id) {
-        return ResponseEntity.created(
-                URI.create(
-                        ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/view").toUriString()
-                )
-        ).body(userService.getUser(id));
+    @GetMapping("/view/getUsers/{roleId}")
+    public @ResponseBody String getUsersByRole (@PathVariable("roleId") Long roleId){
+        List<AppUser> users;
+        if(roleId == -1){
+            users = userService.getAllUsers();
+        } else {
+            users = userService.getUsersByRole(roleService.getRole(roleId));
+        }
+        Gson gson = new Gson();
+        return gson.toJson(users);
+    }
 
+    @GetMapping("/info")
+    public String getUser(Model model, HttpServletRequest request) {
+        model.addAttribute("user", getLoggedUser(request));
+        return "user/user_view";
     }
 
     @GetMapping("/delete/{userID}")
@@ -131,12 +136,12 @@ public class UserController {
     public String editUser(Model model, HttpServletRequest request, HttpServletResponse response){
         AppUser loggedUser = getLoggedUser(request);
         model.addAttribute("acList", autonomousCommunityService.getAllAutonomousCommunities());
-        model.addAttribute("provinceList", provinceService.getProvinceByAutonomousCommunity(
+        model.addAttribute("provinceList", provinceService.getProvincesByAutonomousCommunity(
                 autonomousCommunityService.getAutonomousCommunity(
-                        loggedUser.getLocation().getAutonomousCommunity().getId())
-        ));
-        model.addAttribute("cityList", cityService.getCityByProvince(
-                provinceService.getProvince(loggedUser.getLocation().getProvince().getId())
+                        loggedUser.getLocation().getCity().getProvince().getAutonomousCommunity().getId()
+        )));
+        model.addAttribute("cityList", cityService.getCitiesByProvince(
+                provinceService.getProvince(loggedUser.getLocation().getCity().getProvince().getId())
         ));
         model.addAttribute("user", loggedUser);
         return "user/user_edit";
@@ -163,29 +168,31 @@ public class UserController {
         } else{
             response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
         }
-        //Mandar a la pantalla de user SIN IMPLEMENTAR
+        response.sendRedirect(response.encodeRedirectURL("/user/info/"));
     }
 
     @PostMapping("/update")
-    public void updateUser(HttpServletRequest request, HttpServletResponse response) throws IOException{
+    public void updateUser(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "image", required = false) MultipartFile imageFile) throws IOException{
+        String fileName = null;
         HttpSession session = request.getSession();
         String accessToken = (String) session.getAttribute("accessToken");
         TokenChecker tokenChecker = new TokenChecker();
         String username = tokenChecker.getUsernameFromToken(accessToken);
         AppUser user = userService.getUser(username);
 
+        if (!imageFile.isEmpty()){
+            fileName = StringUtils.cleanPath(imageFile.getOriginalFilename());
+            String uploadDir = "user-photos/" + user.getId();
+            FileUploadUtil.saveFile(uploadDir, fileName, imageFile);
+        }
+
         Location locationToSave = new Location();
         locationToSave.setCity(cityService.getCity(Long.parseLong(request.getParameter("city"))));
-        locationToSave.setProvince(provinceService.getProvince(Long.parseLong(request.getParameter("province"))));
-        locationToSave.setAutonomousCommunity(
-                autonomousCommunityService.getAutonomousCommunity(
-                        Long.parseLong(request.getParameter("autonomousCommunity"))));
         userService.updateUser(user.getId(), request.getParameter("name"), request.getParameter("secondName"),
-                request.getParameter("username"), locationToSave);
+                request.getParameter("username"), locationToSave, fileName);
 
         response.setStatus(HttpServletResponse.SC_OK);
-        //Mandar a pantalla usuario (NO IMPLEMENTADO)
-        response.sendRedirect(response.encodeRedirectURL("/"));
+        response.sendRedirect(response.encodeRedirectURL("/user/info/"));
     }
 
     private AppUser getLoggedUser(HttpServletRequest request){

@@ -2,9 +2,8 @@ package org.eco.mubisoft.good_and_cheap.user.domain.service;
 
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.Location;
+import org.eco.mubisoft.good_and_cheap.user.domain.model.Role;
 
-import javax.transaction.Transactional;
-import java.awt.*;
 import java.util.List;
 
 /**
@@ -67,9 +66,11 @@ public interface UserService {
      */
 
 
-    AppUser updateUser(Long id, String name, String secondName, String username, Location location);
+    AppUser updateUser(Long id, String name, String secondName, String username, Location location, String imageSrc);
 
     boolean checkPassword (String username, String password);
 
     void updatePassword (String username, String password);
+
+    List<AppUser> getUsersByRole(Role role);
 }

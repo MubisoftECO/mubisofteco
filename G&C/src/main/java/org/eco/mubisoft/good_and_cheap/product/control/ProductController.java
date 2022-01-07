@@ -1,7 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.product.control;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.product.domain.model.Product;
 import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductService;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 

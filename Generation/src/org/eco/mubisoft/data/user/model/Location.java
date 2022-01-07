@@ -12,25 +12,34 @@ public class Location {
      * <p>ID of the location.</p>
      */
     private Long id;
+
     /**
      * <p><b>STREET</b></p>
      * <p>Street of the location. This value is optional for users with the ROLE_USER.</p>
      */
     private String street;
+
     /**
      * <p><b>CITY</b></p>
      * <p>City of the location.</p>
      */
-    private String city;
-    /**
-     * <p><b>PROVINCE</b></p>
-     * <p>Province of the location.</p>
-     */
-    private String province;
-    /**
-     * <p><b>COUNTRY</b></p>
-     * <p>Country of the location.</p>
-     */
-    private String country = "ES";
+    private City city;
 
+    public Location(Long id, String street, City city) {
+        this.id = id;
+        this.street = street;
+        this.city = city;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public Long getCity() {
+        return city.getId();
+    }
 }

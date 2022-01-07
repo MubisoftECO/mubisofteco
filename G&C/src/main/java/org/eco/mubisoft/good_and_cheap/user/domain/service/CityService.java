@@ -12,7 +12,7 @@ public interface CityService {
      * @param province The province to take into account.
      * @return The list of cities by province.
      */
-    List<City> getCityByProvince (Province province);
+    List<City> getCitiesByProvince(Province province);
 
     /**
      * <p><b>GET CITY BY ID</b></p>

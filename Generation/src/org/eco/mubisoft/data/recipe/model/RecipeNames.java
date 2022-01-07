@@ -36,11 +36,48 @@ public class RecipeNames {
         }
     }
 
-    public void setName_es(String name_es) {
-        this.name_es = name_es;
+    public void setName_es(String product) {
+        switch (this.article_es) {
+            case "de":
+            case "con":
+                this.name_es = this.name_es + " " + this.article_es + " " + product;
+                break;
+            case "-":
+            case "al":
+            case "a la":
+                this.name_es = product + " " +
+                        ((!this.article_es.equals("-")) ? this.article_es : "")
+                        + " " + this.name_es;
+                break;
+        }
     }
 
-    public void setName_eu(String name_eu) {
-        this.name_eu = name_eu;
+    public void setName_eu(String product) {
+        switch (this.article_eu) {
+            case "before":
+                this.name_eu = product + " " + this.name_eu;
+                break;
+            case "after":
+                this.name_eu = this.name_eu + " " + product;
+                break;
+            case "rekin":
+                this.name_eu = this.name_eu + " " + product + this.article_eu;
+                break;
+        }
+    }
+
+    public String getNameForLanguage(String language, String product) {
+        switch (language) {
+            case "en":
+                this.setName_en(product);
+                return this.name_en;
+            case "es":
+                this.setName_es(product);
+                return this.name_es;
+            case "eu":
+                this.setName_eu(product);
+                return this.name_eu;
+            default: return null;
+        }
     }
 }

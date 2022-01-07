@@ -21,7 +21,7 @@ public class ProvinceServiceFacade implements ProvinceService
     private final ProvinceRepository provinceRepository;
 
     @Override
-    public List<Province> getProvinceByAutonomousCommunity(AutonomousCommunity autonomousCommunity) {
+    public List<Province> getProvincesByAutonomousCommunity(AutonomousCommunity autonomousCommunity) {
         log.info("Getting provinces from {}", autonomousCommunity.getName());
         return provinceRepository.getProvincesByAutonomousCommunity(autonomousCommunity);
     }

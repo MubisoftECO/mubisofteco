@@ -33,6 +33,12 @@ public class RoleServiceFacade implements RoleService {
     }
 
     @Override
+    public Role getRole(Long id) {
+        log.info("Fetching role {} from database", id);
+        return roleRepo.findById(id).orElse(null);
+    }
+
+    @Override
     public List<Role> getAllRoles() {
         return roleRepo.findAll();
     }

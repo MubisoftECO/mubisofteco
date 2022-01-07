@@ -1,6 +1,7 @@
 package org.eco.mubisoft.good_and_cheap.user.domain.model;
 
 import lombok.Getter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnJava;
 
 import javax.persistence.*;
 
@@ -26,6 +27,7 @@ public class City {
      * <p>ID of the Province of the city.</p>
      */
     @ManyToOne
+    @JoinColumn
     private Province province;
 
     /**
@@ -33,7 +35,6 @@ public class City {
      * <p>NOT UNIQUE, code of the city in the autonomous community. Each city has a code.
      * Two cities in different AC might have the same code.</p>
      */
-
     private int cityCode;
 
     /**
@@ -41,7 +42,6 @@ public class City {
      * <p>Contol Digit (Dígito de control). According to INE (Insituto Nacional de Estadística)
      * it is used to detect errors. INE has not published how to calculate it.</p>
      */
-
     private int CD;
 
     /**

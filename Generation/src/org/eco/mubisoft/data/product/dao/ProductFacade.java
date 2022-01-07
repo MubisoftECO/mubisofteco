@@ -4,6 +4,7 @@ import org.eco.mubisoft.data.product.model.*;
 import org.eco.mubisoft.data.user.dao.UserFacade;
 import org.eco.mubisoft.data.user.model.AppUser;
 import org.eco.mubisoft.generator.connection.FileReader;
+import org.eco.mubisoft.generator.control.Log;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
@@ -98,6 +99,11 @@ public class ProductFacade {
                     new GregorianCalendar(year, month, day + random.nextInt(3)).getTime(),
                     RemoveReason.getRandom(), appUsers.get(random.nextInt(appUsers.size()))
             ));
+
+            // display generation percentage
+            if ((id - currentMaxID) / (quantity / 10) > 0 && (id - currentMaxID) % (quantity / 10) == 0) {
+                Log.info("\t- Generation at " + ((id - currentMaxID) / (quantity / 10) * 10) + "%.");
+            }
         }
     }
 

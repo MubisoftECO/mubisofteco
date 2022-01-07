@@ -22,7 +22,7 @@ public class CityServiceFacade implements CityService
     private final CityRepository cityRepository;
 
     @Override
-    public List<City> getCityByProvince(Province province) {
+    public List<City> getCitiesByProvince(Province province) {
         log.info("Getting cities from {}", province.getName());
         return cityRepository.getCitiesByProvince(province);
     }

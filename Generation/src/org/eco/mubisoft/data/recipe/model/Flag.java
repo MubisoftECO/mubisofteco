@@ -7,6 +7,13 @@ public class Flag {
     private String name_es;
     private String name_eu;
 
+    public Flag(Long id, String name_en, String name_es, String name_eu) {
+        this.id = id;
+        this.name_en = name_en;
+        this.name_es = name_es;
+        this.name_eu = name_eu;
+    }
+
     public Flag(String name_en, String name_es, String name_eu) {
         this.name_en = name_en;
         this.name_es = name_es;

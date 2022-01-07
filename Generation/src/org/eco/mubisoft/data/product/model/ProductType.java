@@ -42,4 +42,13 @@ public class ProductType {
     public Long getProductFamily() {
         return productFamily.getId();
     }
+
+    public String getNameForLanguage(String language) {
+        switch (language) {
+            case "en": return this.name_en;
+            case "es": return this.name_es;
+            case "eu": return this.name_eu;
+            default: return null;
+        }
+    }
 }

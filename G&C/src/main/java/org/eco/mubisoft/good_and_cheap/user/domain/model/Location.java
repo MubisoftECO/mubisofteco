@@ -33,22 +33,5 @@ public class Location {
      */
     @ManyToOne
     private City city;
-    /**
-     * <p><b>PROVINCE</b></p>
-     * <p>Province of the location.</p>
-     */
-    @ManyToOne
-    private Province province;
-    /**
-     * <p><b>AUTONOMOUS COMMUNITY</b></p>
-     * <p>Autonomous Community of the location.</p>
-     */
-    @ManyToOne
-    private AutonomousCommunity autonomousCommunity;
-    /**
-     * <p><b>COUNTRY</b></p>
-     * <p>Country of the location.</p>
-     */
-    private String country = "ES";
 
 }

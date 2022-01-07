@@ -2,9 +2,10 @@ package org.eco.mubisoft.good_and_cheap.user.domain.repo;
 
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.Location;
+import org.eco.mubisoft.good_and_cheap.user.domain.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -34,4 +35,12 @@ public interface UserRepository extends JpaRepository<AppUser, Location> {
      * @return Optional value, if the user email was found will return the user.
      */
     Optional<AppUser> findByUsernameAndPassword(String email, String password);
+
+    /**
+     * <p><b>FIND BY ROLE</b></p>
+     * <p>Search users with a specific role in the database.</p>
+     * @param role The role to filter with
+     * @return Optional value, the list of users with a specific role.
+     */
+    List<AppUser> findAppUsersByRoles(Role role);
 }

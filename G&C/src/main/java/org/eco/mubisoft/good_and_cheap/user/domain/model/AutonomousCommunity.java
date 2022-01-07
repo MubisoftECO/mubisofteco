@@ -27,4 +27,11 @@ public class AutonomousCommunity {
     @NotNull
     @Column(unique = true)
     private String name;
+
+    /**
+     * <p><b>COUNTRY</b></p>
+     * <p>Name of the country.</p>
+     */
+    @NotNull
+    private String country = "ES";
 }

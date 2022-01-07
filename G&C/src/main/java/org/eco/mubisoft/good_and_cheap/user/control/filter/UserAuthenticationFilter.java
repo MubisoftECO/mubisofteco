@@ -63,7 +63,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 
         String refreshToken = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + MilliTime.ONE_HOUR.time))
+                .withExpiresAt(new Date(System.currentTimeMillis() + MilliTime.SIX_HOUR.time))
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", user.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority).collect(Collectors.toList()))

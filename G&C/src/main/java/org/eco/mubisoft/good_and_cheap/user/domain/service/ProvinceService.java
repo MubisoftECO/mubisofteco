@@ -1,7 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.user.domain.service;
 
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AutonomousCommunity;
-import org.eco.mubisoft.good_and_cheap.user.domain.model.City;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.Province;
 
 import java.util.List;
@@ -13,7 +12,7 @@ public interface ProvinceService {
      * @param autonomousCommunity The province to take into account.
      * @return The list of provinces from the database.
      */
-    List<Province> getProvinceByAutonomousCommunity (AutonomousCommunity autonomousCommunity);
+    List<Province> getProvincesByAutonomousCommunity(AutonomousCommunity autonomousCommunity);
 
     /**
      * <p><b>GET ALL PROVINCES</b></p>

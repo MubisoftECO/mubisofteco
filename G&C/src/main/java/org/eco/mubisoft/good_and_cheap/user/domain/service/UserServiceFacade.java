@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.Location;
+import org.eco.mubisoft.good_and_cheap.user.domain.model.Role;
 import org.eco.mubisoft.good_and_cheap.user.domain.repo.LocationRepository;
 import org.eco.mubisoft.good_and_cheap.user.domain.repo.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -92,7 +93,7 @@ public class UserServiceFacade implements UserService, UserDetailsService {
 
     @Override
     @Transactional
-    public AppUser updateUser(Long id, String name, String secondName, String username, Location location) {
+    public AppUser updateUser(Long id, String name, String secondName, String username, Location location, String imageSrc) {
         AppUser user = userRepo.findById(id).orElseThrow(() -> new IllegalStateException(
                 "User not found when updating user"
         ));
@@ -109,9 +110,10 @@ public class UserServiceFacade implements UserService, UserDetailsService {
         }
         if(location != null && !Objects.equals(user.getLocation().getCity().getName(), location.getCity().getName())){
            Location locationToEdit = locationRepo.getById(user.getLocation().getId());
-           locationToEdit.setAutonomousCommunity(location.getAutonomousCommunity());
-           locationToEdit.setProvince(location.getProvince());
            locationToEdit.setCity(location.getCity());
+        }
+        if(imageSrc != null && !Objects.equals(user.getImgSrc(), imageSrc)){
+            user.setImgSrc(imageSrc);
         }
 
         return user;
@@ -120,7 +122,7 @@ public class UserServiceFacade implements UserService, UserDetailsService {
     @Override
     public boolean checkPassword(String username, String password) {
         AppUser user = userRepo.findByUsername(username).orElse(null);
-        return passwordEncoder.matches(password, user.getPassword());
+        return passwordEncoder.matches(password, Objects.requireNonNull(user).getPassword());
     }
 
     @Override
@@ -128,5 +130,11 @@ public class UserServiceFacade implements UserService, UserDetailsService {
     public void updatePassword(String username, String password) {
         AppUser user = userRepo.findByUsername(username).orElse(null);
         user.setPassword(passwordEncoder.encode(password));
+    }
+
+    @Override
+    public List<AppUser> getUsersByRole(Role role) {
+        log.info("Fetching users with role {}", role.getName());
+        return userRepo.findAppUsersByRoles(role);
     }
 }

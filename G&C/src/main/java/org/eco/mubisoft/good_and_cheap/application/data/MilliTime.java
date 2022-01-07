@@ -10,7 +10,8 @@ public enum MilliTime {
     TEN_MINUTES(10),
     FIFTEEN_MINUTES(15),
     THIRTY_MINUTES(30),
-    ONE_HOUR(60);
+    ONE_HOUR(60),
+    SIX_HOUR(360);
 
     /**
      * Time in milliseconds.

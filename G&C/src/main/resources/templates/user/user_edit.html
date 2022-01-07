@@ -10,7 +10,8 @@
 <!-- Main -->
 <main>
     <div class="container">
-                <form action="/user/update"  method="post" class="justify-content-center">
+        <h1>Edit user</h1>
+                <form action="/user/update" method="post" enctype="multipart/form-data" class="justify-content-center">
                     <div class="row gy-2" id="form-customer">
                         <div class="col-12 col-sm-6">
                             <input type="text" th:value="${user.getName()}" name="name" class="form-control">
@@ -24,10 +25,10 @@
                         <select id="ac-dropdown" name="autonomousCommunity" class="col-12 form-select">
                             <option  value="" disabled selected>Autonomous Community</option>
                             <th:block th:each="ac : ${acList}">
-                                <th:block th:if="${#strings.equals(ac.getId(), user.getLocation().getAutonomousCommunity().getId())}">
+                                <th:block th:if="${#strings.equals(ac.getId(), user.getLocation().getCity().getProvince().getAutonomousCommunity().getId())}">
                                     <option selected th:value="${ac.getId()}">[[${ac.getName()}]]</option>
                                 </th:block>
-                                <th:block th:unless="${#strings.equals(ac.getId(), user.getLocation().getAutonomousCommunity().getId())}">
+                                <th:block th:unless="${#strings.equals(ac.getId(), user.getLocation().getCity().getProvince().getAutonomousCommunity().getId())}">
                                     <option th:value="${ac.getId()}">[[${ac.getName()}]]</option>
                                 </th:block>
                             </th:block>
@@ -35,10 +36,10 @@
                         <select class="col-12 form-select" name="province" id="province-dropdown" >
                             <option  value="" disabled selected>Province</option>
                             <th:block th:each="province : ${provinceList}">
-                                <th:block th:if="${#strings.equals(province.getId(), user.getLocation().getProvince().getId())}">
+                                <th:block th:if="${#strings.equals(province.getId(), user.getLocation().getCity().getProvince().getId())}">
                                     <option selected th:value="${province.getId()}">[[${province.getName()}]]</option>
                                 </th:block>
-                                <th:block th:unless="${#strings.equals(province.getId(), user.getLocation().getProvince().getId())}">
+                                <th:block th:unless="${#strings.equals(province.getId(), user.getLocation().getCity().getProvince().getId())}">
                                     <option th:value="${province.getId()}">[[${province.getName()}]]</option>
                                 </th:block>
                             </th:block>
@@ -54,6 +55,10 @@
                                 </th:block>
                             </th:block>
                         </select>
+                        <div class="col-12">
+                            <label>Profile picture: 1MB MAX</label>
+                            <input type="file" name="image" accept="image/png, image/jpeg" />
+                        </div>
                     </div>
                     <div class="row gy-2 mt-3">
                         <div class="col-12">

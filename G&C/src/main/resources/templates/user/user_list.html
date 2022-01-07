@@ -9,6 +9,13 @@
 
 <main  class="container">
     <h1 class="badge bg-secondary">Product list ROLE_ADMIN ONLY</h1>
+    <select id="role-dropdown" name="role" class="col-12 form-select">
+        <option  value="" disabled selected>Please select a role</option>
+        <th:block th:each="role : ${roleList}">
+            <option th:value="${role.getId()}">[[${role.getName()}]]</option>
+        </th:block>
+        <option th:value="-1">ALL USERS</option>
+    </select>
     <table class="table">
         <thead>
         <th scope="col">Id</th>
@@ -17,17 +24,7 @@
         <th scope="col">Username</th>
 
         </thead>
-        <tbody>
-        <th:block th:each="user : ${userList}">
-            <tr >
-                <th scope="row">[[${user.getId()}]]</th>
-                <td>[[${user.getName}]]</td>
-                <td>[[${user.getSecondName()}]]</td>
-                <td>[[${user.getUsername()}]]</td>
-                <td><a class="btn btn-danger" th:href="@{'/user/delete/' + ${user.getId()}}" role="button">Delete</a></td>
-            </tr>
-        </th:block>
-        </tbody>
+        <tbody id="tbody"></tbody>
     </table>
 </main>
 <!-- Footer -->
