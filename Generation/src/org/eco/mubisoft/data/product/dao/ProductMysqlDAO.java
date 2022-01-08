@@ -152,8 +152,8 @@ public class ProductMysqlDAO implements ProductDAO {
     public void insertProduct(Product product) {
         String sqlQuery = "INSERT INTO product (" +
                 "id, name_en, name_es, name_eu, quantity, price, publish_date, expiration_date, removed_date, " +
-                "remove_reason, product_type_id) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "remove_reason, product_type_id, vendor_id) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         Connection connection = mySQLConfig.connect();
         PreparedStatement pStm = null;
 
@@ -170,7 +170,7 @@ public class ProductMysqlDAO implements ProductDAO {
             pStm.setDate(9, new Date(product.getRemovedDate().getTime()));
             pStm.setString(10, product.getRemoveReason());
             pStm.setLong(11, product.getProductType());
-            // pStm.setLong(12, product.getVendor());
+            pStm.setLong(12, product.getVendor());
             pStm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
