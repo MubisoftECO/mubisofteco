@@ -83,25 +83,25 @@ public class UserFacade {
                 9L, userNames[8][0], userNames[8][1],
                 userNames[8][0].toLowerCase() + "." + userNames[8][1].toLowerCase() + "@gmail.com",
                 passwordEncoder.encode(userNames[8][0].toLowerCase() + "@" + userNames[8][1].toLowerCase()),
-                Collections.singletonList(roleList.get(0)), this.getRandomLocation(9L, random, cityList)
+                Collections.singletonList(roleList.get(1)), this.getRandomLocation(9L, random, cityList)
         ));
         this.insertUser(new AppUser(
                 10L, userNames[9][0], userNames[9][1],
                 userNames[9][0].toLowerCase() + "." + userNames[9][1].toLowerCase() + "@gmail.com",
                 passwordEncoder.encode(userNames[9][0].toLowerCase() + "@" + userNames[9][1].toLowerCase()),
-                Collections.singletonList(roleList.get(0)), this.getRandomLocation(10L, random, cityList)
+                Collections.singletonList(roleList.get(2)), this.getRandomLocation(10L, random, cityList)
         ));
         this.insertUser(new AppUser(
                 11L, userNames[10][0], userNames[7][1],
                 userNames[10][0].toLowerCase() + "." + userNames[10][1].toLowerCase() + "@gmail.com",
                 passwordEncoder.encode(userNames[10][0].toLowerCase() + "@" + userNames[10][1].toLowerCase()),
-                Collections.singletonList(roleList.get(0)), this.getRandomLocation(11L, random, cityList)
+                Collections.singletonList(roleList.get(3)), this.getRandomLocation(11L, random, cityList)
         ));
         this.insertUser(new AppUser(
                 12L, userNames[11][0], userNames[7][1],
                 userNames[11][0].toLowerCase() + "." + userNames[11][1].toLowerCase() + "@gmail.com",
                 passwordEncoder.encode(userNames[11][0].toLowerCase() + "@" + userNames[11][1].toLowerCase()),
-                Collections.singletonList(roleList.get(0)), this.getRandomLocation(12L, random, cityList)
+                Collections.singletonList(roleList.get(4)), this.getRandomLocation(12L, random, cityList)
         ));
     }
 
