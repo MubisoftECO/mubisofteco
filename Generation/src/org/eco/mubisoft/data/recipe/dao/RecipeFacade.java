@@ -5,6 +5,9 @@ import org.eco.mubisoft.data.product.model.ProductType;
 import org.eco.mubisoft.data.recipe.model.Flag;
 import org.eco.mubisoft.data.recipe.model.Recipe;
 import org.eco.mubisoft.data.recipe.model.RecipeNames;
+import org.eco.mubisoft.data.recipe.model.Step;
+import org.eco.mubisoft.data.user.dao.UserDAO;
+import org.eco.mubisoft.data.user.dao.UserMysqlDAO;
 import org.eco.mubisoft.data.user.model.AppUser;
 import org.eco.mubisoft.generator.connection.FileReader;
 import org.eco.mubisoft.generator.control.Log;
@@ -15,6 +18,7 @@ public class RecipeFacade {
 
     private final RecipeDAO recipeDAO = new RecipeMysqlDAO();
     private final FileReader fileReader = new FileReader();
+    private final UserDAO userDAO = new UserMysqlDAO();
 
     private final List<String> languageList = Arrays.asList(
             "en", "es", "eu"
@@ -44,8 +48,10 @@ public class RecipeFacade {
         List<ProductType> productTypes = new ProductMysqlDAO().getProductTypes();
         List<RecipeNames> recipeNames = fileReader.getRecipeNames();
         List<Flag> flagList = recipeDAO.getRecipeFlags();
+        List<Long> appUsers = userDAO.getAppUserIds();
         long currentMaxID = recipeDAO.getRecipeID();
         Random random = new Random();
+        long totalSteps = 1L;
 
         for (long id = currentMaxID; id < currentMaxID + quantity; id++) {
             String language = languageList.get(random.nextInt(languageList.size()));
@@ -77,11 +83,22 @@ public class RecipeFacade {
             }
             Recipe recipe = new Recipe(
                     id, title, description, language, random.nextInt(240) + 10,
-                    new AppUser(1L), recipeIngredients, recipeFlags
+                    new AppUser(appUsers.get(random.nextInt(appUsers.size()))), recipeIngredients, recipeFlags
             );
             recipeDAO.insertRecipe(recipe);
             recipeDAO.setRecipeFlag(id, recipe.getRecipeFlags());
             recipeDAO.setRecipeIngredients(id, recipe.getIngredients());
+
+            int stepCount = random.nextInt(8) + 2;
+            for (int i = 0; i < stepCount; i++) {
+                recipeDAO.insertRecipeStep(new Step(
+                        totalSteps++, i + 1,
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor " +
+                                "incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud " +
+                                "exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                        recipe
+                ));
+            }
 
             // display generation percentage
             if ((id - currentMaxID) / (quantity / 10) > 0 && (id - currentMaxID) % (quantity / 10) == 0) {

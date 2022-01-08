@@ -129,9 +129,8 @@ public class RecipeMysqlDAO implements RecipeDAO {
     @Override
     public void insertRecipe(Recipe recipe) {
         String sqlQuery =
-                "INSERT INTO recipe (id, title, description, language, time_in_minutes" +
-                        /*", author_id*/ ") " +
-                "VALUES (?, ?, ?, ?, ?)";
+                "INSERT INTO recipe (id, title, description, language, time_in_minutes, author_id) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
         Connection connection = mySQLConfig.connect();
         PreparedStatement pStm = null;
 
@@ -142,7 +141,7 @@ public class RecipeMysqlDAO implements RecipeDAO {
             pStm.setString(3, recipe.getDescription());
             pStm.setString(4, recipe.getLanguage());
             pStm.setInt(5, recipe.getTimeInMinutes());
-            // pStm.setLong(6, recipe.getAuthor().getId());
+            pStm.setLong(6, recipe.getAuthor().getId());
             pStm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -164,7 +163,22 @@ public class RecipeMysqlDAO implements RecipeDAO {
 
     @Override
     public void insertRecipeStep(Step step) {
+        String sqlQuery = "INSERT INTO step (id, description, step_num, recipe_id) VALUES (?, ?, ?, ?)";
+        Connection connection = mySQLConfig.connect();
+        PreparedStatement pStm = null;
 
+        try {
+            pStm = connection.prepareStatement(sqlQuery);
+            pStm.setLong(1, step.getId());
+            pStm.setString(2, step.getDescription());
+            pStm.setInt(3, step.getStepNum());
+            pStm.setLong(4, step.getRecipe());
+            pStm.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            mySQLConfig.disconnect(connection, pStm);
+        }
     }
 
     @Override

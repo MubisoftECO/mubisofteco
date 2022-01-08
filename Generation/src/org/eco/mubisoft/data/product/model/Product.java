@@ -81,10 +81,6 @@ public class Product {
     }
 
     public Long getVendor() {
-        try {
-            return vendor.getId();
-        } catch (NullPointerException e) {
-            return 1L;
-        }
+        return vendor.getId();
     }
 }

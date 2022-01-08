@@ -19,6 +19,7 @@ public interface UserDAO {
     void insertLocation(Location location);
     void deleteLocations();
     void insertUser(AppUser user);
+    List<Long> getAppUserIds();
     void deleteUsers();
 
 }

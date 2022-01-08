@@ -81,7 +81,7 @@ public class ProductFacade {
 
     public void generateProducts(int quantity) {
         List<ProductType> productTypes = this.getProductTypes();
-        List<AppUser> appUsers = userFacade.getAppUsers();
+        List<Long> appUsers = userFacade.getAppUsers();
         long currentMaxID = productDAO.getProductID();
         Random random = new Random();
 
@@ -97,7 +97,7 @@ public class ProductFacade {
                     new GregorianCalendar(year, month, day).getTime(),
                     new GregorianCalendar(year, month, day + random.nextInt(3)).getTime(),
                     new GregorianCalendar(year, month, day + random.nextInt(3)).getTime(),
-                    RemoveReason.getRandom(), appUsers.get(random.nextInt(appUsers.size()))
+                    RemoveReason.getRandom(), new AppUser(appUsers.get(random.nextInt(appUsers.size())))
             ));
 
             // display generation percentage

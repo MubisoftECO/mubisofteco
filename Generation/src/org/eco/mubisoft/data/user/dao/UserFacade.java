@@ -115,8 +115,8 @@ public class UserFacade {
         userDAO.setUserRole(user.getId(), user.getRoles());
     }
 
-    public List<AppUser> getAppUsers() {
-        return Arrays.asList(null, null, null);
+    public List<Long> getAppUsers() {
+        return userDAO.getAppUserIds();
     }
 
     public void deleteAll() {

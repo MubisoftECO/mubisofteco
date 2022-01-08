@@ -18,6 +18,10 @@ public class Recipe {
     private Collection<ProductType> ingredients = new ArrayList<>();
     private Collection<Flag> recipeFlags = new ArrayList<>();
 
+    public Recipe(Long id) {
+        this.id = id;
+    }
+
     public Recipe(Long id, String title, String description, String language, Integer timeInMinutes,
                   AppUser author, Collection<ProductType> ingredients, Collection<Flag> recipeFlags) {
         this.id = id;

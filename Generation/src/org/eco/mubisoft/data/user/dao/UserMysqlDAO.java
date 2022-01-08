@@ -240,6 +240,28 @@ public class UserMysqlDAO implements UserDAO {
     }
 
     @Override
+    public List<Long> getAppUserIds() {
+        List<Long> appUsers = new ArrayList<>();
+        String sqlQuery = "SELECT id FROM app_user";
+        Connection connection = mySQLConfig.connect();
+        PreparedStatement pStm = null;
+
+        try {
+            pStm = connection.prepareStatement(sqlQuery);
+            ResultSet set = pStm.executeQuery();
+
+            while (set.next()) {
+                appUsers.add(set.getLong(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            mySQLConfig.disconnect(connection, pStm);
+        }
+        return appUsers;
+    }
+
+    @Override
     public void deleteUsers() {
         String sqlQuery = "DELETE FROM app_user_roles";
         MySQLConfig.executeDelete(mySQLConfig, sqlQuery);
