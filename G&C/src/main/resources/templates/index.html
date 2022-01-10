@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head th:insert="includes/head :: head">
     <title id="pageTitle">Good & Cheap</title>
 </head>
+
+<!-- Custom Styling -->
+<link rel="stylesheet" th:href="@{'/css/user/login.css'}">
+<script th:src="@{'/js/user/login.js'}"></script>
+
 <body>
     <!-- Header -->
     <header th:replace="includes/header :: header"></header>
@@ -63,7 +69,6 @@
 
         </div>
     </main>
-    <hr>
 
     <!-- Footer -->
     <footer th:replace="includes/footer :: footer"></footer>

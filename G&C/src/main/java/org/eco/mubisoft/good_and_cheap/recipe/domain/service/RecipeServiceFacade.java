@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RecipeServiceFacade implements RecipeService{
 
-    private static final int ELEMENT_NUM = 25;
+    private static final int ELEMENT_NUM = 20;
     private final RecipeRepository recipeRepository;
 
     @Override

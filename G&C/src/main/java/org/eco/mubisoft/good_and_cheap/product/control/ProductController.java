@@ -2,16 +2,19 @@ package org.eco.mubisoft.good_and_cheap.product.control;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eco.mubisoft.good_and_cheap.application.pages.PageManager;
 import org.eco.mubisoft.good_and_cheap.product.domain.model.Product;
 import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -52,9 +55,16 @@ public class ProductController {
     }
 
     @GetMapping("/view")
-    public String productList(Model model) {
-        List<Product> list = productService.getAllProducts();
+    public String productList(
+            Model model,
+            @RequestParam(value = "page") Optional<Integer> pageNum,
+            @RequestParam(value = "page-move", required = false) String direction
+            ) {
+        Integer nextPage = PageManager.getPageNum(pageNum.orElse(null), (int) productService.countPages(), direction);
+        List<Product> list = productService.getAllProducts(nextPage - 1);
+
         model.addAttribute("productList", list);
+        model.addAttribute("page", nextPage);
 
         return "/product/product_list";
     }

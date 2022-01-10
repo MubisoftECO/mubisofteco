@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<link rel="stylesheet" th:href="@{'/css/recipe_individual_view.css'}">
-<head th:insert="includes/head :: head">
 
+<head th:insert="includes/head :: head">
     <title id="pageTitle">Good & Cheap</title>
 </head>
+
+<!-- Custom Styling -->
+<link rel="stylesheet" th:href="@{'/css/recipe_individual_view.css'}">
+
+<script th:src="@{'/js/recipe/recipe_view.js'}"></script>
+
 <body>
 <!-- Header -->
 <header th:replace="includes/header :: header"></header>

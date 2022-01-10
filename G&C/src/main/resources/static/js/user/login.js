@@ -27,7 +27,7 @@ function toggleIconPassword(evt) {
     let inputPassword = document.getElementById('inputPassword');
     let id = evt.currentTarget.id;
     let element = document.getElementById(id);
-    if(inputPassword.type == "password") {
+    if(inputPassword.type === "password") {
         element.classList.remove('fa-lock');
         element.classList.add('fa-lock-open')
         inputPassword.type = "text";
@@ -70,7 +70,7 @@ function change(e) {
     let customer = document.getElementById("form-customer");
     let vendor = document.getElementById("form-vendor");
 
-    if(e.target.tagName == "INPUT") {
+    if(e.target.tagName === "INPUT") {
         id = e.target.id;
 
         switch (e.target.value) {

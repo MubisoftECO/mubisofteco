@@ -5,7 +5,6 @@
 }
 
 .container{
-
   display: flex;
   flex-direction: column;
 
@@ -28,8 +27,6 @@
 .quantity{grid-area: quantity;}
 .unit{grid-area: unit;}
 
-
-
 h3{
   color: #575252;
 }
@@ -37,6 +34,10 @@ h3{
 input{
   border: 2px solid grey;
   border-radius: 7px 7px 7px 7px;
+}
+
+#add_ingredient > .new-ingredient {
+  list-style-type: none;
 }
 
 .botones{

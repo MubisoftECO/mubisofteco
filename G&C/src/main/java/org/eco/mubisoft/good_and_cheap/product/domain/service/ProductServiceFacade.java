@@ -16,11 +16,14 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class ProductServiceFacade implements ProductService {
+
+    private static final int ELEMENT_NUM = 20;
     private final ProductRepository productRepository;
 
     @Override
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<Product> getAllProducts(Integer pageNum) {
+        Pageable pageable = PageRequest.of(pageNum, ELEMENT_NUM);
+        return productRepository.findAll(pageable).toList();
     }
 
     @Override
@@ -40,6 +43,10 @@ public class ProductServiceFacade implements ProductService {
         return true;
     }
 
+    @Override
+    public double countPages() {
+        return Math.ceil(productRepository.count() / 25);
+    }
 
 
 }

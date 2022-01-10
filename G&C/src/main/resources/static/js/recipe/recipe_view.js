@@ -6,7 +6,7 @@ window.onload = function () {
 }
 
 function getlink() {
-    var aux = document.createElement("input");
+    let aux = document.createElement("input");
     aux.setAttribute("value",window.location.href);
     document.body.appendChild(aux);
     aux.select();

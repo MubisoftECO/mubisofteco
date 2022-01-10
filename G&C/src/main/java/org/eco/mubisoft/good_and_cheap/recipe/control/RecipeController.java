@@ -2,6 +2,7 @@ package org.eco.mubisoft.good_and_cheap.recipe.control;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eco.mubisoft.good_and_cheap.application.pages.PageManager;
 import org.eco.mubisoft.good_and_cheap.application.security.TokenChecker;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Recipe;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.service.FlagService;
@@ -75,26 +76,11 @@ public class RecipeController {
             @RequestParam(value = "page") Optional<Integer> pageNum,
             @RequestParam(value = "page-move", required = false) String direction
     ) {
-        Integer nextPage = pageNum.orElse(null);
-        if (nextPage != null) {
-            if (direction != null) {
-                if (direction.equals("next")) {
-                    if (recipeService.countPages() > nextPage) {
-                        nextPage++;
-                    }
-                } else {
-                    if (nextPage > 1) {
-                        nextPage--;
-                    }
-                }
-            }
-        } else {
-            nextPage = 1;
-        }
+        Integer nextPage = PageManager.getPageNum(pageNum.orElse(null), (int) recipeService.countPages(), direction);
         List<Recipe> recipeList = recipeService.getAllRecipes(nextPage - 1);
+
         model.addAttribute("recipeList", recipeList);
         model.addAttribute("page", nextPage);
-        log.info("Sending to page {}", nextPage);
 
         return "recipe/recipe_list";
     }

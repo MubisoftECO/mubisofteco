@@ -1,4 +1,3 @@
-
 window.onload = function () {
     document.getElementById("btn-step").addEventListener(
         "click",
@@ -13,9 +12,9 @@ window.onload = function () {
 
 function addStep(){
     console.log("step");
-    var step = document.getElementById("add_step");
-    var steps = document.getElementsByClassName("step");
-    var numSteps = steps.length;
+    let step = document.getElementById("add_step");
+    let steps = document.getElementsByClassName("step");
+    let numSteps = steps.length;
     numSteps++;
 
     step.innerHTML += "<label class='step' htmlFor='step"+numSteps+"'>Step"+numSteps+"</label>";
@@ -26,9 +25,9 @@ function addStep(){
 function addIngredient(){
     console.log("ingredient");
 
-    var ingredient = document.getElementById("add_ingredient");
-    var ingredients = document.getElementsByClassName("ingredient");
-    var numIngredients = ingredients.length;
+    let ingredient = document.getElementById("add_ingredient");
+    let ingredients = document.getElementsByClassName("ingredient");
+    let numIngredients = ingredients.length;
 
     numIngredients++;
 
