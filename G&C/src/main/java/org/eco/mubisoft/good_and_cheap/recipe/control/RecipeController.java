@@ -23,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -69,17 +70,40 @@ public class RecipeController {
     }
 
     @GetMapping("/view")
-    public String getView(Model model){
-        List<Recipe> recipeList = recipeService.getAllRecipes();
+    public String getView(
+            Model model,
+            @RequestParam(value = "page") Optional<Integer> pageNum,
+            @RequestParam(value = "page-move", required = false) String direction
+    ) {
+        Integer nextPage = pageNum.orElse(null);
+        if (nextPage != null) {
+            if (direction != null) {
+                if (direction.equals("next")) {
+                    if (recipeService.countPages() > nextPage) {
+                        nextPage++;
+                    }
+                } else {
+                    if (nextPage > 1) {
+                        nextPage--;
+                    }
+                }
+            }
+        } else {
+            nextPage = 1;
+        }
+        List<Recipe> recipeList = recipeService.getAllRecipes(nextPage - 1);
         model.addAttribute("recipeList", recipeList);
+        model.addAttribute("page", nextPage);
+        log.info("Sending to page {}", nextPage);
+
         return "recipe/recipe_list";
-}
+    }
 
     @GetMapping("view/{recipeId}")
     public String getRecipe(@PathVariable("recipeId") Long id, Model model) {
         Recipe recipe = recipeService.getRecipe(id);
         model.addAttribute("recipe", recipe);
-        /*Hay que ordenar la lista*/
+        /* Hay que ordenar la lista */
         model.addAttribute("steps", stepService.getStepsByRecipe(recipe));
         return "recipe/recipe_view";
     }

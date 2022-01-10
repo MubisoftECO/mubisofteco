@@ -18,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(path = "/product")
 public class ProductController {
+
     private final ProductService productService;
 
     @GetMapping("/create")
@@ -47,7 +48,6 @@ public class ProductController {
 
     @PostMapping("/back")
     public String backProduct() {
-
         return "redirect:/";
     }
 

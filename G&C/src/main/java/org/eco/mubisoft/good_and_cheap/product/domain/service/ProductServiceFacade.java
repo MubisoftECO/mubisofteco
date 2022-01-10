@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.product.domain.model.Product;
 import org.eco.mubisoft.good_and_cheap.product.domain.repo.ProductRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -30,9 +32,6 @@ public class ProductServiceFacade implements ProductService {
     public void addProduct(Product product) {
         productRepository.save(product);
     }
-
-
-
 
     @Override
     public boolean removeProduct(Long id) {
