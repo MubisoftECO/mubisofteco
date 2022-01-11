@@ -1,46 +1,17 @@
 :root{
   --mubisoft-lightgrey: #EFEFEF;
   --mubisoft-darkgrey: #302E2E;
-  font-size: 3vh;
 }
 
-.container{
-  display: flex;
-  flex-direction: column;
-
-  margin-top: 2rem;
-  width: 100vw;
-}
-
-#form-customer{
-  display: grid;
-  grid-template-areas:
-      'title'
-      'description'
-      'timeInMinutes';
-}
-
-.title{grid-area: title;}
-.description{grid-area: description;}
-.timeInMinutes{grid-area: timeInMinutes;}
-.ingredient{grid-area: ingredient;}
-.quantity{grid-area: quantity;}
-.unit{grid-area: unit;}
-
-h3{
-  color: #575252;
-}
-
-input{
-  border: 2px solid grey;
-  border-radius: 7px 7px 7px 7px;
+#recipe-introduction > * {
+  margin: 0.5rem;
 }
 
 th {
   text-align: center;
 }
 
-.botones{
+.button{
   display: flex;
   align-items: center;
   justify-content: center;

@@ -23,37 +23,16 @@ function addStep(){
 }
 
 function addIngredient(){
-    console.log("ingredient");
+    let tableBody = document.getElementById("add_ingredient_body");
+    let ingredientList = tableBody.querySelectorAll(".new-ingredient");
 
-    let ingredient = document.getElementById("add_ingredient");
-    let ingredients = document.getElementsByClassName("ingredient");
-    let numIngredients = ingredients.length;
+    // Get last ingredient.
+    let ingredientCopy = ingredientList[ingredientList.length - 1];
+    let newIngredient = tableBody.insertRow();
+    newIngredient.classList.add("new-ingredient");
 
-    numIngredients++;
-
-    ingredient.innerHTML += "<br>"
-    ingredient.innerHTML += "<label class='ingredient' htmlFor='ingredient"+numIngredients+"'>Ingredient "+numIngredients+"</label>";
-    ingredient.innerHTML += "<input type='text' id='ingredient"+numIngredients+"' name='ingredient' placeholder='Ingredient'>";
-    ingredient.innerHTML += "<label class='form-label'>Quantity</label>";
-    ingredient.innerHTML += "<select name='productNumber'>" +
-        "<option value='1'>1</option>" +
-        "<option value='2'>2</option>" +
-        "<option value='3'>3</option>" +
-        "<option value='4'>4</option>" +
-        "<option value='5'>5</option>" +
-        "<option value='6'>6</option>" +
-        "<option value='7'>7</option>" +
-        "<option value='8'>8</option>" +
-        "<option value='9'>9</option>";
-    ingredient.innerHTML += "</select>";
-
-    ingredient.innerHTML += "<label class='form-label'>Unit</label>";
-    ingredient.innerHTML += "<select name='productNumber'>" +
-        "<option value='gr'>GR</option>" +
-        "<option value='kg'>KG</option>" +
-        "<option value='cl'>CL</option>" +
-        "<option value='l'>L</option>"
-    ingredient.innerHTML += "</select>";
+    let titleCell = newIngredient.insertCell().outerHTML = "<th></th>";
+    titleCell.appendChild(document.createTextNode(ingredientCopy.querySelector("ingredient-id").innerHTML + 1))
 }
 
 

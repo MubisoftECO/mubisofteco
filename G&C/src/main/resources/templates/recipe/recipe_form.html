@@ -16,62 +16,65 @@
 <!-- Main -->
 <main class="container-fluid align-items-center">
 
-    <h1 class="title">Create a new Recipe</h1>
+    <h2 class="title display-2 mx-auto">New Recipe</h2>
 
     <form action="/recipe/save" method="post" class="justify-content-center">
-        <section>
-            <div class="row gy-2" id="form-customer">
-                <div class="col-12 col-sm input-box title">
-                    <input type="text" id="title" name="title" placeholder="Title" class="form-control">
-                </div>
-                <div class="col-12 col-sm input-box description">
-                <textarea id="description" name="description" cols="50" rows="5"
-                          placeholder="Description" class="form-control"></textarea>
-                </div>
-                <div class="col-12 col-sm input-box timeInMinutes">
-                    <input type="number" id="timeInMinutes" class="form-control" name="time" placeholder="Time minutes" min="1">
-                </div>
+        <section id="recipe-introduction">
+            <div class="form-floating">
+                <input type="text" id="title" class="form-control" name="title" placeholder="Title" maxlength="255">
+                <label for="title">Title</label>
+            </div>
+            <div class="form-floating">
+                <textarea id="description" class="form-control" style="height: 25vh"
+                          name="description" placeholder="Description" maxlength="255"></textarea>
+                <label for="description">Description</label>
+            </div>
+            <div class="form-floating">
+                <input type="number" id="timeInMinutes" class="form-control" name="time"
+                       placeholder="Time in minutes" min="1">
+                <label for="timeInMinutes">Time in minutes</label>
             </div>
         </section>
         <hr>
 
         <!----------------------------- INGREDIENTS ---------------------->
-        <section>
+        <section id="recipe-ingredients">
             <h3 class="title">Products</h3>
-            <a type=button id="btn-ingredient" class="btn btn-success">+</a><br>
 
-            <table id="add_ingredient" class="container-fluid">
+            <table id="add_ingredient" class="table table-bordered">
                 <thead id="add_ingredient_head">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Ingredient</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Unit/Value</th>
-                </tr>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Ingredient</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Unit/Value</th>
+                    </tr>
                 </thead>
                 <tbody id="add_ingredient_body">
-                <tr class="new-ingredient">
-                    <th scope="col" class="form-control">1</th>
-                    <td>
-                        <input type="text" id="ingredient" class="form-control" name="ingredient" placeholder="Ingredient">
-                    </td>
-                    <td>
-                        <input type="number" id="productQuantity" class="form-control" name="quantity" min="0">
-                    </td>
-                    <td>
-                        <select id="measurementUnit" class="form-control" name="unit">
-                            <option selected>Choose...</option>
-                            <option value="g">G</option>
-                            <option value="kg">KG</option>
-                            <option value="cl">CL</option>
-                            <option value="l">L</option>
-                        </select>
-                    </td>
-                </tr>
+                    <tr class="new-ingredient">
+                        <th id="ingredient-id" scope="col" class="form-control">1</th>
+                        <td>
+                            <input type="text" id="ingredient" class="form-control" name="ingredient" placeholder="Ingredient">
+                        </td>
+                        <td>
+                            <input type="number" id="productQuantity" class="form-control" name="quantity" min="0">
+                        </td>
+                        <td>
+                            <select id="measurementUnit" class="form-control" name="unit">
+                                <option selected>Select</option>
+                                <option value="g">G</option>
+                                <option value="kg">KG</option>
+                                <option value="cl">CL</option>
+                                <option value="l">L</option>
+                            </select>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
+            <div class="row justify-content-center">
+                <a type=button id="btn-ingredient" class="btn btn-success w-25">Add</a>
+            </div>
         </section>
-
         <hr>
 
         <!-- ------------------------ ADD STEP ------------------------------>
@@ -89,14 +92,26 @@
         <!-- ------------------------------------------------------------------->
         <section class="section4">
             <h3>Allergens</h3>
-            <ul>
-                <th:block th:each="flag : ${flagList}">
-                    <li>
-                        <input type="checkbox" id="flag" th:name="'flag-' + ${flag.getId()}">
-                        <label for="flag" th:text="${flag.getName_en()}"></label>
-                    </li>
-                </th:block>
-            </ul>
+            <table class="container-fluid table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Flag</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <th:block th:each="flag : ${flagList}">
+                        <tr>
+                            <td>
+                                <div class="custom-control custom-checkbox text-center">
+                                    <input class="form-check-input mt-0 align-middle" type="checkbox" th:name="'flag-' + ${flag.getId()}">
+                                </div>
+                            </td>
+                            <td th:text="${flag.getName_en()}"></td>
+                        </tr>
+                    </th:block>
+                </tbody>
+            </table>
         </section>
         <hr>
 
@@ -108,12 +123,12 @@
         <hr>
 
         <!-- ------------------------------------------------------------------->
-        <div class="botones">
+        <div class="button">
             <input id="submit" class="btn btn-success" type="submit" value="Submit"><br><br>
         </div>
     </form>
     <form action="/recipe/view" method="post">
-        <div class="botones">
+        <div class="button">
             <a href="" id="back" type="submit" class="btn btn-secondary" th:href="@{'/recipe/view'}">BACK</a>
         </div>
     </form>
