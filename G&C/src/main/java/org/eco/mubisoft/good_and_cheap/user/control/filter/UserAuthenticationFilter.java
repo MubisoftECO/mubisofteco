@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.application.data.MilliTime;
+import org.eco.mubisoft.good_and_cheap.application.security.TokenService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,11 +17,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Date;
-import java.util.stream.Collectors;
 
 @Slf4j
 public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -49,33 +46,17 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
-
         User user = (User) authResult.getPrincipal();
-        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes(StandardCharsets.UTF_8));
+        TokenService tokenService = new TokenService();
 
-        String accessToken = JWT.create()
-                .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + MilliTime.FIVE_MINUTES.time))
-                .withIssuer(request.getRequestURL().toString())
-                .withClaim("roles", user.getAuthorities().stream()
-                        .map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-                .sign(algorithm);
-
-        String refreshToken = JWT.create()
-                .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + MilliTime.SIX_HOUR.time))
-                .withIssuer(request.getRequestURL().toString())
-                .withClaim("roles", user.getAuthorities().stream()
-                        .map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-                .sign(algorithm);
-
+        String accessToken = tokenService.generateToken(
+                user, request.getRequestURL().toString(), MilliTime.FIVE_MINUTES.time
+        );
+        String refreshToken = tokenService.generateToken(
+                user, request.getRequestURL().toString(), MilliTime.SIX_HOUR.time
+        );
         // Redirect to index.
-        HttpSession session = request.getSession();
-        session.setAttribute("accessToken", "Bearer " + accessToken);
-        session.setAttribute("refreshToken", "Bearer " + refreshToken);
-
-        log.info("AccessToken: {} | RefreshToken: {}", accessToken, refreshToken);
-
+        tokenService.setTokenOnSession(accessToken, refreshToken, request.getSession());
         response.sendRedirect(response.encodeRedirectURL("/"));
     }
 

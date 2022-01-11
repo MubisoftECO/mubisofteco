@@ -3,26 +3,20 @@ package org.eco.mubisoft.good_and_cheap.recipe.control;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.application.pages.PageManager;
-import org.eco.mubisoft.good_and_cheap.application.security.TokenChecker;
+import org.eco.mubisoft.good_and_cheap.application.security.TokenService;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Recipe;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.service.FlagService;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.service.RecipeService;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.service.StepService;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.service.UserService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,8 +52,8 @@ public class RecipeController {
 
         HttpSession session = request.getSession();
         String accessToken = (String) session.getAttribute("accessToken");
-        TokenChecker tokenChecker = new TokenChecker();
-        String username = tokenChecker.getUsernameFromToken(accessToken);
+        TokenService tokenService = new TokenService();
+        String username = tokenService.getUsernameFromToken(accessToken);
         AppUser loggedUser = userService.getUser(username);
         recipe.setAuthor(loggedUser);
 

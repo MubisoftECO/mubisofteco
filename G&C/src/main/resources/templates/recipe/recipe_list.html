@@ -34,7 +34,7 @@
             </div>
         </th:block>
         <form action="/recipe/view" method="get">
-            <label>Page: <input type="number" name="page" th:value="${page}" readonly></label>
+            <label>Page: <input class="form-control-plaintext" type="number" name="page" th:value="${page}" readonly></label>
             <button type="submit" name="page-move" th:value="previous">Previous</button>
             <button type="submit" name="page-move" th:value="next">Next</button>
         </form>

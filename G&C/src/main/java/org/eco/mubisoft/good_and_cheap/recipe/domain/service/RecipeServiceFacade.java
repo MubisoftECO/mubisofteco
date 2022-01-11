@@ -30,7 +30,7 @@ public class RecipeServiceFacade implements RecipeService{
 
     @Override
     public double countPages() {
-        return Math.ceil(recipeRepository.count() / 25);
+        return Math.ceil(recipeRepository.count() / ELEMENT_NUM);
     }
 
     @Override

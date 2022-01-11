@@ -6,25 +6,22 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.application.data.FileUploadUtil;
 import org.eco.mubisoft.good_and_cheap.application.data.HibernateProxyTypeAdapter;
-import org.eco.mubisoft.good_and_cheap.application.security.TokenChecker;
+import org.eco.mubisoft.good_and_cheap.application.security.TokenService;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.City;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.Location;
 import org.eco.mubisoft.good_and_cheap.user.domain.service.*;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.net.URI;
 import java.util.List;
 
 @Slf4j
@@ -176,8 +173,8 @@ public class UserController {
         String fileName = null;
         HttpSession session = request.getSession();
         String accessToken = (String) session.getAttribute("accessToken");
-        TokenChecker tokenChecker = new TokenChecker();
-        String username = tokenChecker.getUsernameFromToken(accessToken);
+        TokenService tokenService = new TokenService();
+        String username = tokenService.getUsernameFromToken(accessToken);
         AppUser user = userService.getUser(username);
 
         if (!imageFile.isEmpty()){
@@ -198,8 +195,8 @@ public class UserController {
     private AppUser getLoggedUser(HttpServletRequest request){
         HttpSession session = request.getSession();
         String accessToken = (String) session.getAttribute("accessToken");
-        TokenChecker tokenChecker = new TokenChecker();
-        String username = tokenChecker.getUsernameFromToken(accessToken);
+        TokenService tokenService = new TokenService();
+        String username = tokenService.getUsernameFromToken(accessToken);
         return userService.getUser(username);
     }
 

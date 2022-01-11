@@ -1,9 +1,11 @@
 package org.eco.mubisoft.good_and_cheap.user.control.filter;
 
 import lombok.extern.slf4j.Slf4j;
-import org.eco.mubisoft.good_and_cheap.application.security.TokenChecker;
+import org.eco.mubisoft.good_and_cheap.application.data.MilliTime;
+import org.eco.mubisoft.good_and_cheap.application.security.TokenService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -26,20 +28,28 @@ public class UserAuthorizationFilter extends OncePerRequestFilter {
                 request.getServletPath().startsWith("/recipe/create")) {
 
             HttpSession session = request.getSession();
-            TokenChecker tokenChecker = new TokenChecker();
+            TokenService tokenService = new TokenService();
             String accessToken = (String) session.getAttribute("accessToken");
 
             if (accessToken != null && accessToken.startsWith("Bearer ")) {
                 try {
-                    UsernamePasswordAuthenticationToken authToken = tokenChecker.getUserPasswordToken(accessToken);
+                    UsernamePasswordAuthenticationToken authToken = tokenService.getUserPasswordToken(accessToken);
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 } catch (Exception accessException) {
                     log.info("Access token not found, redirecting to refresh");
                     String refreshToken = (String) session.getAttribute("refreshToken");
 
                     try {
-                        UsernamePasswordAuthenticationToken authToken = tokenChecker.getUserPasswordToken(refreshToken);
+                        UsernamePasswordAuthenticationToken authToken = tokenService.getUserPasswordToken(refreshToken);
                         SecurityContextHolder.getContext().setAuthentication(authToken);
+
+                        // Generate a new access and refresh token for the user.
+                        User user = tokenService.getUserFromToken(refreshToken);
+                        tokenService.setTokenOnSession(
+                                tokenService.generateToken(user, request.getRequestURL().toString(), MilliTime.FIVE_MINUTES.time),
+                                tokenService.generateToken(user, request.getRequestURL().toString(), MilliTime.SIX_HOUR.time),
+                                request.getSession()
+                        );
                     } catch (Exception refreshException) {
                         response.setHeader("error", refreshException.getMessage());
                         response.sendError(HttpServletResponse.SC_FORBIDDEN);

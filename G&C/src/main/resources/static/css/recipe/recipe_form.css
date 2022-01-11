@@ -36,8 +36,8 @@ input{
   border-radius: 7px 7px 7px 7px;
 }
 
-#add_ingredient > .new-ingredient {
-  list-style-type: none;
+th {
+  text-align: center;
 }
 
 .botones{

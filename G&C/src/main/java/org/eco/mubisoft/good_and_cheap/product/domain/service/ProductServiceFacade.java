@@ -45,7 +45,7 @@ public class ProductServiceFacade implements ProductService {
 
     @Override
     public double countPages() {
-        return Math.ceil(productRepository.count() / 25);
+        return Math.ceil(productRepository.count() / ELEMENT_NUM);
     }
 
 

@@ -31,33 +31,45 @@
         </div>
         <hr>
 
-        <!-----------------------------INGREDIENTES---------------------->
-            <h3 class="title">Products</h3>
+        <!----------------------------- INGREDIENTS ---------------------->
+        <h3 class="title">Products</h3>
+        <a type=button id="btn-ingredient" class="btn btn-success">+</a><br>
 
-        <ul id="add_ingredient">
-                <li class="new-ingredient">
-                    <label class="ingredient" for="ingredient">Ingredient 1</label>
-                    <input type="text" id="ingredient" name="ingredient" placeholder="Ingredient">
-                    <br>
-                    <label class="form-label quantity" for="productQuantity">Quantity</label>
-                    <input type="number" id="productQuantity" name="quantity" min="1">
-                    <br>
-                    <label class="form-label" for="measurementUnit">Unit</label>
-                    <select id="measurementUnit" name="unit">
-                        <option value="gr">GR</option>
-                        <option value="kg">KG</option>
-                        <option value="cl">CL</option>
-                        <option value="l">L</option>
-                    </select>
-                </li>
-        </ul>
-            <a type=button id="btn-ingredient" class="btn btn-success">+</a><br>
+        <table id="add_ingredient" class="container-fluid">
+            <thead id="add_ingredient_head">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Ingredient</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Unit/Value</th>
+                </tr>
+            </thead>
+            <tbody id="add_ingredient_body">
+                <tr class="new-ingredient">
+                    <th scope="col" class="form-control">1</th>
+                    <td>
+                        <input type="text" id="ingredient" class="form-control" name="ingredient" placeholder="Ingredient">
+                    </td>
+                    <td>
+                        <input type="number" id="productQuantity" class="form-control" name="quantity" min="0">
+                    </td>
+                    <td>
+                        <select id="measurementUnit" class="form-control" name="unit">
+                            <option selected>Choose...</option>
+                            <option value="g">G</option>
+                            <option value="kg">KG</option>
+                            <option value="cl">CL</option>
+                            <option value="l">L</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
         <hr>
 
-        <!-- ------------------------ Add Step------------------------------>
+        <!-- ------------------------ ADD STEP ------------------------------>
         <section class="section3">
             <h3>Steps</h3>
-
             <div id="add_step">
                 <label class="step" for="step1">Step1</label>
                 <input type="text" id="step1" name="step" class="form-control" style="height: 90px">
@@ -66,22 +78,24 @@
             <a type=button id="btn-step" class="btn btn-success">+</a><br>
         </section>
         <hr>
+
         <!-- ------------------------------------------------------------------->
         <section class="section4">
-            <h3>Alergens</h3>
+            <h3>Allergens</h3>
             <th:block th:each="flag : ${flagList}">
                 <input type="checkbox" id="flag" name="flag">
-                <label for="flag">[[${flag.getName_en()}]]</label>
+                <label for="flag" th:text="${flag.getName_en()}"></label>
             </th:block>
         </section>
         <hr>
+
         <!-- ------------------------------------------------------------------->
         <section class="section5">
             <h3>Image</h3>
-
             <input class="form-control" name="imgSrc" type="file" id="formFile">
         </section>
         <hr>
+
         <!-- ------------------------------------------------------------------->
         <div class="botones">
             <input id="submit" class="btn btn-success" type="submit" value="Submit"><br><br>
