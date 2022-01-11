@@ -138,6 +138,10 @@ hr {
     margin: 3rem auto;
     text-align: center;
 }
+.pagination_form{
+    display: flex;
+    justify-content: center;
+}
 
 /* FOOTER */
 .footer_main{

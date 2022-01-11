@@ -33,11 +33,14 @@
                </a>
             </div>
         </th:block>
+        <div class="pagination_form">
+
         <form action="/recipe/view" method="get">
-            <label>Page: <input class="form-control-plaintext" type="number" name="page" th:value="${page}" readonly></label>
-            <button type="submit" name="page-move" th:value="previous">Previous</button>
-            <button type="submit" name="page-move" th:value="next">Next</button>
+            <label>Page: <input type="number" name="page" th:value="${page}" readonly></label>
+            <button type="submit" name="page-move" class="btn btn-dark" th:value="previous">Previous</button>
+            <button type="submit" name="page-move" class="btn btn-dark" th:value="next">Next</button>
         </form>
+        </div>
     </main>
 
     <!-- Footer -->
