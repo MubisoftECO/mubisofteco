@@ -117,4 +117,8 @@ form-control {
 /*Extra large devices (large desktops, 1200px and up)*/
 @media (min-width: 1200px) {
 
+.right_login{
+    width: 40vw;
+}
+
 }

@@ -16,89 +16,97 @@
 <main>
     <div class="container">
         <div class="row" >
-            <div class="btn-group mt-3" id="button-parent">
-                <a id="signin"  th:classappend="${pageTitle == 'login_form' ? 'current' : ''}" class="col btn custom-btn-signin btn-lg"  th:href="@{'/login/sign-in'}">SIGN IN</a>
-                <a id="signup"  th:classappend="${pageTitle == 'user_form' ? 'current' : ''}" class=" col btn custom-btn-signup btn-lg selected" th:href="@{'/user/create'}">SIGN UP</a>
-            </div>
+            <div class="center_signIn">
+                <div class="login_ilustration">
+                    <img th:src="@{'/media/imgs/ilustration.png'}" alt="G&C Ilustration">
 
-            <div class="col-12 col-sm-12 col-md-6 col-lg-6 ">
-                <img th:src="@{/assets/customer-login.svg}" alt="" style="width:100%";>
-            </div>
-
-            <div class="mt-4 col-12 col-sm-12 col-md-6 col-lg-6">
-                <form action="/user/save"  method="post" enctype="multipart/form-data" class="justify-content-center">
-                    <div class="row gy-2" id="form-customer">
-                        <div class="col-12 col-sm-6">
-                            <input type="text" placeholder="Name" name="name" class="form-control" required>
-                        </div>
-                        <div class="col-12 col-sm-6">
-                            <input type="text" placeholder="Surname" name="secondName" class="form-control" required>
-                        </div>
-                        <div class="col-12">
-                            <input type="email" placeholder="Email" name="username" class="form-control" required>
-                        </div>
-                        <div class="col-12">
-                            <input type="password" placeholder="Password" name="password" class="form-control" required>
-                        </div>
-                        <select id="ac-dropdown" name="autonomousCommunity" class="col-12 form-select" required>
-                            <option  value="" disabled selected>Autonomous Community</option>
-                            <th:block th:each="ac : ${acList}">
-                                <option th:value="${ac.getId()}">[[${ac.getName()}]]</option>
-                            </th:block>
-                        </select>
-                        <select class="col-12 form-select" name="province" id="province-dropdown" required>
-                            <option  value="" disabled selected>Province</option>
-                        </select>
-                        <select class="col-12 form-select" name="city" id="city-dropdown" required>
-                            <option  value="" disabled selected>City</option>
-                        </select>
-                        <div class="col-12">
-                            <label>Profile picture: 1MB MAX</label>
-                            <input type="file" name="image" accept="image/png, image/jpeg" />
+                </div>
+                <div class="right_login" >
+                    <div class="btn-group mt-3" id="button-parent">
+                            <a id="signin"  th:classappend="${pageTitle == 'login_form' ? 'current' : ''}" class="col btn custom-btn-signin btn-lg"  th:href="@{'/login/sign-in'}">SIGN IN</a>
+                            <a id="signup"  th:classappend="${pageTitle == 'user_form' ? 'current' : ''}" class=" col btn custom-btn-signup btn-lg selected" th:href="@{'/user/create'}">SIGN UP</a>
                         </div>
 
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 ">
+                        <img th:src="@{/assets/customer-login.svg}" alt="" style="width:100%";>
                     </div>
-                    <div class="row gy-2 hidden" id="form-vendor">
-                        <div class="col-12 col-sm-6">
-                            <input type="text" placeholder="CIF" name="cif" class="form-control">
-                        </div>
-                        <div class="col-12 col-sm-6">
-                            <input type="text" placeholder="Shop Name" name="shop_name" class="form-control">
-                        </div>
-                        <div class="col-12">
-                            <input type="email" placeholder="Email" name="username" class="form-control">
-                        </div>
-                        <div class="col-12">
-                            <input type="password" placeholder="Password" name="password" class="form-control">
-                        </div>
-                        <div class="col-12 col-sm-6">
-                            <input type="text" placeholder="City" name="city" class="form-control">
-                        </div>
-                        <div class="col-12 col-sm-6">
-                            <input type="text" placeholder="Province" name="province" class="form-control">
-                        </div>
-                        <div class="col-12 col-sm-12">
-                            <input type="text" placeholder="Street" name="street" class="form-control">
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-center mt-4 user-type">
-                        <div class="form-check m-auto">
-                            <input class="form-check-input" type="radio" name="usertype" value="customer" checked>
-                            <label class="form-check-label">Customer</label>
-                        </div>
-                        <div class="form-check m-auto" >
-                            <input class="form-check-input" type="radio" name="usertype" value="vendor">
-                            <label class="form-check-label">Vendor</label>
-                        </div>
-                    </div>
-                    <div class="row gy-2 mt-3">
-                        <div class="col-12">
-                            <button type="submit" class="form-control btn btn-dark">SUBMIT</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
 
+                    <div class="mt-4 col-12 col-sm-12 col-md-6 col-lg-6">
+                    <form action="/user/save"  method="post" enctype="multipart/form-data" class="justify-content-center">
+                        <div class="row gy-2" id="form-customer">
+                            <div class="col-12 col-sm-6">
+                                <input type="text" placeholder="Name" name="name" class="form-control" required>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <input type="text" placeholder="Surname" name="secondName" class="form-control" required>
+                            </div>
+                            <div class="col-12">
+                                <input type="email" placeholder="Email" name="username" class="form-control" required>
+                            </div>
+                            <div class="col-12">
+                                <input type="password" placeholder="Password" name="password" class="form-control" required>
+                            </div>
+                            <select id="ac-dropdown" name="autonomousCommunity" class="col-12 form-select" required>
+                                <option  value="" disabled selected>Autonomous Community</option>
+                                <th:block th:each="ac : ${acList}">
+                                    <option th:value="${ac.getId()}">[[${ac.getName()}]]</option>
+                                </th:block>
+                            </select>
+                            <select class="col-12 form-select" name="province" id="province-dropdown" required>
+                                <option  value="" disabled selected>Province</option>
+                            </select>
+                            <select class="col-12 form-select" name="city" id="city-dropdown" required>
+                                <option  value="" disabled selected>City</option>
+                            </select>
+                            <div class="col-12">
+                                <label>Profile picture: 1MB MAX</label>
+                                <input type="file" name="image" accept="image/png, image/jpeg" />
+                            </div>
+
+                        </div>
+                        <div class="row gy-2 hidden" id="form-vendor">
+                            <div class="col-12 col-sm-6">
+                                <input type="text" placeholder="CIF" name="cif" class="form-control">
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <input type="text" placeholder="Shop Name" name="shop_name" class="form-control">
+                            </div>
+                            <div class="col-12">
+                                <input type="email" placeholder="Email" name="username" class="form-control">
+                            </div>
+                            <div class="col-12">
+                                <input type="password" placeholder="Password" name="password" class="form-control">
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <input type="text" placeholder="City" name="city" class="form-control">
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <input type="text" placeholder="Province" name="province" class="form-control">
+                            </div>
+                            <div class="col-12 col-sm-12">
+                                <input type="text" placeholder="Street" name="street" class="form-control">
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center mt-4 user-type">
+                            <div class="form-check m-auto">
+                                <input class="form-check-input" type="radio" name="usertype" value="customer" checked>
+                                <label class="form-check-label">Customer</label>
+                            </div>
+                            <div class="form-check m-auto" >
+                                <input class="form-check-input" type="radio" name="usertype" value="vendor">
+                                <label class="form-check-label">Vendor</label>
+                            </div>
+                        </div>
+                        <div class="row gy-2 mt-3">
+                            <div class="col-12">
+                                <button type="submit" class="form-control btn btn-dark">SUBMIT</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                    </div>
+
+                </div>
         </div>
     </div>
 </main>
