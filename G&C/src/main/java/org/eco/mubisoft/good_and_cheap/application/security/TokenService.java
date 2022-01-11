@@ -73,7 +73,7 @@ public class TokenService {
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         roles.forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
 
-        return new User(username, null, authorities);
+        return new User(username, "null", authorities);
     }
 
     public String getUsernameFromToken (String authToken) throws NullPointerException{

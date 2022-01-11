@@ -14,37 +14,42 @@
 <header th:replace="includes/header :: header"></header>
 
 <!-- Main -->
-<main class="container align-items-center">
-    <h1 class="title">NEW RECIPE</h1>
+<main class="container-fluid align-items-center">
+
+    <h1 class="title">Create a new Recipe</h1>
+
     <form action="/recipe/save" method="post" class="justify-content-center">
-        <div class="row gy-2" id="form-customer">
-            <div class="col-12 col-sm input-box title">
-                <input type="text" id="title" name="title" placeholder="Title" class="form-control">
+        <section>
+            <div class="row gy-2" id="form-customer">
+                <div class="col-12 col-sm input-box title">
+                    <input type="text" id="title" name="title" placeholder="Title" class="form-control">
+                </div>
+                <div class="col-12 col-sm input-box description">
+                <textarea id="description" name="description" cols="50" rows="5"
+                          placeholder="Description" class="form-control"></textarea>
+                </div>
+                <div class="col-12 col-sm input-box timeInMinutes">
+                    <input type="number" id="timeInMinutes" class="form-control" name="time" placeholder="Time minutes" min="1">
+                </div>
             </div>
-            <div class="col-12 col-sm input-box description">
-                <input type="text" id="description" name="description" placeholder="Description"
-                       class="form-control">
-            </div>
-            <div class="col-12 col-sm input-box timeInMinutes">
-                <input type="number" id="timeInMinutes" class="form-control" name="time" placeholder="Time minutes" min="1">
-            </div>
-        </div>
+        </section>
         <hr>
 
         <!----------------------------- INGREDIENTS ---------------------->
-        <h3 class="title">Products</h3>
-        <a type=button id="btn-ingredient" class="btn btn-success">+</a><br>
+        <section>
+            <h3 class="title">Products</h3>
+            <a type=button id="btn-ingredient" class="btn btn-success">+</a><br>
 
-        <table id="add_ingredient" class="container-fluid">
-            <thead id="add_ingredient_head">
+            <table id="add_ingredient" class="container-fluid">
+                <thead id="add_ingredient_head">
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Ingredient</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Unit/Value</th>
                 </tr>
-            </thead>
-            <tbody id="add_ingredient_body">
+                </thead>
+                <tbody id="add_ingredient_body">
                 <tr class="new-ingredient">
                     <th scope="col" class="form-control">1</th>
                     <td>
@@ -63,8 +68,10 @@
                         </select>
                     </td>
                 </tr>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </section>
+
         <hr>
 
         <!-- ------------------------ ADD STEP ------------------------------>
@@ -82,10 +89,14 @@
         <!-- ------------------------------------------------------------------->
         <section class="section4">
             <h3>Allergens</h3>
-            <th:block th:each="flag : ${flagList}">
-                <input type="checkbox" id="flag" name="flag">
-                <label for="flag" th:text="${flag.getName_en()}"></label>
-            </th:block>
+            <ul>
+                <th:block th:each="flag : ${flagList}">
+                    <li>
+                        <input type="checkbox" id="flag" th:name="'flag-' + ${flag.getId()}">
+                        <label for="flag" th:text="${flag.getName_en()}"></label>
+                    </li>
+                </th:block>
+            </ul>
         </section>
         <hr>
 

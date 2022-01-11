@@ -36,12 +36,13 @@ public class UserAuthorizationFilter extends OncePerRequestFilter {
                     UsernamePasswordAuthenticationToken authToken = tokenService.getUserPasswordToken(accessToken);
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 } catch (Exception accessException) {
-                    log.info("Access token not found, redirecting to refresh");
+                    log.info("Access token not found, trying to refresh");
                     String refreshToken = (String) session.getAttribute("refreshToken");
 
                     try {
                         UsernamePasswordAuthenticationToken authToken = tokenService.getUserPasswordToken(refreshToken);
                         SecurityContextHolder.getContext().setAuthentication(authToken);
+                        log.info("Refresh token found, refreshing access token.");
 
                         // Generate a new access and refresh token for the user.
                         User user = tokenService.getUserFromToken(refreshToken);
