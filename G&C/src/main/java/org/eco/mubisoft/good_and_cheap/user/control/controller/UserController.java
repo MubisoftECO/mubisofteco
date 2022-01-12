@@ -173,11 +173,7 @@ public class UserController {
     @PostMapping("/update")
     public void updateUser(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "image", required = false) MultipartFile imageFile) throws IOException{
         String fileName = null;
-        HttpSession session = request.getSession();
-        String accessToken = (String) session.getAttribute("accessToken");
-        TokenService tokenService = new TokenService();
-        String username = tokenService.getUsernameFromToken(accessToken);
-        AppUser user = userService.getUser(username);
+        AppUser user = userService.getLoggedUser(request);
 
         if (!imageFile.isEmpty()){
             fileName = StringUtils.cleanPath(Objects.requireNonNull(imageFile.getOriginalFilename()));
