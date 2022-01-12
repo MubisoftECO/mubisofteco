@@ -25,16 +25,16 @@ public class RecipeFacade {
     );
 
     private final List<Flag> flagList = Arrays.asList(
-            new Flag("Lactose Free", "Sin Lactosa", "Laktosa Barik"),
-            new Flag("Egg Free", "Sin Huevo", "Arrautz Barik"),
-            new Flag("Fish Free", "Sin Pescado", "Arrain Barik"),
-            new Flag("Soy Free", "Sin Soja", "Soja Barik"),
-            new Flag("Celery Free", "Sin Apio", "Apio Barik"),
-            new Flag("Mustard Free", "Sin Mostaza", "Mostaza Barik"),
-            new Flag("Sulfur Dioxide Free", "Sin Dioxido de Azufre", "Sufre Dioxido Barik"),
-            new Flag("Lupins Free", "Sin Altramuces", "Lupina Barik"),
-            new Flag("Seafood Free", "Sin Crustaceo", "Krustazeo Barik"),
-            new Flag("Gluten Free", "Sin Gluten", "Gluten Barik"),
+            new Flag("Lactose Free", "Sin Lactosa", "Laktosarik Gabe"),
+            new Flag("Egg Free", "Sin Huevo", "Arrautzik Gabe"),
+            new Flag("Fish Free", "Sin Pescado", "Arrainik Gabe"),
+            new Flag("Soy Free", "Sin Soja", "Sojarik Gabe"),
+            new Flag("Celery Free", "Sin Apio", "Apiorik Gabe"),
+            new Flag("Mustard Free", "Sin Mostaza", "Mostazarik Gabe"),
+            new Flag("Sulfur Dioxide Free", "Sin Dioxido de Azufre", "Sufre Dioxidorik Gabe"),
+            new Flag("Lupins Free", "Sin Altramuces", "Lupinarik Gabe"),
+            new Flag("Seafood Free", "Sin Crustaceo", "Krustazerik Gabe"),
+            new Flag("Gluten Free", "Sin Gluten", "Glutenik Gabe"),
             new Flag("Nut Free", "Sin Frutos Secos", "Fruitu Lehorrak"),
             new Flag("Vegetarian", "Vegetariano", "Begetarianoa"),
             new Flag("Vegan", "Vegano", "Beganoa")
