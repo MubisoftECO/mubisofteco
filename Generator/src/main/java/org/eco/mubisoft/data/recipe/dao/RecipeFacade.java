@@ -25,17 +25,17 @@ public class RecipeFacade {
     );
 
     private final List<Flag> flagList = Arrays.asList(
-            new Flag("Lactose", "Lactosa", "Laktosa"),
-            new Flag("Egg", "Huevo", "Arrautza"),
-            new Flag("Fish", "Pescado", "Arraina"),
-            new Flag("Soy", "Soja", "Soja"),
-            new Flag("Celery", "Apio", "Apioa"),
-            new Flag("Mustard", "Mostaza", "Mostaza"),
-            new Flag("Sulfur Dioxide", "Dioxido de Azufre", "Sufre Dioxidoa"),
-            new Flag("Lupins", "Altramuces", "Lupinak"),
-            new Flag("Seafood", "Crustaceo", "Krustazeoa"),
-            new Flag("Gluten", "Gluten", "Glutena"),
-            new Flag("Nut", "Frutos Secos", "Fruitu Lehorrak"),
+            new Flag("Lactose Free", "Sin Lactosa", "Laktosa Barik"),
+            new Flag("Egg Free", "Sin Huevo", "Arrautz Barik"),
+            new Flag("Fish Free", "Sin Pescado", "Arrain Barik"),
+            new Flag("Soy Free", "Sin Soja", "Soja Barik"),
+            new Flag("Celery Free", "Sin Apio", "Apio Barik"),
+            new Flag("Mustard Free", "Sin Mostaza", "Mostaza Barik"),
+            new Flag("Sulfur Dioxide Free", "Sin Dioxido de Azufre", "Sufre Dioxido Barik"),
+            new Flag("Lupins Free", "Sin Altramuces", "Lupina Barik"),
+            new Flag("Seafood Free", "Sin Crustaceo", "Krustazeo Barik"),
+            new Flag("Gluten Free", "Sin Gluten", "Gluten Barik"),
+            new Flag("Nut Free", "Sin Frutos Secos", "Fruitu Lehorrak"),
             new Flag("Vegetarian", "Vegetariano", "Begetarianoa"),
             new Flag("Vegan", "Vegano", "Beganoa")
     );
