@@ -119,7 +119,7 @@ public class UserController {
     @GetMapping("/info")
     public String getUser(Model model, HttpServletRequest request) {
         model.addAttribute("user", getLoggedUser(request));
-        return "user/user_view";
+        return "user/customer_profile";
     }
 
     @GetMapping("/delete/{userID}")
