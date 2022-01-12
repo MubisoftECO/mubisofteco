@@ -12,27 +12,47 @@
     <!-- Header -->
     <header th:replace="includes/header :: header"></header>
 
+    <div class="search">
+        <button class="btn  btn_search"> Search</button>
+    </div>
+
+    <div class="button_bar">
+        <form th:action="@{/product/back}" method="post" class="justify-content-center">
+            <button type="submit" class="btn btn-dark btn_back">Filter</button>
+        </form>
+
+        <form th:action="@{/product/back}" method="post" class="justify-content-center">
+            <button type="submit" class="btn btn-dark btn_back">Order</button>
+        </form>
+
+        <form th:action="@{/recipe/create}" method="get" class="justify-content-center">
+            <button type="submit" class="btn btn-dark btn_back">Add</button>
+        </form>
+    </div>
+
     <!-- Main -->
-    <main>
-        <th:block th:each="recipe : ${recipeList}">
-           <div class="card mb-3" style="max-width: 540px;">
-               <a th:href="@{'/recipe/view/'+${recipe.getId()}}" class="recipe_card">
-                <div class="row no-gutters">
-                    <div class="col-md-4">
-                        <img src="/media/imgs/ensalada_prueba.png" class="card-img" th:alt="${recipe.getTitle()}">
-                        <!-- <img th:src="${recipe.getImgSrc()}" class="card-img" th:alt="${recipe.getTitle()}"> -->
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title" th:text="${recipe.getTitle()}"></h5>
-                            <p class="card-text" th:text="${recipe.getDescription()}"></p>
-                            <p class="card-text" th:text="${recipe.getTimeInMinutes() + ' min'}"></p>
+    <main class="container-fluid">
+        <div id="card-container">
+            <th:block th:each="recipe : ${recipeList}">
+                <div class="card mb-3" >
+                    <a th:href="@{'/recipe/view/'+${recipe.getId()}}" class="recipe_card">
+                        <div class="row no-gutters">
+                            <div>
+                                <img src="/media/imgs/ensalada_prueba.png" class="card-img" th:alt="${recipe.getTitle()}">
+                                <!-- <img th:src="${recipe.getImgSrc()}" class="card-img" th:alt="${recipe.getTitle()}"> -->
+                            </div>
+                            <div>
+                                <div class="card-body">
+                                    <h5 class="card-title" th:text="${recipe.getTitle()}"></h5>
+                                    <p class="card-text" th:text="${recipe.getDescription()}"></p>
+                                    <p class="card-text" th:text="${recipe.getTimeInMinutes() + ' min'}"></p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
-               </a>
-            </div>
-        </th:block>
+            </th:block>
+        </div>
         <div class="pagination_form">
 
         <form action="/recipe/view" method="get">

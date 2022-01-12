@@ -1,3 +1,41 @@
+.button_bar{
+    margin: auto;
+    padding: 1.5rem;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+
+}
+.button_bar > form{
+    width: 30%;
+
+}
+form + form{
+    margin-left: 1rem;
+}
+.btn_search{
+    align-items: center;
+    width: calc(90% - 3rem);
+    background-color: var(--mubisoft-lightgrey);
+    color: var(--mubisoft-darkgrey);
+    border: 0;
+    box-shadow: 0px 0px 6px 3px rgba(48,46,46,0.34);
+}
+.search{
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+
+}
+
+.btn_back{
+    width: 100%;
+    background-color: var(--mubisoft-lightgrey);
+    color: var(--mubisoft-darkgrey);
+    border: 0;
+    box-shadow: 0px 0px 6px 3px rgba(48,46,46,0.34);
+}
+
 main{
     margin:20px;
 }
@@ -11,11 +49,37 @@ a:link, a:visited, a:active{
     text-decoration: none !important;
 }
 
+
+.card:hover{
+    background: #302E2E !important;
+}
 .recipe_card:hover{
     color: #EBECE1 !important;
     background: #302E2E !important;
-    border-color: black;
-    border-radius: inherit;
 }
+
+#card-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card{
+    width: 80%;
+}
+
+@media (min-width: 576px) {
+    #card-container{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 1rem;
+        grid-auto-rows: 1fr
+    }
+    .card{
+        width: 100%;
+        height: 100%;
+    }
+}
+
 
 
