@@ -120,7 +120,7 @@ public class UserController {
 
     @GetMapping("/info")
     public String getUser(Model model, HttpServletRequest request) {
-        model.addAttribute("user", getLoggedUser(request));
+        model.addAttribute("user", userService.getLoggedUser(request));
         return "user/user_view";
     }
 
@@ -133,7 +133,7 @@ public class UserController {
 
     @GetMapping("/edit")
     public String editUser(Model model, HttpServletRequest request, HttpServletResponse response){
-        AppUser loggedUser = getLoggedUser(request);
+        AppUser loggedUser = userService.getLoggedUser(request);
         model.addAttribute("acList", autonomousCommunityService.getAllAutonomousCommunities());
         model.addAttribute("provinceList", provinceService.getProvincesByAutonomousCommunity(
                 autonomousCommunityService.getAutonomousCommunity(
@@ -158,7 +158,7 @@ public class UserController {
         String newPassword = request.getParameter("new");
         String repeat = request.getParameter("repeat");
 
-        AppUser user = getLoggedUser(request);
+        AppUser user = userService.getLoggedUser(request);
 
         if (!old.equals(newPassword) && newPassword.equals(repeat) && userService.checkPassword(user.getUsername(), old)){
             userService.updatePassword(user.getUsername(), newPassword);
@@ -193,18 +193,4 @@ public class UserController {
         response.setStatus(HttpServletResponse.SC_OK);
         response.sendRedirect(response.encodeRedirectURL("/user/info/"));
     }
-
-    private AppUser getLoggedUser(HttpServletRequest request){
-        HttpSession session = request.getSession();
-        TokenService tokenService = new TokenService();
-        String username;
-
-        try {
-            username = tokenService.getUsernameFromToken((String) session.getAttribute("accessToken"));
-        } catch (JWTVerificationException e) {
-            username = tokenService.getUsernameFromToken((String) session.getAttribute("refreshToken"));
-        }
-        return userService.getUser(username);
-    }
-
 }

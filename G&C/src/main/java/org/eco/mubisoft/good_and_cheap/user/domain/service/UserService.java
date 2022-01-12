@@ -4,6 +4,7 @@ import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.Location;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.Role;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -73,4 +74,8 @@ public interface UserService {
     void updatePassword (String username, String password);
 
     List<AppUser> getUsersByRole(Role role);
+
+    public AppUser getLoggedUser(HttpServletRequest request);
+
+
 }

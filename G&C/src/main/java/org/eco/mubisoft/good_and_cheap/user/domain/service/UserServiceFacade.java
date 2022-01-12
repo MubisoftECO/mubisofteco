@@ -1,7 +1,9 @@
 package org.eco.mubisoft.good_and_cheap.user.domain.service;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eco.mubisoft.good_and_cheap.application.security.TokenService;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.Location;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.Role;
@@ -15,6 +17,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -136,5 +140,19 @@ public class UserServiceFacade implements UserService, UserDetailsService {
     public List<AppUser> getUsersByRole(Role role) {
         log.info("Fetching users with role {}", role.getName());
         return userRepo.findAppUsersByRoles(role);
+    }
+
+    @Override
+    public AppUser getLoggedUser(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        TokenService tokenService = new TokenService();
+        String username;
+
+        try {
+            username = tokenService.getUsernameFromToken((String) session.getAttribute("accessToken"));
+        } catch (JWTVerificationException e) {
+            username = tokenService.getUsernameFromToken((String) session.getAttribute("refreshToken"));
+        }
+        return this.getUser(username);
     }
 }
