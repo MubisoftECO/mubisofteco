@@ -1,5 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.user.control.controller;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Controller
@@ -118,7 +120,7 @@ public class UserController {
 
     @GetMapping("/info")
     public String getUser(Model model, HttpServletRequest request) {
-        model.addAttribute("user", getLoggedUser(request));
+        model.addAttribute("user", userService.getLoggedUser(request));
         return "user/customer_profile";
     }
 
@@ -131,7 +133,7 @@ public class UserController {
 
     @GetMapping("/edit")
     public String editUser(Model model, HttpServletRequest request, HttpServletResponse response){
-        AppUser loggedUser = getLoggedUser(request);
+        AppUser loggedUser = userService.getLoggedUser(request);
         model.addAttribute("acList", autonomousCommunityService.getAllAutonomousCommunities());
         model.addAttribute("provinceList", provinceService.getProvincesByAutonomousCommunity(
                 autonomousCommunityService.getAutonomousCommunity(
@@ -156,7 +158,7 @@ public class UserController {
         String newPassword = request.getParameter("new");
         String repeat = request.getParameter("repeat");
 
-        AppUser user = getLoggedUser(request);
+        AppUser user = userService.getLoggedUser(request);
 
         if (!old.equals(newPassword) && newPassword.equals(repeat) && userService.checkPassword(user.getUsername(), old)){
             userService.updatePassword(user.getUsername(), newPassword);
@@ -178,7 +180,7 @@ public class UserController {
         AppUser user = userService.getUser(username);
 
         if (!imageFile.isEmpty()){
-            fileName = StringUtils.cleanPath(imageFile.getOriginalFilename());
+            fileName = StringUtils.cleanPath(Objects.requireNonNull(imageFile.getOriginalFilename()));
             String uploadDir = "user-photos/" + user.getId();
             FileUploadUtil.saveFile(uploadDir, fileName, imageFile);
         }
@@ -191,13 +193,4 @@ public class UserController {
         response.setStatus(HttpServletResponse.SC_OK);
         response.sendRedirect(response.encodeRedirectURL("/user/info/"));
     }
-
-    private AppUser getLoggedUser(HttpServletRequest request){
-        HttpSession session = request.getSession();
-        String accessToken = (String) session.getAttribute("accessToken");
-        TokenService tokenService = new TokenService();
-        String username = tokenService.getUsernameFromToken(accessToken);
-        return userService.getUser(username);
-    }
-
 }

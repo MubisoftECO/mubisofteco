@@ -17,25 +17,26 @@ function addStep(){
     let numSteps = steps.length;
     numSteps++;
 
-    step.innerHTML += "<label class='step' htmlFor='step"+numSteps+"'>Step"+numSteps+"</label>";
+    step.innerHTML += "<label class='step' for='step"+numSteps+"'>Step"+numSteps+"</label>";
     step.innerHTML += "<input type='text' id='step"+numSteps+"' name='step' class='form-control' style='height: 90px'>";
     step.innerHTML += "<br>";
 }
 
 function addIngredient(){
     let tableBody = document.getElementById("add_ingredient_body");
-    let ingredientList = tableBody.querySelectorAll(".new-ingredient");
-    let lastIngredient = ingredientList[ingredientList.length - 1];
+    let ingredients = tableBody.querySelectorAll(".new-ingredient");
+    let id = parseInt(ingredients[ingredients.length - 1]
+            .querySelector(".ingredient-id").innerHTML) + 1;
 
     // Get last ingredient.
     let newIngredient = tableBody.insertRow();
     newIngredient.classList.add("new-ingredient");
+    newIngredient.id = "new-ingredient-" + id;
 
     // Add table cells.
     let titleCell = newIngredient.insertCell();
     titleCell.outerHTML =
-        "<th class='ingredient-id ingredient-id align-middle' scope='row'>" +
-        (parseInt(lastIngredient.querySelector(".ingredient-id").innerHTML) + 1).toString() + "</th>"
+        "<th class='ingredient-id ingredient-id align-middle' scope='row'>" + (id).toString() + "</th>"
 
     let descriptionCell = newIngredient.insertCell();
     descriptionCell.outerHTML =
@@ -59,7 +60,24 @@ function addIngredient(){
         "<option value='" + optionList[4].value + "'> " + optionList[4].innerText + "</option>" +
         "</select>" +
         "</td>";
+
+    let deleteCell = newIngredient.insertCell();
+    deleteCell.outerHTML =
+        "<td class='delete-ingredient'><input type='button' class='btn btn-danger' onclick='removeIngredient(1)'" +
+        " value='Remove'></td>"
 }
 
+function removeStep() {
 
+}
 
+function removeIngredient(id) {
+    let count = $('tr.new-ingredient').length;
+    console.log("Executing delete, element count = " + count);
+
+    // Check if there are more than one ingredients.
+    if (count < 1) {
+        console.log("Removing: new-ingredient-" + id)
+        $("new-ingredient-" + id).delete();
+    }
+}
