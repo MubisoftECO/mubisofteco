@@ -79,6 +79,9 @@ a:link, a:visited, a:active{
         width: 100%;
         height: 100%;
     }
+    .recipe_card{
+        height: 100%;
+    }
 }
 
 
