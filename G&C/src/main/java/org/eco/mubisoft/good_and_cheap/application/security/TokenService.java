@@ -3,6 +3,7 @@ package org.eco.mubisoft.good_and_cheap.application.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.application.data.MilliTime;
@@ -76,7 +77,7 @@ public class TokenService {
         return new User(username, "null", authorities);
     }
 
-    public String getUsernameFromToken (String authToken) throws NullPointerException{
+    public String getUsernameFromToken (String authToken) throws JWTVerificationException {
         String token = authToken.substring("Bearer ".length());
         DecodedJWT decodedJWT = verifier.verify(token);
         return decodedJWT.getSubject();

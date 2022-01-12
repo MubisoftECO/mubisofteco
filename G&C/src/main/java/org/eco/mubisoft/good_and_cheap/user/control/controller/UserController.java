@@ -1,5 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.user.control.controller;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Controller
@@ -178,7 +180,7 @@ public class UserController {
         AppUser user = userService.getUser(username);
 
         if (!imageFile.isEmpty()){
-            fileName = StringUtils.cleanPath(imageFile.getOriginalFilename());
+            fileName = StringUtils.cleanPath(Objects.requireNonNull(imageFile.getOriginalFilename()));
             String uploadDir = "user-photos/" + user.getId();
             FileUploadUtil.saveFile(uploadDir, fileName, imageFile);
         }
@@ -194,9 +196,14 @@ public class UserController {
 
     private AppUser getLoggedUser(HttpServletRequest request){
         HttpSession session = request.getSession();
-        String accessToken = (String) session.getAttribute("accessToken");
         TokenService tokenService = new TokenService();
-        String username = tokenService.getUsernameFromToken(accessToken);
+        String username;
+
+        try {
+            username = tokenService.getUsernameFromToken((String) session.getAttribute("accessToken"));
+        } catch (JWTVerificationException e) {
+            username = tokenService.getUsernameFromToken((String) session.getAttribute("refreshToken"));
+        }
         return userService.getUser(username);
     }
 

@@ -8,7 +8,7 @@
 <body>
 <!-- Custom Styling -->
 <link rel="stylesheet" th:href="@{'/css/recipe/recipe_form.css'}">
-<script th:src="@{'/js/recipe/add_step.js'}"></script>
+<script th:src="@{'/js/recipe/recipe_form.js'}"></script>
 
 <!-- Header -->
 <header th:replace="includes/header :: header"></header>
@@ -41,17 +41,18 @@
         <section id="recipe-ingredients">
             <h3 class="title">Products</h3>
 
-            <table id="add_ingredient" class="table table-bordered">
+            <table id="add_ingredient" class="table table-bordered table-responsive">
                 <thead id="add_ingredient_head">
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Ingredient</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Unit/Value</th>
+                        <th scope="col" class="col-1">#</th>
+                        <th scope="col" class="col-4">Ingredient</th>
+                        <th scope="col" class="col-4">Quantity</th>
+                        <th scope="col" class="col-4">Unit/Value</th>
+                        <th scope="col" class="col-2">Remove</th>
                     </tr>
                 </thead>
                 <tbody id="add_ingredient_body">
-                    <tr class="new-ingredient">
+                    <tr id="new-ingredient-1" class="new-ingredient">
                         <th scope="row" class="ingredient-id align-middle">1</th>
                         <td class="ingredient-description">
                             <input type="text" class="ingredient form-control" name="ingredient" placeholder="Ingredient">
@@ -67,8 +68,8 @@
                                 </th:block>
                             </select>
                         </td>
-                        <td>
-                            
+                        <td class="delete-ingredient">
+                            <input type="button" class="btn btn-danger" onclick="removeIngredient(1)" value="Remove">
                         </td>
                     </tr>
                 </tbody>
