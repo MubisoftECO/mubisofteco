@@ -6,11 +6,12 @@ import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import java.util.List;
 
 public interface RecipeService {
+
         List<Recipe> getAllRecipes(int pageNum);
-        double countPages();
+        List<Recipe> getRecipesByAuthor(AppUser author);
         void saveRecipe(Recipe recipe);
         Recipe getRecipe (Long id);
-        void addRecipe(Recipe recipe);
-        List<Recipe> getRecipesByAuthor(AppUser author);
+        double countPages();
         boolean removeRecipe(Long id);
+
 }

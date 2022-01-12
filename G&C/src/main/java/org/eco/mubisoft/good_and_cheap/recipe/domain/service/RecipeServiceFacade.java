@@ -29,8 +29,8 @@ public class RecipeServiceFacade implements RecipeService{
     }
 
     @Override
-    public double countPages() {
-        return Math.ceil(recipeRepository.count() / ELEMENT_NUM);
+    public List<Recipe> getRecipesByAuthor(AppUser author) {
+        return recipeRepository.findRecipesByAuthor(author);
     }
 
     @Override
@@ -40,10 +40,14 @@ public class RecipeServiceFacade implements RecipeService{
     }
 
     @Override
-    public Recipe getRecipe(Long id){ return recipeRepository.findById(id).orElse(null); }
+    public Recipe getRecipe(Long id) {
+        return recipeRepository.findById(id).orElse(null);
+    }
 
     @Override
-    public void addRecipe(Recipe recipe) { recipeRepository.save(recipe);}
+    public double countPages() {
+        return Math.ceil(recipeRepository.count() / ELEMENT_NUM);
+    }
 
     @Override
     public boolean removeRecipe(Long id){
@@ -52,10 +56,5 @@ public class RecipeServiceFacade implements RecipeService{
             return true;
         }
         return false;
-    }
-
-    @Override
-    public List<Recipe> getRecipesByAuthor(AppUser author) {
-        return recipeRepository.findRecipesByAuthor(author);
     }
 }

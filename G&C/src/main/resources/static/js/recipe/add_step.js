@@ -25,14 +25,40 @@ function addStep(){
 function addIngredient(){
     let tableBody = document.getElementById("add_ingredient_body");
     let ingredientList = tableBody.querySelectorAll(".new-ingredient");
+    let lastIngredient = ingredientList[ingredientList.length - 1];
 
     // Get last ingredient.
-    let ingredientCopy = ingredientList[ingredientList.length - 1];
     let newIngredient = tableBody.insertRow();
     newIngredient.classList.add("new-ingredient");
 
-    let titleCell = newIngredient.insertCell().outerHTML = "<th></th>";
-    titleCell.appendChild(document.createTextNode(ingredientCopy.querySelector("ingredient-id").innerHTML + 1))
+    // Add table cells.
+    let titleCell = newIngredient.insertCell();
+    titleCell.outerHTML =
+        "<th class='ingredient-id ingredient-id align-middle' scope='row'>" +
+        (parseInt(lastIngredient.querySelector(".ingredient-id").innerHTML) + 1).toString() + "</th>"
+
+    let descriptionCell = newIngredient.insertCell();
+    descriptionCell.outerHTML =
+        "<td class='ingredient-description'><input type='text' class='ingredient form-control' " +
+        "name='ingredient' placeholder='Ingredient'></td>"
+
+    let quantityCell = newIngredient.insertCell();
+    quantityCell.outerHTML =
+        "<td class='ingredient-quantity'><input type='number' class='productQuantity form-control' " +
+        "name='quantity' min='0'></td>";
+
+    let selectCell = newIngredient.insertCell();
+    let optionList = document.querySelectorAll(".ingredient-unit .measurementUnit option");
+    selectCell.outerHTML =
+        "<td class='ingredient-unit'>" +
+        "<select class='measurementUnit form-control' name='unit'>" +
+        "<option selected disabled th:value='${null}'>Select</option>" +
+        "<option value='" + optionList[1].value + "'> " + optionList[1].innerText + "</option>" +
+        "<option value='" + optionList[2].value + "'> " + optionList[2].innerText + "</option>" +
+        "<option value='" + optionList[3].value + "'> " + optionList[3].innerText + "</option>" +
+        "<option value='" + optionList[4].value + "'> " + optionList[4].innerText + "</option>" +
+        "</select>" +
+        "</td>";
 }
 
 

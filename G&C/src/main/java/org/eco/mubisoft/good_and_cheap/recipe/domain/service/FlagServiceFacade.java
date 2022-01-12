@@ -23,5 +23,7 @@ public class FlagServiceFacade implements FlagService {
     }
 
     @Override
-    public List<Flag> getAllFlags(){return flagRepo.findAll();}
+    public List<Flag> getAllFlags() {
+        return flagRepo.findAll();
+    }
 }

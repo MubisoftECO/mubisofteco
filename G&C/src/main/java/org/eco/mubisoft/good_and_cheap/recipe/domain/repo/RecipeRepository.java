@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface RecipeRepository extends JpaRepository <Recipe, Long> {
+
     List<Recipe> findRecipesByAuthor(AppUser author);
     Page<Recipe> findAll(Pageable pageable);
+
 }

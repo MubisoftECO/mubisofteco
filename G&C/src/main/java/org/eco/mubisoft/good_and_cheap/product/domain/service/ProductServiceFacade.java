@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.product.domain.model.Product;
 import org.eco.mubisoft.good_and_cheap.product.domain.repo.ProductRepository;
+import org.eco.mubisoft.good_and_cheap.product.domain.repo.ProductTypeRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,11 +20,17 @@ public class ProductServiceFacade implements ProductService {
 
     private static final int ELEMENT_NUM = 20;
     private final ProductRepository productRepository;
+    private final ProductTypeRepository productTypeRepository;
 
     @Override
     public List<Product> getAllProducts(Integer pageNum) {
         Pageable pageable = PageRequest.of(pageNum, ELEMENT_NUM);
         return productRepository.findAll(pageable).toList();
+    }
+
+    @Override
+    public List<String> getMeasurementUnits() {
+        return productTypeRepository.getAllMeasurementUnits();
     }
 
     @Override

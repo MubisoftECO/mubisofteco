@@ -35,7 +35,7 @@ public class RecipeFacade {
             new Flag("Lupins Free", "Sin Altramuces", "Lupinarik Gabe"),
             new Flag("Seafood Free", "Sin Crustaceo", "Krustazerik Gabe"),
             new Flag("Gluten Free", "Sin Gluten", "Glutenik Gabe"),
-            new Flag("Nut Free", "Sin Frutos Secos", "Fruitu Lehorrak"),
+            new Flag("Nut Free", "Sin Frutos Secos", "Fruitu Lehorrik Gabe"),
             new Flag("Vegetarian", "Vegetariano", "Begetarianoa"),
             new Flag("Vegan", "Vegano", "Beganoa")
     );

@@ -5,11 +5,11 @@
     <title id="pageTitle">Create a Recipe</title>
 </head>
 
+<body>
 <!-- Custom Styling -->
 <link rel="stylesheet" th:href="@{'/css/recipe/recipe_form.css'}">
 <script th:src="@{'/js/recipe/add_step.js'}"></script>
 
-<body>
 <!-- Header -->
 <header th:replace="includes/header :: header"></header>
 
@@ -52,45 +52,47 @@
                 </thead>
                 <tbody id="add_ingredient_body">
                     <tr class="new-ingredient">
-                        <th id="ingredient-id" scope="col" class="form-control">1</th>
-                        <td>
-                            <input type="text" id="ingredient" class="form-control" name="ingredient" placeholder="Ingredient">
+                        <th scope="row" class="ingredient-id align-middle">1</th>
+                        <td class="ingredient-description">
+                            <input type="text" class="ingredient form-control" name="ingredient" placeholder="Ingredient">
                         </td>
-                        <td>
-                            <input type="number" id="productQuantity" class="form-control" name="quantity" min="0">
+                        <td class="ingredient-quantity">
+                            <input type="number" class="productQuantity form-control" name="quantity" min="0">
                         </td>
-                        <td>
-                            <select id="measurementUnit" class="form-control" name="unit">
-                                <option selected>Select</option>
-                                <option value="g">G</option>
-                                <option value="kg">KG</option>
-                                <option value="cl">CL</option>
-                                <option value="l">L</option>
+                        <td class="ingredient-unit">
+                            <select class="measurementUnit form-control" name="unit">
+                                <option selected disabled th:value="${null}">Select</option>
+                                <th:block th:each="unit : ${measurementList}">
+                                    <option th:value="${unit}" th:text="${unit.toUpperCase()}"></option>
+                                </th:block>
                             </select>
+                        </td>
+                        <td>
+                            
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div class="row justify-content-center">
-                <a type=button id="btn-ingredient" class="btn btn-success w-25">Add</a>
+                <input type=button id="btn-ingredient" class="btn btn-success w-25" value="Add">
             </div>
         </section>
         <hr>
 
         <!-- ------------------------ ADD STEP ------------------------------>
-        <section class="section3">
+        <section class="recipe-step">
             <h3>Steps</h3>
             <div id="add_step">
                 <label class="step" for="step1">Step1</label>
                 <input type="text" id="step1" name="step" class="form-control" style="height: 90px">
                 <br>
             </div>
-            <a type=button id="btn-step" class="btn btn-success">+</a><br>
+            <input type=button id="btn-step" class="btn btn-success" value="+">
         </section>
         <hr>
 
         <!-- ------------------------------------------------------------------->
-        <section class="section4">
+        <section class="allergen-selection">
             <h3>Allergens</h3>
             <table class="container-fluid table table-bordered">
                 <thead>
@@ -115,21 +117,20 @@
         </section>
         <hr>
 
-        <!-- ------------------------------------------------------------------->
-        <section class="section5">
+        <!--------------------------------------------------------------------->
+        <section class="image-upload">
             <h3>Image</h3>
             <input class="form-control" name="imgSrc" type="file" id="formFile">
         </section>
-        <hr>
 
-        <!-- ------------------------------------------------------------------->
+        <!--------------------------------------------------------------------->
         <div class="button">
             <input id="submit" class="btn btn-success" type="submit" value="Submit"><br><br>
         </div>
     </form>
-    <form action="/recipe/view" method="post">
+    <form th:action="@{'/recipe/view'}" method="post">
         <div class="button">
-            <a href="" id="back" type="submit" class="btn btn-secondary" th:href="@{'/recipe/view'}">BACK</a>
+            <input id="back" type="submit" class="btn btn-secondary" value="BACK">
         </div>
     </form>
 </main>

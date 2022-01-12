@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.application.pages.PageManager;
 import org.eco.mubisoft.good_and_cheap.application.security.TokenService;
+import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductService;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Recipe;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.service.FlagService;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.service.RecipeService;
@@ -25,6 +26,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping(path = "/recipe")
 public class RecipeController {
+
+    private final ProductService productService;
     private final RecipeService recipeService;
     private final UserService userService;
     private final FlagService flagService;
@@ -32,8 +35,9 @@ public class RecipeController {
 
     @GetMapping("/create")
     public String createProduct(Model model){
-        model.addAttribute("pageTitle", "recipe_form");
         model.addAttribute("flagList", flagService.getAllFlags());
+        model.addAttribute("measurementList", productService.getMeasurementUnits());
+
         return "recipe/recipe_form";
     }
 
@@ -42,9 +46,7 @@ public class RecipeController {
         Recipe recipe = new Recipe();
 
         recipe.setTitle(request.getParameter("title"));
-
         recipe.setDescription(request.getParameter("description"));
-
         recipe.setTimeInMinutes(Integer.parseInt(request.getParameter("timeInMinutes")));
 
         /*recipe.setIngredients(request.getParameter("ingredients"));*/
