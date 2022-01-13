@@ -40,7 +40,7 @@
                     + ${product.getProductType().getMeasurementUnit().toLowerCase()}"></h2>
                 </div>
                 <div class="card_body">
-                    <img th:src="@{'/media/imgs/yogurt.png'}" alt="Yogurt">
+                    <img th:src="${'/media/imgs/' + product.getProductType().getImgSrc()}" th:alt="${product.getName_es() + ' Image'}">
                     <h4 th:text="${product.getVendor().getName() + ' ' + product.getVendor().getSecondName()}"></h4>
                     <h3 th:text="${#numbers.formatDecimal(product.getPrice(), 1, 2)} + '€'"></h3>
                 </div>
