@@ -40,9 +40,9 @@ main{
     margin:20px;
 }
 
-a {
-    text-decoration: none !important;
-    color: rgb(48, 46, 46) !important;
+.recipe_card {
+    text-decoration: none;
+    color: rgb(48, 46, 46);
 }
 
 a:link, a:visited, a:active{
@@ -51,11 +51,11 @@ a:link, a:visited, a:active{
 
 
 .card:hover{
-    background: #302E2E !important;
+    background: #302E2E;
 }
 .recipe_card:hover{
-    color: #EBECE1 !important;
-    background: #302E2E !important;
+    color: #EBECE1;
+    background: #302E2E;
 }
 
 #card-container{
