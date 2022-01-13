@@ -33,11 +33,13 @@
 
                 <input class="form-control" list="datalistOptions"placeholder="Choose a Product Type">
                 <datalist id="datalistOptions">
-                    <option value="Ma">
+                    <th:block th:each="prodType : ${productType}">
+                    <option th:value="${prodType.getName}">
                     <option value="Mae">
                     <option value="Mai">
                     <option value="Maee">
                     <option value="Maea">
+                    </th:block>
                 </datalist>
             </div>
         </div>

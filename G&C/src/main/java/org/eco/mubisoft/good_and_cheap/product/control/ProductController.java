@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.application.pages.PageManager;
 import org.eco.mubisoft.good_and_cheap.product.domain.model.Product;
+import org.eco.mubisoft.good_and_cheap.product.domain.model.ProductType;
 import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.swing.text.html.Option;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -42,6 +44,8 @@ public class ProductController {
             Date publishDate = new Date();
             productService.addProduct(product);
 
+            List<Product> list = productService.getAllProducts(nextPage - 1);
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -62,6 +66,13 @@ public class ProductController {
             ) {
         Integer nextPage = PageManager.getPageNum(pageNum.orElse(null), (int) productService.countPages(), direction);
         List<Product> list = productService.getAllProducts(nextPage - 1);
+
+
+        ProductType productType = new ProductType();
+        List<String> list2 = new ArrayList<String>();
+        list2 = productType.getName_es();
+
+        model.addAttribute("productType", list2);
 
         model.addAttribute("productList", list);
         model.addAttribute("page", nextPage);
