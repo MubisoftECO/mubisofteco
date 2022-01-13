@@ -68,11 +68,11 @@ public class ProductController {
         List<Product> list = productService.getAllProducts(nextPage - 1);
 
 
-        ProductType productType = new ProductType();
+/*        ProductType productType = new ProductType();
         List<String> list2 = new ArrayList<String>();
-        list2 = productType.getName_es();
+        list2 = productType.getName_es();*/
 
-        model.addAttribute("productType", list2);
+ //       model.addAttribute("productType", list2);
 
         model.addAttribute("productList", list);
         model.addAttribute("page", nextPage);
