@@ -29,6 +29,9 @@ public class ProductController {
     @GetMapping("/create")
     public String createProduct(Model model) {
         Product product = new Product();
+        ProductType productType = new ProductType();
+
+        model.addAttribute("productType", productType);
         model.addAttribute("product", product);
         return "/product/product_form";
     }
@@ -37,6 +40,7 @@ public class ProductController {
     public String saveProduct(@RequestParam(name = "date") String date, Product product) {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
 
         try {
             Date expirationDate = format.parse(date);

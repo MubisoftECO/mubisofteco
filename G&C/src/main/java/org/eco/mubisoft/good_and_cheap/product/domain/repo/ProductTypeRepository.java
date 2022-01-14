@@ -11,4 +11,7 @@ public interface ProductTypeRepository extends JpaRepository<ProductType, Long> 
     @Query(value = "select distinct(pt.measurementUnit) from ProductType pt")
     List<String> getAllMeasurementUnits();
 
+
+    List<ProductType> getAllProductTypes();
+
 }
