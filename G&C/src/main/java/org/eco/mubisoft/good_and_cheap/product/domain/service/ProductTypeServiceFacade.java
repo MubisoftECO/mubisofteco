@@ -21,8 +21,7 @@ public class ProductTypeServiceFacade implements ProductTypeService {
 
     @Override
     public List<ProductType> getAllProductTypes() {
-
-        return productTypeRepository.getAllProductTypes();
+        return productTypeRepository.findAll();
     }
 
     @Override
