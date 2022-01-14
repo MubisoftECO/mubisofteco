@@ -6,8 +6,13 @@
 </head>
 
 <body>
+
+<!-- js Libraries -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <!-- Custom Styling -->
 <link rel="stylesheet" th:href="@{'/css/recipe/recipe_form.css'}">
+<script th:src="@{'/js/recipe/draggable.js'}"></script>
 <script th:src="@{'/js/recipe/recipe_form.js'}"></script>
 
 <!-- Header -->
@@ -15,10 +20,9 @@
 
 <!-- Main -->
 <main class="container-fluid align-items-center">
-
     <h2 class="title display-2 mx-auto">New Recipe</h2>
 
-    <form action="/recipe/save" method="post" class="justify-content-center">
+    <form class="justify-content-center" th:action="@{'/recipe/save'}" method="post">
         <section id="recipe-introduction">
             <div class="form-floating">
                 <input type="text" id="title" class="form-control" name="title" placeholder="Title" maxlength="255">
@@ -39,16 +43,23 @@
 
         <!----------------------------- INGREDIENTS ---------------------->
         <section id="recipe-ingredients">
-            <h3 class="title">Products</h3>
+            <h3 class="title display-6">Ingredients</h3>
+
+            <div id="max-ingredient-alert" class="alert alert-danger hidden" role="alert">
+                You have reached the maximum amount of ingredients that you can add!
+            </div>
+            <div id="min-ingredient-alert" class="alert alert-danger hidden" role="alert">
+                You cannot remove any further ingredients!
+            </div>
 
             <table id="add_ingredient" class="table table-bordered table-responsive">
                 <thead id="add_ingredient_head">
                     <tr>
                         <th scope="col" class="col-1">#</th>
-                        <th scope="col" class="col-4">Ingredient</th>
-                        <th scope="col" class="col-4">Quantity</th>
-                        <th scope="col" class="col-4">Unit/Value</th>
-                        <th scope="col" class="col-2">Remove</th>
+                        <th scope="col" class="col-5">Ingredient</th>
+                        <th scope="col" class="col-2">Quantity</th>
+                        <th scope="col" class="col-3">Unit/Value</th>
+                        <th scope="col" class="col-2">Delete</th>
                     </tr>
                 </thead>
                 <tbody id="add_ingredient_body">
@@ -68,33 +79,53 @@
                                 </th:block>
                             </select>
                         </td>
-                        <td class="delete-ingredient">
-                            <input type="button" class="btn btn-danger" onclick="removeIngredient(1)" value="Remove">
+                        <td class="ingredient-delete form-control">
+                            <input type="button" id="btn-remove-ingredient-1"
+                                    class="btn btn-remove-ingredient btn-danger align-middle" value="Remove">
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <div class="row justify-content-center">
-                <input type=button id="btn-ingredient" class="btn btn-success w-25" value="Add">
+            <div class="col center-content">
+                <input type=button id="btn-add-ingredient" class="btn btn-add btn-success col-2" value="Add">
             </div>
         </section>
         <hr>
 
         <!-- ------------------------ ADD STEP ------------------------------>
         <section class="recipe-step">
-            <h3>Steps</h3>
-            <div id="add_step">
-                <label class="step" for="step1">Step1</label>
-                <input type="text" id="step1" name="step" class="form-control" style="height: 90px">
-                <br>
+            <h3 class="title display-6">Steps</h3>
+
+            <div id="max-step-alert" class="alert alert-danger hidden" role="alert">
+                You have reached the maximum amount of steps that you can add!
             </div>
-            <input type=button id="btn-step" class="btn btn-success" value="+">
+            <div id="min-step-alert" class="alert alert-danger hidden" role="alert">
+                You cannot remove any further steps!
+            </div>
+
+            <div id="add-step" class="wrapper">
+                <div id="recipe-step-1" class="card recipe-step mb-3">
+                    <div class="card-header space-between">
+                        <span id="card-header-title-1" class="badge bg-secondary rounded-pill order">1</span>
+                        <button type="button" id="button-remove-step-1" class="btn-close" aria-label="Close"></button>
+                    </div>
+                    <div class="card-body">
+                        <label class="container-fluid">
+                            <textarea id="recipe-step-description-1" class="form-control recipe-step"
+                                      name="step-1" maxlength="255"></textarea>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col center-content button">
+                <input type=button id="btn-add-step" class="btn btn-add btn-success col-2" value="Add">
+            </div>
         </section>
         <hr>
 
         <!-- ------------------------------------------------------------------->
         <section class="allergen-selection">
-            <h3>Allergens</h3>
+            <h3 class="title display-6">Flags</h3>
             <table class="container-fluid table table-bordered">
                 <thead>
                     <tr>
@@ -129,7 +160,7 @@
             <input id="submit" class="btn btn-success" type="submit" value="Submit"><br><br>
         </div>
     </form>
-    <form th:action="@{'/recipe/view'}" method="post">
+    <form th:action="@{'/recipe/view'}" method="get">
         <div class="button">
             <input id="back" type="submit" class="btn btn-secondary" value="BACK">
         </div>

@@ -20,7 +20,7 @@ public class Location {
      * <p>ID of the location.</p>
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "id")
     private Long id;
     /**
      * <p><b>STREET</b></p>

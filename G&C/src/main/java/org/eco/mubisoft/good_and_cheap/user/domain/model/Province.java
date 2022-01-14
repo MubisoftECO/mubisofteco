@@ -2,18 +2,11 @@ package org.eco.mubisoft.good_and_cheap.user.domain.model;
 
 import lombok.Getter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Getter
 @Entity
 public class Province {
-    /**
-     * <p><b>Provice</b></p>
-     * <p>Each location will have a province. The province will be linked with the autonomous community.</p>
-     */
 
     /**
      * <p><b>ID</b></p>
@@ -21,6 +14,7 @@ public class Province {
      * The first two digits of the PC are used.</p>
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id")
     private Long id;
 
     /**

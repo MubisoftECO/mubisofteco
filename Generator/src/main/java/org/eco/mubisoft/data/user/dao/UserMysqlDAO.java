@@ -270,4 +270,27 @@ public class UserMysqlDAO implements UserDAO {
         MySQLConfig.executeDelete(mySQLConfig, sqlQuery);
     }
 
+    @Override
+    public void insertSequence(int value) {
+        String sqlQuery = "INSERT INTO hibernate_sequence (next_val) VALUES (?)";
+        Connection connection = mySQLConfig.connect();
+        PreparedStatement pStm = null;
+
+        try {
+            pStm = connection.prepareStatement(sqlQuery);
+            pStm.setInt(1, value);
+            pStm.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            mySQLConfig.disconnect(connection, pStm);
+        }
+    }
+
+    @Override
+    public void deleteSequence() {
+        String sqlQuery = "DELETE FROM hibernate_sequence";
+        MySQLConfig.executeDelete(mySQLConfig, sqlQuery);
+    }
+
 }

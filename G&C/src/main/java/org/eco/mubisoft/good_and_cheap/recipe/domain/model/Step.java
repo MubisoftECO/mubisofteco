@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class Step {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id")
     private Long id;
     private Integer stepNum;
     private String description;

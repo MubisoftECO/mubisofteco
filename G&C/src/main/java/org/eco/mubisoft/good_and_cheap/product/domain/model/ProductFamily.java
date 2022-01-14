@@ -18,7 +18,7 @@ import javax.persistence.Id;
 public class ProductFamily {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "id")
     private Long id;
     private String name_es;
     private String name_en;

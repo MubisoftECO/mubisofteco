@@ -49,6 +49,9 @@ public class GenerationController {
         // Generate Users
         userFacade.generateAppUsers();
         Log.info("App users generated.");
+
+        // Update Hibernate Sequence
+        userFacade.updateSequence();
     }
 
 }

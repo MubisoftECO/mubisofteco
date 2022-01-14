@@ -127,4 +127,9 @@ public class UserFacade {
         userDAO.deleteRoles();
         userDAO.deleteLocations();
     }
+
+    public void updateSequence() {
+        userDAO.deleteSequence();
+        userDAO.insertSequence(10000);
+    }
 }

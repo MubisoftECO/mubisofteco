@@ -21,5 +21,6 @@ public interface UserDAO {
     void insertUser(AppUser user);
     List<Long> getAppUserIds();
     void deleteUsers();
-
+    void insertSequence(int value);
+    void deleteSequence();
 }

@@ -132,8 +132,7 @@ public class UserServiceFacade implements UserService, UserDetailsService {
     @Override
     @Transactional
     public void updatePassword(String username, String password) {
-        AppUser user = userRepo.findByUsername(username).orElse(null);
-        user.setPassword(passwordEncoder.encode(password));
+        userRepo.findByUsername(username).ifPresent(user -> user.setPassword(passwordEncoder.encode(password)));
     }
 
     @Override

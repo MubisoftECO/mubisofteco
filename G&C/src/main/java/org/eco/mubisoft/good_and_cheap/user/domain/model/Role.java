@@ -25,7 +25,7 @@ public class Role {
      * <p>ID of the role.</p>
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "id")
     private Long id;
     /**
      * <p><b>Role Name</b></p>

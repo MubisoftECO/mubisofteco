@@ -14,13 +14,14 @@
 body{
     min-width: 547px;
 }
+
 .center{
     text-align: center;
     margin: auto;
 }
 
 
-  /* HEADER */
+/* HEADER */
 .header{
     height: 6rem;
     display: flex;
@@ -36,23 +37,11 @@ body{
     background-color: #EBEEE2;
     color: #302E2E;
     border: 0;
-    
 
-    padding: 0.4rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    
+    padding: 0.4rem 1rem;
     border-radius: 10px;
-    
-
     font-size: x-large;
-
 }
-
-/*.header_btn::before {*/
-/*    font-family: "Font Awesome 5 Free";*/
-/*    content: "\f0c9\00a0";   */
-/*}*/
 
 /* LOGO */
 .header_logo{
@@ -141,6 +130,18 @@ hr {
 .pagination_form{
     display: flex;
     justify-content: center;
+}
+
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.space-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 /* FOOTER */

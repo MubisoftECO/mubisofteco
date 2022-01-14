@@ -10,16 +10,11 @@ import javax.persistence.*;
 public class City {
 
     /**
-     * <p><b>CITY</b></p>
-     * <p>Each location will have a city. The city will be linked with the province.</p>
-     */
-
-    /**
      * <p><b>ID</b></p>
      * <p>ID of the City.</p>
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "id")
     private Long id;
 
     /**

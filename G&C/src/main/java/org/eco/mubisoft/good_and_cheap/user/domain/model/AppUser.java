@@ -27,7 +27,7 @@ public class AppUser {
      * <p>ID of the role.</p>
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "id")
     private Long id;
     /**
      * <p><b>NAME</b></p>

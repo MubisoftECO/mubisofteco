@@ -19,7 +19,7 @@ import java.util.Collection;
 public class Recipe {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id")
     private Long id;
     private String title;
     private String description;

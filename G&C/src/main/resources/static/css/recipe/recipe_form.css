@@ -3,16 +3,36 @@
   --mubisoft-darkgrey: #302E2E;
 }
 
+th {
+  text-align: center;
+}
+
+.wrapper > .recipe-step {
+  cursor: move;
+}
+
 #recipe-introduction > * {
   margin: 0.5rem;
 }
 
-th {
-  text-align: center;
+.hidden {
+  display: none;
 }
 
 .button{
   display: flex;
   align-items: center;
   justify-content: center;
+
+  margin-top: 1rem;
+}
+
+input[type="button"].btn-add {
+  margin-right: 1rem;
+  min-width: 100px;
+}
+
+input[type="button"].btn-remove {
+  margin-left: 1rem;
+  min-width: 100px;
 }

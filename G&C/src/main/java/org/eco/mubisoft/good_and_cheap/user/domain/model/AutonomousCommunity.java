@@ -18,6 +18,7 @@ public class AutonomousCommunity {
      * <p>ID of the AC.</p>
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id")
     private Long id;
 
     /**
