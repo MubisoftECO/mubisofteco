@@ -1,5 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.recipe.domain.repo;
 
+import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Flag;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Recipe;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.springframework.data.domain.Page;
@@ -14,4 +15,6 @@ public interface RecipeRepository extends JpaRepository <Recipe, Long> {
     List<Recipe> findRecipesByAuthor(AppUser author);
     Page<Recipe> findAll(Pageable pageable);
     boolean deleteRecipeById(Long id);
+    Double countAllByRecipeFlagsIn(List<Flag> flags);
+    Page<Recipe> findAllByRecipeFlagsIn(List<Flag> flags, Pageable pageable);
 }

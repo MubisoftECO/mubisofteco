@@ -24,4 +24,8 @@ public class Flag {
     private String name_en;
     private String name_eu;
 
+    public Flag(Long id){
+        this.id = id;
+    }
+
 }

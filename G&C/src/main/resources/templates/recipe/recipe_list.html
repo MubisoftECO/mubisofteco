@@ -7,27 +7,28 @@
 
 <!-- Custom Styling -->
 <link rel="stylesheet" th:href="@{'/css/recipe/recipe_view.css'}">
+<!-- JS -->
+<script th:src="@{'/js/recipe/multiselect_recipe_view.js'}"></script>
 
 <body>
     <!-- Header -->
     <header th:replace="includes/header :: header"></header>
-
+    <form action="/recipe/view" method="get">
     <div class="search">
-        <button class="btn  btn_search"> Search</button>
+        <button class="btn btn_search"> Search</button>
     </div>
 
     <div class="button_bar">
-        <form th:action="@{/product/back}" method="post" class="justify-content-center">
-            <button type="submit" class="btn btn-dark btn_back">Filter</button>
-        </form>
-
-        <form th:action="@{/product/back}" method="post" class="justify-content-center">
-            <button type="submit" class="btn btn-dark btn_back">Order</button>
-        </form>
-
-        <form th:action="@{/recipe/create}" method="get" class="justify-content-center">
-            <button type="submit" class="btn btn-dark btn_back">Add</button>
-        </form>
+            <select id="flag-multiselect" name="flags" class="selectpicker" data-style="btn btn_back btn-dark" multiple title="Filter">
+                    <th:block th:each="flag : ${flagList}">
+                        <th:block th:if="${#lists.contains(selectedFlags, flag.getId().toString())}">
+                            <option th:name="${flag.getId()}" th:value="${flag.getId()}" selected>[[${flag.getName_en()}]]</option>
+                        </th:block>
+                        <th:block th:unless="${#lists.contains(selectedFlags, flag.getId().toString())}">
+                            <option th:name="${flag.getId()}" th:value="${flag.getId()}">[[${flag.getName_en()}]]</option>
+                        </th:block>
+                    </th:block>
+            </select>
     </div>
 
     <!-- Main -->
@@ -55,13 +56,14 @@
         </div>
         <div class="pagination_form">
 
-        <form action="/recipe/view" method="get">
+
             <label>Page: <input type="number" name="page" th:value="${page}" readonly></label>
             <button type="submit" name="page-move" class="btn btn-dark" th:value="previous">Previous</button>
             <button type="submit" name="page-move" class="btn btn-dark" th:value="next">Next</button>
-        </form>
+
         </div>
     </main>
+    </form>
 
     <!-- Footer -->
     <footer th:replace="includes/footer :: footer"></footer>

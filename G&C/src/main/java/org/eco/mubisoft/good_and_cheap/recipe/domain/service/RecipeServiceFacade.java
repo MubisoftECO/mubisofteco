@@ -2,6 +2,7 @@ package org.eco.mubisoft.good_and_cheap.recipe.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Flag;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Recipe;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.repo.RecipeRepository;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collection;
 import java.util.List;
 
 @Slf4j
@@ -26,6 +28,13 @@ public class RecipeServiceFacade implements RecipeService{
         log.info("Fetching all the recipes from the database");
         Pageable pageable = PageRequest.of(pageNum, ELEMENT_NUM);
         return recipeRepository.findAll(pageable).toList();
+    }
+
+    @Override
+    public List<Recipe> getAllRecipesByFlags(int pageNum, List<Flag> flags) {
+        log.info("Getting recipes by flags");
+        Pageable pageable = PageRequest.of(pageNum, ELEMENT_NUM);
+        return recipeRepository.findAllByRecipeFlagsIn(flags, pageable).toList();
     }
 
     @Override
@@ -52,6 +61,11 @@ public class RecipeServiceFacade implements RecipeService{
     @Override
     public double countPages() {
         return Math.ceil(recipeRepository.count() / ELEMENT_NUM);
+    }
+
+    @Override
+    public double countPages(List<Flag> flags) {
+        return Math.ceil((recipeRepository.countAllByRecipeFlagsIn(flags)) / ELEMENT_NUM);
     }
 
     @Override

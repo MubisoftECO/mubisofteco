@@ -7,4 +7,5 @@ import java.util.List;
 public interface FlagService {
     Flag saveFlag(Flag flag);
     List<Flag> getAllFlags();
+    Flag getFlag(Long id);
 }
