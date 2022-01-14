@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-
+<html lang="en">
 <head th:insert="includes/head :: head">
-    <title id="pageTitle">Personal Recipe List</title>
+    <title id="pageTitle">Modify recipe list</title>
 </head>
 
 <!-- Custom Styling -->
@@ -46,24 +45,33 @@
                                 <h5 class="card-title" th:text="${recipe.getTitle()}"></h5>
                                 <p class="card-text" th:text="${recipe.getDescription()}"></p>
                                 <p class="card-text" th:text="${recipe.getTimeInMinutes() + ' min'}"></p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </th:block>
-    </div>
-    <div class="pagination_form">
 
-        <form action="/recipe/view" method="get">
-            <label>Page: <input type="number" name="page" th:value="${page}" readonly></label>
-            <button type="submit" name="page-move" class="btn btn-dark" th:value="previous">Previous</button>
-            <button type="submit" name="page-move" class="btn btn-dark" th:value="next">Next</button>
-        </form>
-    </div>
-</main>
+                                <div class="button-modify">
+                                    <form th:action="'/recipe/modify/'+${recipe.getId()}" method="get" class="form-btn">
+                                        <button type="submit" class="btn btn-secondary">Edit</button>
+                                    </form>
+                                    <form th:action="'/recipe/delete/'+${recipe.getId()}" method="post" class="form-btn">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
+                             </div>
+                         </div>
+                     </div>
+                 </a>
+             </div>
+         </th:block>
+     </div>
+     <div class="pagination_form">
 
-<!-- Footer -->
+         <form action="/recipe/view" method="get">
+             <label>Page: <input type="number" name="page" th:value="${page}" readonly></label>
+             <button type="submit" name="page-move" class="btn btn-dark" th:value="previous">Previous</button>
+             <button type="submit" name="page-move" class="btn btn-dark" th:value="next">Next</button>
+         </form>
+     </div>
+ </main>
+
+ <!-- Footer -->
 <footer th:replace="includes/footer :: footer"></footer>
 </body>
 </html>

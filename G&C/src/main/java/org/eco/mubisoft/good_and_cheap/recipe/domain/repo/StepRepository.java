@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface StepRepository extends JpaRepository<Step, Long> {
     List<Step> getStepsByRecipe(Recipe recipe);
+
+    void deleteStepsByRecipe(Recipe recipe);
 }

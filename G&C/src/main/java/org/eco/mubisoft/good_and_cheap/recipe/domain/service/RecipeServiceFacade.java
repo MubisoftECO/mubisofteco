@@ -45,13 +45,22 @@ public class RecipeServiceFacade implements RecipeService{
     }
 
     @Override
+    public Recipe editRecipe(Long id) {
+        return recipeRepository.findById(id).orElse(null);
+    }
+
+    @Override
     public double countPages() {
         return Math.ceil(recipeRepository.count() / ELEMENT_NUM);
     }
 
     @Override
+    @Transactional
     public boolean removeRecipe(Long id){
         if (id != null) {
+            //borrar primero los steps
+
+            //borrar la receta
             recipeRepository.deleteById(id);
             return true;
         }

@@ -50,9 +50,11 @@ a:link, a:visited, a:active{
 }
 
 
-.card:hover{
+.card:hover {
     background: #302E2E;
+    color: #EBECE1 !important;
 }
+
 .recipe_card:hover{
     color: #EBECE1;
     background: #302E2E;
@@ -67,6 +69,17 @@ a:link, a:visited, a:active{
 .card{
     width: 80%;
 }
+
+.button-modify{
+    position: absolute;
+    right:    0.5rem;
+    bottom:   0.5rem;
+}
+
+.form-btn{
+    display: inline-block;
+}
+
 
 @media (min-width: 576px) {
     #card-container{

@@ -13,5 +13,5 @@ public interface RecipeRepository extends JpaRepository <Recipe, Long> {
 
     List<Recipe> findRecipesByAuthor(AppUser author);
     Page<Recipe> findAll(Pageable pageable);
-
+    boolean deleteRecipeById(Long id);
 }

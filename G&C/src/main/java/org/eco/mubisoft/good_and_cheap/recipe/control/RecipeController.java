@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -97,4 +98,27 @@ public class RecipeController {
         return "recipe/recipe_personal_list";
     }
 
+    @GetMapping("view/modify")
+    public String getModifyRecipesByAuthor(Model model, HttpServletRequest request){
+        AppUser author = userService.getLoggedUser(request);
+        model.addAttribute("recipeList", recipeService.getRecipesByAuthor(author));
+        return "recipe/recipe_modify_list";
+    }
+
+    @GetMapping("modify/{recipeId}")
+    public String editRecipe(@PathVariable("recipeId") Long id, Model model) {
+        Recipe recipe = recipeService.getRecipe(id);
+        model.addAttribute("recipe", recipe);
+        /* Hay que ordenar la lista */
+        model.addAttribute("steps", stepService.getStepsByRecipe(recipe));
+        return "recipe/recipe_modify_view";
+    }
+
+    @PostMapping("delete/{recipeId}")
+    public void removeRecipe (@PathVariable("recipeId") Long id, HttpServletResponse response) throws IOException {
+        stepService.deleteRecipeSteps(new Recipe(id));
+        recipeService.removeRecipe(id);
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.sendRedirect(response.encodeRedirectURL("/recipe/view/modify"));
+    }
 }

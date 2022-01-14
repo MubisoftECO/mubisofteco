@@ -11,6 +11,7 @@ public interface RecipeService {
         List<Recipe> getRecipesByAuthor(AppUser author);
         void saveRecipe(Recipe recipe);
         Recipe getRecipe (Long id);
+        Recipe editRecipe (Long id);
         double countPages();
         boolean removeRecipe(Long id);
 

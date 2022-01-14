@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface StepService {
     List<Step> getStepsByRecipe(Recipe recipe);
+
+    void deleteRecipeSteps(Recipe recipe);
 }

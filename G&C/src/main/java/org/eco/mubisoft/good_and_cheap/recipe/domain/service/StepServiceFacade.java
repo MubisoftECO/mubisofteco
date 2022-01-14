@@ -19,4 +19,10 @@ public class StepServiceFacade implements StepService{
 
     @Override
     public List<Step> getStepsByRecipe(Recipe recipe){return stepRepo.getStepsByRecipe(recipe);}
+
+    @Override
+    @Transactional
+    public void deleteRecipeSteps(Recipe recipe) {
+        stepRepo.deleteStepsByRecipe(recipe);
+    }
 }

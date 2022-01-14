@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="includes/head :: head">
+    <title id="pageTitle">Modify personal recipe</title>
+</head>
+<body>
+    <!-- Custom Styling -->
+    <link rel="stylesheet" th:href="@{'/css/recipe/recipe_form.css'}">
+
+    <!-- Header -->
+    <header th:replace="includes/header :: header"></header>
+
+    <!-- Main -->
+    <main class="container-fluid align-items-center">
+        <h2 class="title display-2 mx-auto">Modify recipe</h2>
+        <form action="/recipe/save" method="post" class="justify-content-center">
+            <section id="recipe-introduction">
+                <div class="form-floating">
+                    <input type="text" id="title" class="form-control" name="title" placeholder="Title" maxlength="255" th:value="${recipe.getTitle()}">
+                    <label for="title">Title</label>
+                </div>
+                <div class="form-floating">
+                <textarea id="description" class="form-control" style="height: 25vh"
+                          name="description" placeholder="Description" maxlength="255" th:text="${recipe.getDescription()}"></textarea>
+                    <label for="description">Description</label>
+                </div>
+                <div class="form-floating">
+                    <input type="number" id="timeInMinutes" class="form-control" name="time"
+                           placeholder="Time in minutes" min="1" th:text="${recipe.getTimeInMinutes()}">
+                    <label for="timeInMinutes">Time in minutes</label>
+                </div>
+
+
+
+
+            </section>
+        </form>
+    </main>
+</body>
+</html>

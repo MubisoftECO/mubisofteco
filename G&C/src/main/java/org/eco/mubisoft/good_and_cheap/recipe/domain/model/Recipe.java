@@ -33,4 +33,8 @@ public class Recipe {
     private Collection<ProductType> ingredients = new ArrayList<>();
     @ManyToMany
     private Collection<Flag> recipeFlags = new ArrayList<>();
+
+    public Recipe(Long id) {
+        this.id = id;
+    }
 }
