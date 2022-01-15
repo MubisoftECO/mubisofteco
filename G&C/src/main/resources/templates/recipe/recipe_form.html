@@ -6,15 +6,22 @@
 </head>
 
 <body>
-
 <!-- js Libraries -->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <!-- Custom Styling -->
 <link rel="stylesheet" th:href="@{'/css/recipe/recipe_form.css'}">
+
+<!-- Custom js -->
 <script th:src="@{'/js/recipe/create/add_remove_element.js'}"></script>
 <script th:src="@{'/js/recipe/create/draggable.js'}"></script>
 <script th:src="@{'/js/recipe/create/base.js'}"></script>
+
+<!-- Model variables to js -->
+<script th:inline="javascript">
+    const ingredientList = [[${ingredientList}]];
+    const measurementList = [[${measurementList}]];
+</script>
 
 <!-- Header -->
 <header th:replace="includes/header :: header"></header>
@@ -64,10 +71,10 @@
                     </tr>
                 </thead>
                 <tbody id="add_ingredient_body">
-                    <tr id="new-ingredient-1" class="new-ingredient">
+                    <tr id="ingredient-1" class="new-ingredient">
                         <th scope="row" class="ingredient-id align-middle">1</th>
                         <td class="ingredient-description custom-select">
-                            <select id="ingredient-1" class="selectpicker" name="ingredient"
+                            <select class="selectpicker" name="ingredient"
                                     title="Ingredient" data-live-search="true">
                                 <th:block th:each="ingredient : ${ingredientList}">
                                     <option th:value="${ingredient.getId()}" th:text="${ingredient.getName_en()}"></option>
@@ -78,7 +85,7 @@
                             <input type="number" class="productQuantity form-control bckgr-gray" name="quantity" min="0">
                         </td>
                         <td class="ingredient-unit custom-select">
-                            <select class="selectpicker" name="unit" title="Select">
+                            <select class="selectpicker" name="unit" title="Unit">
                                 <th:block th:each="unit : ${measurementList}">
                                     <option th:value="${unit}" th:text="${unit.toUpperCase()}"></option>
                                 </th:block>

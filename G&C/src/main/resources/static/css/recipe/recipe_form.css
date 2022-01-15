@@ -7,8 +7,13 @@ th {
   text-align: center;
 }
 
+.custom-select > div.dropdown {
+  width: 100% !important;
+}
+
 input[type="number"].bckgr-gray {
   background-color: var(--input-background-color);
+  border-color: var(--input-background-color);
 }
 
 .wrapper > .recipe-step {

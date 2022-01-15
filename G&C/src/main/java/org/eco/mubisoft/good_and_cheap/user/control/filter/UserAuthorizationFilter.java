@@ -47,8 +47,8 @@ public class UserAuthorizationFilter extends OncePerRequestFilter {
                         // Generate a new access and refresh token for the user.
                         User user = tokenService.getUserFromToken(refreshToken);
                         tokenService.setTokenOnSession(
-                                tokenService.generateToken(user, request.getRequestURL().toString(), MilliTime.FIVE_MINUTES.time),
-                                tokenService.generateToken(user, request.getRequestURL().toString(), MilliTime.SIX_HOUR.time),
+                                tokenService.generateToken(user, request.getRequestURL().toString(), MilliTime.FIVE_MINUTES.getTime()),
+                                tokenService.generateToken(user, request.getRequestURL().toString(), MilliTime.SIX_HOUR.getTime()),
                                 request.getSession()
                         );
                     } catch (Exception refreshException) {

@@ -39,55 +39,51 @@ function addStep(){
 
 function addIngredient(){
     if ($('tr.new-ingredient').length < max) {
-        let tableBody = document.getElementById('add_ingredient_body');
-        let ingredients = tableBody.querySelectorAll('.new-ingredient');
+        let ingredients = $('tbody#add_ingredient_body > tr.new-ingredient');
         let id = parseInt(ingredients[ingredients.length - 1]
             .querySelector(".ingredient-id").innerHTML) + 1;
 
-        // Get last ingredient.
-        let newIngredient = tableBody.insertRow();
-        newIngredient.id = 'new-ingredient-' + id;
-        newIngredient.classList.add('new-ingredient');
+        // Create clone
+        let ingredientClone = ingredients[0].cloneNode(true);
+        $('tbody#add_ingredient_body').append(ingredientClone);
 
-        // Add table cells.
-        // Title
-        let titleCell = newIngredient.insertCell();
-        titleCell.outerHTML =
-            "<th class='ingredient-id ingredient-id align-middle' scope='row'>" + (id).toString() + "</th>"
+        // Change clone IDs
+        ingredientClone.id = 'ingredient-' + id;
+        ingredientClone.querySelector('th.ingredient-id').innerHTML = id.toString();
+        ingredientClone.querySelector('td > input[type="button"]').id = 'btn-remove-ingredient-' + id;
 
-        // Description
-        let descriptionCell = newIngredient.insertCell();
-        descriptionCell.outerHTML =
-            "<td class='ingredient-description'><input type='text' class='ingredient form-control' " +
-            "name='ingredient' placeholder='Ingredient'></td>"
-
-        // Quantity
-        let quantityCell = newIngredient.insertCell();
-        quantityCell.outerHTML =
-            "<td class='ingredient-quantity'><input type='number' class='productQuantity form-control' " +
-            "name='quantity' min='0'></td>";
-
-        // Measurement Units
-        let selectCell = newIngredient.insertCell();
-        let optionList = document.querySelectorAll(".ingredient-unit .measurementUnit option");
-        selectCell.outerHTML =
-            "<td class='ingredient-unit'>" +
-            "<select class='measurementUnit form-control' name='unit'>" +
-            "<option selected disabled th:value='${null}'>Select</option>" +
-            "<option value='" + optionList[1].value + "'> " + optionList[1].innerText + "</option>" +
-            "<option value='" + optionList[2].value + "'> " + optionList[2].innerText + "</option>" +
-            "<option value='" + optionList[3].value + "'> " + optionList[3].innerText + "</option>" +
-            "<option value='" + optionList[4].value + "'> " + optionList[4].innerText + "</option>" +
-            "</select>" +
-            "</td>";
-
-        // Delete button
-        let button = newIngredient.insertCell();
-        button.outerHTML = "<td class='ingredient-delete form-control'><input type='button' " +
-            "id='btn-remove-ingredient-" + id + "' class='btn btn-remove-ingredient btn-danger align-middle' value='Remove'></td>";
-        $('#btn-remove-ingredient-' + id).click(function (event) {
+        // Add listener
+        ingredientClone.querySelector('td.ingredient-delete > input').addEventListener('click', function (event) {
             removeIngredient(event.target.id);
         })
+
+        // Remove elements
+        ingredientClone.querySelector('td.ingredient-description > div').remove();
+        ingredientClone.querySelector('td.ingredient-unit > div').remove();
+
+        // Create new select item
+        let selectIngredient = $('<select/>', {
+            'class': "selectpicker",
+            'name': "ingredient",
+            'title': "Ingredient",
+            'data-live-search': "true"
+        });
+        let selectUnit = $('<select/>', {
+            'class': "selectpicker",
+            'name': "unit",
+            'title': "Unit",
+            'data-live-search': "true"
+        });
+        // Add option items
+        ingredientList.forEach(item => {
+            selectIngredient.append('<option value=' + item.id + '>' + item.name_en + '</option>');
+        });
+        measurementList.forEach(item => {
+            selectUnit.append('<option value=' + item.toString() + '>' + item.toString().toUpperCase() + '</option>');
+        })
+        // Append to table
+        selectIngredient.appendTo(ingredientClone.querySelector('td.ingredient-description.custom-select')).selectpicker('refresh');
+        selectUnit.appendTo(ingredientClone.querySelector('td.ingredient-unit.custom-select')).selectpicker('refresh');
     } else {
         displayAlert('max-ingredient-alert');
         setTimeout(function (e) {
@@ -116,7 +112,7 @@ function removeIngredient(targetID) {
     let ingredientList = $('tr.new-ingredient');
 
     if (ingredientList.length > min) {
-        $('#new-ingredient-' + id).remove();
+        $('#ingredient-' + id).remove();
         reorderIngredientID();
     } else {
         displayAlert('min-ingredient-alert');
@@ -131,11 +127,11 @@ function reorderIngredientID() {
 
     for (let i = 0; i < list.length; i++) {
         let ingredientID = list.get(i).id;
-        if (ingredientID !== 'new-ingredient-' + (i + 1)) {
-            $('tr#' + ingredientID)[0].id = 'new-ingredient-' + (i + 1);
-            $('tr#new-ingredient-' + (i + 1) + ' > th')[0].innerText = (i + 1);
-            $('tr#new-ingredient-' + (i + 1) + ' > td.ingredient-delete > input[type="button"]#btn-remove-ingredient-'
-                + ingredientID.substring('new-ingredient-'.length, ingredientID.length))[0].id = 'btn-remove-ingredient-' + (i + 1);
+        if (ingredientID !== 'ingredient-' + (i + 1)) {
+            $('tr#' + ingredientID)[0].id = 'ingredient-' + (i + 1);
+            $('tr#ingredient-' + (i + 1) + ' > th')[0].innerText = (i + 1);
+            $('tr#ingredient-' + (i + 1) + ' > td.ingredient-delete > input[type="button"]#btn-remove-ingredient-'
+                + ingredientID.substring('ingredient-'.length, ingredientID.length))[0].id = 'btn-remove-ingredient-' + (i + 1);
         }
     }
 }

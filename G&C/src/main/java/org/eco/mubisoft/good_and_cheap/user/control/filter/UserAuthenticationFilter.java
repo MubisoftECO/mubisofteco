@@ -50,14 +50,14 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
         TokenService tokenService = new TokenService();
 
         String accessToken = tokenService.generateToken(
-                user, request.getRequestURL().toString(), MilliTime.FIVE_MINUTES.time
+                user, request.getRequestURL().toString(), MilliTime.FIVE_MINUTES.getTime()
         );
         String refreshToken = tokenService.generateToken(
-                user, request.getRequestURL().toString(), MilliTime.SIX_HOUR.time
+                user, request.getRequestURL().toString(), MilliTime.SIX_HOUR.getTime()
         );
         // Redirect to index.
         tokenService.setTokenOnSession(accessToken, refreshToken, request.getSession());
-        response.sendRedirect(response.encodeRedirectURL("/"));
+        response.sendRedirect("/");
     }
 
     @Override

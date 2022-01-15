@@ -16,7 +16,11 @@ public enum MilliTime {
     /**
      * Time in milliseconds.
      */
-    public int time;
+    private final int time;
+
+    public int getTime() {
+        return time;
+    }
 
     /**
      * <p>Create a new instance of a MilliTime enum value. Set the time in milliseconds
