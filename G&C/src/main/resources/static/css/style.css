@@ -151,10 +151,6 @@ hr {
     border-color: var(--color-background-green);
 }
 
-.custom-select > div.dropdown {
-    width: 100% !important;
-}
-
 .custom-select > div.dropdown.bootstrap-select > div {
     background-color: white;
 }

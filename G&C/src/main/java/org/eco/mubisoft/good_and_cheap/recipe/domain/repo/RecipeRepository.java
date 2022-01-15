@@ -13,8 +13,12 @@ import java.util.List;
 public interface RecipeRepository extends JpaRepository <Recipe, Long> {
 
     List<Recipe> findRecipesByAuthor(AppUser author);
-    Page<Recipe> findAll(Pageable pageable);
+    Page<Recipe> findAll (Pageable pageable);
+    Page<Recipe> findDistinctByTitleContaining(String keyword, Pageable pageable);
+    Double countDistinctByTitleContaining(String keyword);
     boolean deleteRecipeById(Long id);
     Double countAllByRecipeFlagsIn(List<Flag> flags);
     Page<Recipe> findAllByRecipeFlagsIn(List<Flag> flags, Pageable pageable);
+    Double countDistinctByRecipeFlagsInAndTitleContaining(List<Flag> flags, String title);
+    Page<Recipe> findDistinctByRecipeFlagsInAndTitleContaining(List<Flag> flags, String title, Pageable pageable);
 }

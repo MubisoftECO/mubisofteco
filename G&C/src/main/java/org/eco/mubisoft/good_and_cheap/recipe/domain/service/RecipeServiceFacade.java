@@ -6,6 +6,7 @@ import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Flag;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Recipe;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.repo.RecipeRepository;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -31,10 +32,24 @@ public class RecipeServiceFacade implements RecipeService{
     }
 
     @Override
+    public List<Recipe> getAllRecipesWithTitleContaining(int pageNum, String keyword) {
+        log.info("Fetching all recipes by keyword");
+        Pageable pageable = PageRequest.of(pageNum, ELEMENT_NUM);
+        return recipeRepository.findDistinctByTitleContaining(keyword, pageable).toList();
+    }
+
+    @Override
     public List<Recipe> getAllRecipesByFlags(int pageNum, List<Flag> flags) {
         log.info("Getting recipes by flags");
         Pageable pageable = PageRequest.of(pageNum, ELEMENT_NUM);
         return recipeRepository.findAllByRecipeFlagsIn(flags, pageable).toList();
+    }
+
+    @Override
+    public List<Recipe> getAllRecipesByFlagsWithTitleContaining(int pageNum, List<Flag> flags, String keyword) {
+        log.info("Getting recipes by flags and keyword");
+        Pageable pageable = PageRequest.of(pageNum, ELEMENT_NUM);
+        return recipeRepository.findDistinctByRecipeFlagsInAndTitleContaining(flags, keyword, pageable).toList();
     }
 
     @Override
@@ -66,6 +81,18 @@ public class RecipeServiceFacade implements RecipeService{
     @Override
     public double countPages(List<Flag> flags) {
         return Math.ceil((recipeRepository.countAllByRecipeFlagsIn(flags)) / ELEMENT_NUM);
+    }
+
+    @Override
+    public double countPages(List<Flag> flags, String keyword) {
+        return Math.ceil(
+                recipeRepository.countDistinctByRecipeFlagsInAndTitleContaining(flags, keyword) / ELEMENT_NUM
+        );
+    }
+
+    @Override
+    public double countPages(String keyword) {
+        return Math.ceil(recipeRepository.countDistinctByTitleContaining(keyword) / ELEMENT_NUM);
     }
 
     @Override

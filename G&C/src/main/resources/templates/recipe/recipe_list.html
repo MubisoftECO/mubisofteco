@@ -13,56 +13,69 @@
 <body>
     <!-- Header -->
     <header th:replace="includes/header :: header"></header>
+
     <form id="form-select-pages" action="/recipe/view" method="get">
-    <div class="search">
-        <button class="btn btn_search"> Search</button>
-    </div>
 
-    <div class="button_bar">
-            <select id="flag-multiselect" name="flags" class="selectpicker" data-style="btn btn_back btn-dark" multiple title="Filter">
-                    <th:block th:each="flag : ${flagList}">
-                        <th:block th:if="${#lists.contains(selectedFlags, flag.getId().toString())}">
-                            <option th:name="${flag.getId()}" th:value="${flag.getId()}" selected>[[${flag.getName_en()}]]</option>
-                        </th:block>
-                        <th:block th:unless="${#lists.contains(selectedFlags, flag.getId().toString())}">
-                            <option th:name="${flag.getId()}" th:value="${flag.getId()}">[[${flag.getName_en()}]]</option>
-                        </th:block>
-                    </th:block>
-            </select>
-    </div>
+        <div id="search">
+            <div id="search-form" class="form-inline">
 
-    <!-- Main -->
-    <main class="container-fluid">
-        <div id="card-container">
-            <th:block th:each="recipe : ${recipeList}">
-                <div class="card mb-3" >
-                    <a th:href="@{'/recipe/view/'+${recipe.getId()}}" class="recipe_card">
-                        <div class="row no-gutters">
-                            <div>
-                                <img src="/media/imgs/ensalada_prueba.png" class="card-img" th:alt="${recipe.getTitle()}">
-                                <!-- <img th:src="${recipe.getImgSrc()}" class="card-img" th:alt="${recipe.getTitle()}"> -->
-                            </div>
-                            <div>
-                                <div class="card-body">
-                                    <h5 class="card-title" th:text="${recipe.getTitle()}"></h5>
-                                    <p class="card-text" th:text="${recipe.getDescription()}"></p>
-                                    <p class="card-text" th:text="${recipe.getTimeInMinutes() + ' min'}"></p>
+                <th:block th:if="${#strings.isEmpty(keyword)}">
+                    <input id="search-box" class="form-control mr-sm-2" name="keyword" type="text" placeholder="Search..." aria-label="Search...">
+                </th:block>
+                <th:block th:unless="${#strings.isEmpty(keyword)}">
+                    <input id="search-box" class="form-control mr-sm-2" name="keyword" type="text" placeholder="Search..." aria-label="Search..." th:value="${keyword}">
+                </th:block>
+
+
+                <button id="search-submit" class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button>
+            </div>
+        </div>
+
+        <div class="button_bar custom-select">
+                <select id="flag-multiselect" name="flags" class="selectpicker" data-style="btn btn_back" multiple title="Filter">
+                        <th:block th:each="flag : ${flagList}">
+                            <th:block th:if="${#lists.contains(selectedFlags, flag.getId().toString())}">
+                                <option th:name="${flag.getId()}" th:value="${flag.getId()}" selected>[[${flag.getName_en()}]]</option>
+                            </th:block>
+                            <th:block th:unless="${#lists.contains(selectedFlags, flag.getId().toString())}">
+                                <option th:name="${flag.getId()}" th:value="${flag.getId()}">[[${flag.getName_en()}]]</option>
+                            </th:block>
+                        </th:block>
+                </select>
+        </div>
+
+        <!-- Main -->
+        <main class="container-fluid">
+            <div id="card-container">
+                <th:block th:each="recipe : ${recipeList}">
+                    <div class="card mb-3" >
+                        <a th:href="@{'/recipe/view/'+${recipe.getId()}}" class="recipe_card">
+                            <div class="row no-gutters">
+                                <div>
+                                    <img src="/media/imgs/ensalada_prueba.png" class="card-img" th:alt="${recipe.getTitle()}">
+                                    <!-- <img th:src="${recipe.getImgSrc()}" class="card-img" th:alt="${recipe.getTitle()}"> -->
+                                </div>
+                                <div>
+                                    <div class="card-body">
+                                        <h5 class="card-title" th:text="${recipe.getTitle()}"></h5>
+                                        <p class="card-text" th:text="${recipe.getDescription()}"></p>
+                                        <p class="card-text" th:text="${recipe.getTimeInMinutes() + ' min'}"></p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </a>
-                </div>
-            </th:block>
-        </div>
-        <div class="pagination_form">
+                        </a>
+                    </div>
+                </th:block>
+            </div>
+            <div class="pagination_form">
 
 
-            <label>Page: <input type="number" name="page" th:value="${page}" readonly></label>
-            <button type="submit" name="page-move" class="btn btn-dark" th:value="previous">Previous</button>
-            <button type="submit" name="page-move" class="btn btn-dark" th:value="next">Next</button>
+                <label>Page: <input type="number" name="page" th:value="${page}" readonly></label>
+                <button type="submit" name="page-move" class="btn btn-dark" th:value="previous">Previous</button>
+                <button type="submit" name="page-move" class="btn btn-dark" th:value="next">Next</button>
 
-        </div>
-    </main>
+            </div>
+        </main>
     </form>
 
     <!-- Footer -->

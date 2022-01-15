@@ -73,26 +73,36 @@ public class RecipeController {
             Model model,
             @RequestParam(value = "page") Optional<Integer> pageNum,
             @RequestParam(value = "page-move", required = false) String direction,
-            @RequestParam (required = false) List<String> flags
+            @RequestParam (required = false) List<String> flags,
+            @RequestParam (required = false) String keyword
     ) {
         Integer nextPage;
         List<Recipe> recipeList;
 
-        if(flags != null && flags.size() > 0){
+
+        if(keyword == null) keyword = "";
+        /*if(flags == null){
+            flags = new ArrayList<>();
+            for (Flag flag : flagService.getAllFlags()) flags.add(flag.getId().toString());
+        }*/
+
+
+        if(flags != null && !flags.isEmpty()){
             //Filtrar con flags
             List<Flag> flagObjectList = new ArrayList<>();
             flags.forEach(flagId -> flagObjectList.add(new Flag(Long.parseLong(flagId))));
-            System.out.println(recipeService.countPages(flagObjectList));
-            nextPage = PageManager.getPageNum(pageNum.orElse(null), (int) recipeService.countPages(flagObjectList), direction);
-            recipeList = recipeService.getAllRecipesByFlags(nextPage - 1, flagObjectList);
+            nextPage = PageManager.getPageNum(pageNum.orElse(null), (int)
+                    recipeService.countPages(flagObjectList, keyword), direction);
+            recipeList = recipeService.getAllRecipesByFlagsWithTitleContaining(nextPage - 1,
+                    flagObjectList, keyword);
         } else {
             //Si no hay filtros
-            nextPage = PageManager.getPageNum(pageNum.orElse(null), (int) recipeService.countPages(), direction);
-            recipeList = recipeService.getAllRecipes(nextPage - 1);
+            nextPage = PageManager.getPageNum(pageNum.orElse(null), (int) recipeService.countPages(keyword), direction);
+            recipeList = recipeService.getAllRecipesWithTitleContaining(nextPage - 1, keyword);
         }
 
 
-
+        model.addAttribute("keyword", keyword);
         model.addAttribute("recipeList", recipeList);
         model.addAttribute("flagList", flagService.getAllFlags());
         model.addAttribute("selectedFlags", flags != null ? flags : new ArrayList<Flag>());
