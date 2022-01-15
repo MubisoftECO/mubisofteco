@@ -3,6 +3,7 @@ package org.eco.mubisoft.good_and_cheap.product.domain.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.product.domain.model.Product;
+import org.eco.mubisoft.good_and_cheap.product.domain.model.ProductType;
 import org.eco.mubisoft.good_and_cheap.product.domain.repo.ProductRepository;
 import org.eco.mubisoft.good_and_cheap.product.domain.repo.ProductTypeRepository;
 import org.springframework.data.domain.PageRequest;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -55,5 +57,9 @@ public class ProductServiceFacade implements ProductService {
         return Math.ceil(productRepository.count() / ELEMENT_NUM);
     }
 
+    @Override
+    public List<ProductType> getIngredients() {
+        return productTypeRepository.findAll();
+    }
 
 }

@@ -7,6 +7,10 @@ th {
   text-align: center;
 }
 
+input[type="number"].bckgr-gray {
+  background-color: var(--input-background-color);
+}
+
 .wrapper > .recipe-step {
   cursor: move;
 }

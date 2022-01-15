@@ -6,6 +6,8 @@
 :root{
     font-family: 'Manrope', sans-serif;
     font-size: 20px;
+    --color-background-green: #5BB964;
+    --input-background-color: #f8f9fa;
     --color-btn-bg-dark: #302E2E;
     --color-btn-bg-lightgrey: #EBEEE2;
     --color-text-bg-dark: white;
@@ -142,6 +144,34 @@ hr {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.btn-add {
+    background-color: var(--color-background-green);
+    border-color: var(--color-background-green);
+}
+
+.custom-select > div.dropdown {
+    width: 100% !important;
+}
+
+.custom-select > div.dropdown.bootstrap-select > div {
+    background-color: white;
+}
+
+.custom-select > div.dropdown.bootstrap-select ul {
+    background-color: white;
+}
+
+.custom-select > div.dropdown.bootstrap-select ul a {
+    border-radius: 0.25rem;
+}
+
+.custom-select > div.dropdown.bootstrap-select ul a.dropdown-item.active,
+.custom-select > div.dropdown.bootstrap-select ul a.dropdown-item.selected,
+.custom-select > div.dropdown.bootstrap-select ul a.dropdown-item:active {
+    background-color: var(--color-background-green);
+    color: white;
 }
 
 /* FOOTER */

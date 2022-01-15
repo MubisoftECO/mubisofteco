@@ -19,10 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.awt.image.AreaAveragingScaleFilter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,6 +40,7 @@ public class RecipeController {
     @GetMapping("/create")
     public String createProduct(Model model){
         model.addAttribute("flagList", flagService.getAllFlags());
+        model.addAttribute("ingredientList", productService.getIngredients());
         model.addAttribute("measurementList", productService.getMeasurementUnits());
 
         return "recipe/recipe_form";
@@ -54,9 +53,6 @@ public class RecipeController {
         recipe.setTitle(request.getParameter("title"));
         recipe.setDescription(request.getParameter("description"));
         recipe.setTimeInMinutes(Integer.parseInt(request.getParameter("timeInMinutes")));
-
-        /*recipe.setIngredients(request.getParameter("ingredients"));*/
-        /*flags*/
 
         HttpSession session = request.getSession();
         String accessToken = (String) session.getAttribute("accessToken");

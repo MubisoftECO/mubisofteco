@@ -1,21 +1,3 @@
-const max = 24;
-const min = 1;
-
-window.onload = function () {
-    $('input[type=button]#btn-add-ingredient').click(function (event) {
-        addIngredient();
-    });
-    $('input[type=button]#btn-add-step').click(function (event) {
-        addStep();
-    });
-    $('input[type=button].btn-remove-ingredient').click(function (event) {
-        removeIngredient(event.target.id);
-    });
-    $('button[type=button].btn-close').click(function (event) {
-        removeStep(event.target.id);
-    });
-}
-
 function addStep(){
     let steps = $('div.recipe-step');
 
@@ -29,15 +11,15 @@ function addStep(){
 
         newStep.innerHTML =
             "<div class='card-header space-between'>" +
-"               <span id='card-header-title-" + id + "' class='badge bg-secondary rounded-pill order'>" + id + "</span>" +
-"               <button type='button' id='button-remove-step-" + id + "' class='btn-close' aria-label='Close'></button>" +
-"            </div>" +
-"            <div class='card-body'>" +
-"               <label class='container-fluid'>" +
-"                   <textarea id='recipe-step-description-" + id + "' class='form-control recipe-step'\n" +
-"                       name='step-" + id + "' maxlength='255'></textarea>" +
-"               </label>" +
-"            </div>"
+            "               <span id='card-header-title-" + id + "' class='badge bg-secondary rounded-pill order'>" + id + "</span>" +
+            "               <button type='button' id='button-remove-step-" + id + "' class='btn-close' aria-label='Close'></button>" +
+            "            </div>" +
+            "            <div class='card-body'>" +
+            "               <label class='container-fluid'>" +
+            "                   <textarea id='recipe-step-description-" + id + "' class='form-control recipe-step'\n" +
+            "                       name='step-" + id + "' maxlength='255'></textarea>" +
+            "               </label>" +
+            "            </div>"
 
         // Append the child to the list.
         $('div#add-step').append(newStep);
