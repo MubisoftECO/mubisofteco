@@ -1,6 +1,5 @@
 package org.eco.mubisoft.good_and_cheap.user.domain.repo;
 
-import org.eco.mubisoft.good_and_cheap.user.domain.model.City;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.Location;
 import org.springframework.data.jpa.repository.JpaRepository;
 

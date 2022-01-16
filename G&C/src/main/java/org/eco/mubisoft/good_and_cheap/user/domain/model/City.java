@@ -1,7 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.user.domain.model;
 
 import lombok.Getter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnJava;
 
 import javax.persistence.*;
 

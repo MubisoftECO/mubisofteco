@@ -64,7 +64,6 @@ public class RecipeController {
         recipe.setImgSrc(request.getParameter("imgSrc"));
 
         recipeService.saveRecipe(recipe);
-       // return "redirect:/recipe/view/"+recipe.getId().toString();
         return "redirect:/recipe/view/";
     }
 
@@ -79,13 +78,7 @@ public class RecipeController {
         Integer nextPage;
         List<Recipe> recipeList;
 
-
         if(keyword == null) keyword = "";
-        /*if(flags == null){
-            flags = new ArrayList<>();
-            for (Flag flag : flagService.getAllFlags()) flags.add(flag.getId().toString());
-        }*/
-
 
         if(flags != null && !flags.isEmpty()){
             //Filtrar con flags

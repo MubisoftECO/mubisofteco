@@ -68,7 +68,7 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    public void saveUser(HttpServletRequest request, HttpServletResponse response, @RequestParam("image") MultipartFile imageFile) throws IOException {
+    public void saveUser(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "image", required = false) MultipartFile imageFile) throws IOException {
         AppUser user = new AppUser();
 
         user.setName(request.getParameter("name"));
@@ -84,14 +84,16 @@ public class UserController {
 
         user.setLocation(savedLocation);
 
-
-        String fileName = StringUtils.cleanPath(imageFile.getOriginalFilename());
-        user.setImgSrc(fileName);
         AppUser savedUser = userService.saveUser(user);
         roleService.setUserRole(savedUser.getUsername(), "ROLE_USER");
-        String uploadDir = "user-photos/" + savedUser.getId();
 
-        FileUploadUtil.saveFile(uploadDir, fileName, imageFile);
+        if (!imageFile.isEmpty()){
+            String fileName = StringUtils.cleanPath(Objects.requireNonNull(imageFile.getOriginalFilename()));
+            user.setImgSrc(fileName);
+            String uploadDir = "user-photos/" + savedUser.getId();
+            FileUploadUtil.saveFile(uploadDir, fileName, imageFile);
+        }
+
 
         // Send response
         response.setStatus(HttpServletResponse.SC_CREATED);
@@ -100,8 +102,6 @@ public class UserController {
 
     @GetMapping("/view")
     public String getView(Model model) {
-        List<AppUser> userList = userService.getAllUsers();
-        //model.addAttribute("userList", userList);
         model.addAttribute("roleList", roleService.getAllRoles());
         return "user/user_list";
     }

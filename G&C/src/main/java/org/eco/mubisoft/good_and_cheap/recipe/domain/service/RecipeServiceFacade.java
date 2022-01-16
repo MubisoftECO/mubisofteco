@@ -21,34 +21,34 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RecipeServiceFacade implements RecipeService{
 
-    private static final int ELEMENT_NUM = 20;
+    private static final double ELEMENT_NUM = 20;
     private final RecipeRepository recipeRepository;
 
     @Override
     public List<Recipe> getAllRecipes(int pageNum){
         log.info("Fetching all the recipes from the database");
-        Pageable pageable = PageRequest.of(pageNum, ELEMENT_NUM);
+        Pageable pageable = PageRequest.of(pageNum, (int) ELEMENT_NUM);
         return recipeRepository.findAll(pageable).toList();
     }
 
     @Override
     public List<Recipe> getAllRecipesWithTitleContaining(int pageNum, String keyword) {
         log.info("Fetching all recipes by keyword");
-        Pageable pageable = PageRequest.of(pageNum, ELEMENT_NUM);
+        Pageable pageable = PageRequest.of(pageNum, (int) ELEMENT_NUM);
         return recipeRepository.findDistinctByTitleContaining(keyword, pageable).toList();
     }
 
     @Override
     public List<Recipe> getAllRecipesByFlags(int pageNum, List<Flag> flags) {
         log.info("Getting recipes by flags");
-        Pageable pageable = PageRequest.of(pageNum, ELEMENT_NUM);
+        Pageable pageable = PageRequest.of(pageNum, (int) ELEMENT_NUM);
         return recipeRepository.findAllByRecipeFlagsIn(flags, pageable).toList();
     }
 
     @Override
     public List<Recipe> getAllRecipesByFlagsWithTitleContaining(int pageNum, List<Flag> flags, String keyword) {
         log.info("Getting recipes by flags and keyword");
-        Pageable pageable = PageRequest.of(pageNum, ELEMENT_NUM);
+        Pageable pageable = PageRequest.of(pageNum, (int) ELEMENT_NUM);
         return recipeRepository.findDistinctByRecipeFlagsInAndTitleContaining(flags, keyword, pageable).toList();
     }
 

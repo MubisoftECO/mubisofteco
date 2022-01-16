@@ -12,8 +12,6 @@ $(document).ready(function(){
 });
 
 function buildUrl(){
-    //document.getElementById("form-select-pages").submit();
-
     let select = document.getElementById("flag-multiselect");
     let result = [];
     let options = select && select.options;

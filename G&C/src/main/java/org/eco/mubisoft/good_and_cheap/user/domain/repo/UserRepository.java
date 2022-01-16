@@ -4,8 +4,6 @@ import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.Location;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 

@@ -3,9 +3,6 @@ package org.eco.mubisoft.good_and_cheap.recipe.domain.service;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Flag;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Recipe;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
-
-import javax.xml.stream.FactoryConfigurationError;
-import java.util.Collection;
 import java.util.List;
 
 public interface RecipeService {

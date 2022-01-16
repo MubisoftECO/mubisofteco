@@ -2,6 +2,8 @@ package org.eco.mubisoft.good_and_cheap.application.pages;
 
 public class PageManager {
 
+    private PageManager(){}
+
     public static Integer getPageNum(Integer pageNum, Integer totalPageCount, String direction) {
         if (pageNum != null && direction != null) {
             if (direction.equals("next")) {

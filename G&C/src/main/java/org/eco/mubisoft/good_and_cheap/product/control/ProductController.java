@@ -8,8 +8,6 @@ import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.swing.text.html.Option;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,7 +37,6 @@ public class ProductController {
         try {
             Date expirationDate = format.parse(date);
             product.setExpirationDate(expirationDate);
-            Date publishDate = new Date();
             productService.addProduct(product);
 
         } catch (ParseException e) {
@@ -80,7 +77,7 @@ public class ProductController {
 
 
     @GetMapping("/edit/{product_id}")
-    public String ShowUpdateProduct(Model model, @PathVariable(value = "product_id") long id) {
+    public String showUpdateProduct(Model model, @PathVariable(value = "product_id") long id) {
         Product product = productService.getProduct(id);
 
         model.addAttribute("product", product);

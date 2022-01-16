@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -20,13 +19,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductServiceFacade implements ProductService {
 
-    private static final int ELEMENT_NUM = 20;
+    private static final double ELEMENT_NUM = 20;
     private final ProductRepository productRepository;
     private final ProductTypeRepository productTypeRepository;
 
     @Override
     public List<Product> getAllProducts(Integer pageNum) {
-        Pageable pageable = PageRequest.of(pageNum, ELEMENT_NUM);
+        Pageable pageable = PageRequest.of(pageNum, (int) ELEMENT_NUM);
         return productRepository.findAll(pageable).toList();
     }
 

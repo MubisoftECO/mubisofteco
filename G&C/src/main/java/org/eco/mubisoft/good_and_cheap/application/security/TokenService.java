@@ -49,7 +49,7 @@ public class TokenService {
         log.info("AccessToken: {} | RefreshToken: {}", accessToken, refreshToken);
     }
 
-    public UsernamePasswordAuthenticationToken getUserPasswordToken(String authToken) throws Exception {
+    public UsernamePasswordAuthenticationToken getUserPasswordToken(String authToken) throws JWTVerificationException {
         String token = authToken.substring("Bearer ".length());
         DecodedJWT decodedJWT = verifier.verify(token);
 
