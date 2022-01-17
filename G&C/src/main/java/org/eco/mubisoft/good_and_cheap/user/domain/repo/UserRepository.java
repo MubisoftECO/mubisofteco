@@ -12,7 +12,7 @@ import java.util.Optional;
  * <p>Interface that manages the queries executed by the program to get information
  * from the database about the user table.</p>
  */
-public interface UserRepository extends JpaRepository<AppUser, Location> {
+public interface UserRepository extends JpaRepository<AppUser, Long> {
 
     Optional<AppUser> findById(Long id);
 

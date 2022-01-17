@@ -20,8 +20,8 @@ public class ProductFamily {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "id")
     private Long id;
-    private String name_es;
-    private String name_en;
-    private String name_eu;
+    private String nameEs;
+    private String nameEn;
+    private String nameEu;
 
 }

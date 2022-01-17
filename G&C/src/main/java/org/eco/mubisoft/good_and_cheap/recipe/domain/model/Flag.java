@@ -17,9 +17,9 @@ public class Flag {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name_es;
-    private String name_en;
-    private String name_eu;
+    private String nameEs;
+    private String nameEn;
+    private String nameEu;
 
     public Flag(Long id){
         this.id = id;

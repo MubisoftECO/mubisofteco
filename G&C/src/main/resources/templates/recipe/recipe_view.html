@@ -31,23 +31,25 @@
 
     <th:block th:each="flag : ${recipe.getRecipeFlags}">
         <input type="checkbox" id="flag" name="flag">
-        <label for="flag">[[${flag.getName_en()}]]</label>
+        <label for="flag" th:text="${flag.getNameEn()}"></label>
     </th:block>
     <br>
     <br>
     <h4>Ingredients</h4>
     <table class="table">
         <thead>
-            <th>Ingredient</th>
-            <th>Quantity</th>
-            <th>Unit/Value</th>
+            <tr>
+                <th scope="col">Ingredient</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Unit/Value</th>
+            </tr>
         </thead>
         <tbody>
-        <th:block th:each="ingredients : ${recipe.getIngredients}">
+        <th:block th:each="ingredient : ${recipe.getIngredients}">
             <tr>
-                <td>[[${ingredients.getName_en()}]]</td>
-                <td>hola</td>
-                <td>[[${ingredients.getMeasurementUnit()}]]</td>
+                <td th:text="${ingredient.getProductType().getNameEn()}"></td>
+                <td th:text="${ingredient.getQuantity()}"></td>
+                <td th:text="${ingredient.getProductType().getMeasurementUnit()}"></td>
             </tr>
         </th:block>
         </tbody>

@@ -19,7 +19,7 @@ import java.util.Collection;
 public class Recipe {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
     private String description;
@@ -28,9 +28,8 @@ public class Recipe {
     private String imgSrc = null;
     @ManyToOne
     private AppUser author;
-
-    @ManyToMany
-    private Collection<ProductType> ingredients = new ArrayList<>();
+    @OneToMany(mappedBy = "recipe")
+    private Collection<Ingredient> ingredients = new ArrayList<>();
     @ManyToMany
     private Collection<Flag> recipeFlags = new ArrayList<>();
 

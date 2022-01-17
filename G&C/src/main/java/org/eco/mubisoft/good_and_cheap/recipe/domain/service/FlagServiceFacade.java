@@ -18,7 +18,7 @@ public class FlagServiceFacade implements FlagService {
 
     @Override
     public Flag saveFlag(Flag flag) {
-        log.info("Saving flag {} on the database.", flag.getName_en());
+        log.info("Saving flag {} on the database.", flag.getNameEn());
         return flagRepo.save(flag);
     }
 

@@ -18,7 +18,7 @@
     <form th:action="@{/product/save}" method="post" class="justify-content-center" th:object="${product}">
         <div class="row gy-2" id="form-customer">
             <div class="col-12 col-sm-6 input-box name">
-                <input type="text" name="name"  th:field="*{name_es}" placeholder="Name"   class="form-control" >
+                <input type="text" name="name" th:field="*{getNameEs}" placeholder="Name" class="form-control" >
             </div>
             <div class="col-12 col-sm-6 input-box quantity">
                 <input type="text" name="quantity" th:field="*{quantity}" placeholder="Quantity"   class="form-control" >
