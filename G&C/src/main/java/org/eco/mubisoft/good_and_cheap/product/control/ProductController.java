@@ -7,6 +7,7 @@ import org.eco.mubisoft.good_and_cheap.product.domain.model.Product;
 import org.eco.mubisoft.good_and_cheap.product.domain.model.ProductType;
 import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductService;
 import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductTypeService;
+import org.eco.mubisoft.good_and_cheap.user.domain.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,7 @@ public class ProductController {
 
     private final ProductService productService;
     private final ProductTypeService productTypeService;
+    private final UserService userService;
 
     @GetMapping("/create")
     public String createProduct(Model model) {
@@ -42,13 +44,12 @@ public class ProductController {
     }
 
     @PostMapping("/save")
-    public String saveProduct(HttpServletRequest request, HttpServletResponse response, @RequestParam(name = "date") String date, Product product) throws ParseException {
+    public String saveProduct(HttpServletRequest request, HttpServletResponse response, @RequestParam(name = "date") String date) throws ParseException {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date publishDate = new Date();
 
         Product producto = new Product();
-        producto.setName_es(request.getParameter("name_es"));
+        producto.setName_es(request.getParameter("name_en"));
 
         double quantity = Double.parseDouble(request.getParameter("quantity"));
         producto.setQuantity(quantity);
@@ -56,25 +57,20 @@ public class ProductController {
         producto.setPrice(price);
 
         Date expirationDate = format.parse(date);
-        product.setExpirationDate(expirationDate);
+        producto.setExpirationDate(expirationDate);
 
+        Date publishDate = new Date();
+        producto.setPublishDate(publishDate);
+
+        producto.setVendor(userService.getLoggedUser(request));
 
         producto.setProductType(productTypeService.getProductType(
-            Long.parseLong(request.getParameter("productType"))
+                Long.parseLong(request.getParameter("productType"))
         ));
-        /*
-        Location locationToSave = new Location();
-        locationToSave.setCity(cityService.getCity(Long.parseLong(request.getParameter("city"))));
-        Location savedLocation = locationService.saveLocation(locationToSave);
 
-        user.setLocation(savedLocation);*/
+        productService.addProduct(producto);
 
-
-
-        productService.addProduct(product);
-
-
-        return "redirect:/product/view/"+product.getId().toString();
+        return "redirect:/product/view/"+producto.getId().toString();
     }
 
     @PostMapping("/back")
