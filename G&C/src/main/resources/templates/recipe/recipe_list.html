@@ -18,14 +18,12 @@
 
         <div id="search">
             <div id="search-form" class="form-inline">
-
                 <th:block th:if="${#strings.isEmpty(keyword)}">
                     <input id="search-box" class="form-control mr-sm-2" name="keyword" type="text" placeholder="Search..." aria-label="Search...">
                 </th:block>
                 <th:block th:unless="${#strings.isEmpty(keyword)}">
                     <input id="search-box" class="form-control mr-sm-2" name="keyword" type="text" placeholder="Search..." aria-label="Search..." th:value="${keyword}">
                 </th:block>
-
 
                 <button id="search-submit" class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button>
             </div>
@@ -51,8 +49,11 @@
                     <div class="card mb-3" >
                         <a th:href="@{'/recipe/view/'+${recipe.getId()}}" class="recipe_card">
                             <div class="row no-gutters">
-                                <div>
-                                    <img src="/media/imgs/ensalada_prueba.png" class="card-img" th:alt="${recipe.getTitle()}">
+                                <div th:if="${recipe.getImgSrc() == null || recipe.getImgSrc().equals('')}">
+                                    <img src="/media/imgs/recipe/recipe-base.png" class="card-img" alt="Default Recipe Image">
+                                </div>
+                                <div th:unless="${recipe.getImgSrc() == null || recipe.getImgSrc().equals('')}">
+                                    <img src="/media/imgs/recipe/recipe-base.png" class="card-img" th:alt="${recipe.getTitle()}">
                                 </div>
                                 <div>
                                     <div class="card-body">
