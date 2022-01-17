@@ -7,6 +7,7 @@ import org.eco.mubisoft.good_and_cheap.product.domain.model.Product;
 import org.eco.mubisoft.good_and_cheap.product.domain.model.ProductType;
 import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductService;
 import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductTypeService;
+import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -96,9 +97,12 @@ public class ProductController {
 
 
     @GetMapping("/view/{product_id}")
-    public String viewProduct(Model model, @PathVariable(value = "product_id") long id) {
+    public String viewProduct(Model model, @PathVariable(value = "product_id") long id, HttpServletRequest request) {
         Product product = productService.getProduct(id);
         model.addAttribute("product", product);
+
+        AppUser loggedUser = userService.getLoggedUser(request);
+        model.addAttribute("user", loggedUser);
 
         return "/product/product_current";
     }
