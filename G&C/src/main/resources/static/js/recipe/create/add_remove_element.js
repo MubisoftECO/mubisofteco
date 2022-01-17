@@ -63,7 +63,7 @@ function addIngredient(){
 
         // Create new select item
         let selectIngredient = $('<select/>', {
-            'class': "selectpicker",
+            'class': "selectpicker required",
             'name': "ingredient",
             'title': "Ingredient",
             'data-live-search': "true"
@@ -76,7 +76,7 @@ function addIngredient(){
         });
         // Add option items
         ingredientList.forEach(item => {
-            selectIngredient.append('<option value=' + item.id + '>' + item.name_en + '</option>');
+            selectIngredient.append('<option value=' + item.id + '>' + item.nameEn + '</option>');
         });
         measurementList.forEach(item => {
             selectUnit.append('<option value=' + item.toString() + '>' + item.toString().toUpperCase() + '</option>');

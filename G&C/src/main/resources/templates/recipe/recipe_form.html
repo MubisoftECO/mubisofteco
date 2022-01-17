@@ -33,7 +33,7 @@
     <form class="justify-content-center" th:action="@{'/recipe/save'}" method="post">
         <section id="recipe-introduction">
             <div class="form-floating">
-                <input type="text" id="title" class="form-control" name="title" placeholder="Title" maxlength="255">
+                <input type="text" id="title" class="form-control" name="title" placeholder="Title" maxlength="255" required>
                 <label for="title">Title</label>
             </div>
             <div class="form-floating">
@@ -43,7 +43,7 @@
             </div>
             <div class="form-floating">
                 <input type="number" id="timeInMinutes" class="form-control" name="time"
-                       placeholder="Time in minutes" min="1">
+                       placeholder="Time in minutes" min="1" required>
                 <label for="timeInMinutes">Time in minutes</label>
             </div>
         </section>
@@ -81,21 +81,18 @@
                                 </th:block>
                             </select>
                         </td>
-
-
-
                         <td class="ingredient-quantity">
-                            <input type="number" class="productQuantity form-control bckgr-gray" name="quantity" min="0">
+                            <input type="number" step="any" class="productQuantity form-control bckgr-gray" name="quantity" min="0" required>
                         </td>
                         <td class="ingredient-unit custom-select">
-                            <select class="selectpicker" name="unit" title="Unit">
+                            <select class="selectpicker" name="unit" title="Unit" required>
                                 <th:block th:each="unit : ${measurementList}">
                                     <option th:value="${unit}" th:text="${unit.toUpperCase()}"></option>
                                 </th:block>
                             </select>
                         </td>
                         <td class="ingredient-delete form-control">
-                            <input type="button" id="btn-remove-ingredient-1"
+                            <input type="button" id="btn-remove-ingredient-1" required
                                     class="btn btn-remove-ingredient btn-danger align-middle" value="Remove">
                         </td>
                     </tr>
@@ -126,7 +123,7 @@
                     </div>
                     <div class="card-body">
                         <label class="container-fluid">
-                            <textarea id="recipe-step-description-1" class="form-control recipe-step"
+                            <textarea id="recipe-step-description-1" class="form-control recipe-step" required
                                       name="step-1" maxlength="255"></textarea>
                         </label>
                     </div>

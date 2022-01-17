@@ -70,11 +70,11 @@ public class UserServiceFacade implements UserService {
         }
 
         // Create Basic Users
-        saveUser(userNames[7][0], userNames[7][1], cityList, Collections.singletonList(roleList.get(0)));
-        saveUser(userNames[8][0], userNames[8][1], cityList, Collections.singletonList(roleList.get(1)));
-        saveUser(userNames[9][0], userNames[9][1], cityList, Collections.singletonList(roleList.get(2)));
-        saveUser(userNames[10][0], userNames[10][1], cityList, Collections.singletonList(roleList.get(3)));
-        saveUser(userNames[11][0], userNames[11][1], cityList, Collections.singletonList(roleList.get(4)));
+        saveUser(userNames[9][0], userNames[9][1], cityList, Collections.singletonList(roleList.get(0)));
+        saveUser(userNames[10][0], userNames[10][1], cityList, Collections.singletonList(roleList.get(1)));
+        saveUser(userNames[11][0], userNames[11][1], cityList, Collections.singletonList(roleList.get(2)));
+        saveUser(userNames[7][0], userNames[7][1], cityList, Collections.singletonList(roleList.get(3)));
+        saveUser(userNames[8][0], userNames[8][1], cityList, Collections.singletonList(roleList.get(4)));
     }
 
     private void saveUser(String name, String secondName, List<City> cityList, Collection<Role> roleList) {
