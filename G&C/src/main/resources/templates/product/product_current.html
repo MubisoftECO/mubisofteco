@@ -11,34 +11,18 @@
 <body>
 
 <main  class="container">
-    <h1 class="badge bg-secondary">Product list</h1>
+
     <table class="table">
-        <thead>
-            <th scope="col">Product_id</th>
-            <th scope="col">Expiration_date</th>
-            <th scope="col">name</th>
-            <th scope="col">price</th>
-            <th scope="col">publish_date</th>
-            <th scope="col">quantity</th>
-            <th scope="col">remove_date</th>
-            <th scope="col">remove_reason</th>
-            <th scope="col">vendor_id</th>
-            <th scope="col">Product_type</th>
-        </thead>
-        <tbody>
-        <th:block th:with="product=${product}">
-            <tr >
-                <th scope="row">[[${product.getId()}]]</th>
-                <td>[[${product.getExpirationDate()}]]</td>
-                <td>[[${product.getName()}]]</td>
-                <td>[[${product.getPrice()}]]</td>
-                <td>[[${product.getPublishDate()}]]</td>
-                <td>[[${product.getQuantity()}]]</td>
-                <td>[[${product.getRemovedDate()}]]</td>
-                <td>[[${product.getRemoveReason()}]]</td>
-            </tr>
-        </th:block>
-        </tbody>
+
+        <img th:src="${'/media/imgs/' + product.getProductType().getImgSrc()}" th:alt="${product.getName_es() + ' Image'}">
+        <h3 th:text="${#numbers.formatDecimal(product.getPrice, 0, 'COMMA', 2, 'POINT')}"></h3>
+
+            <div>
+                <div class="card_title">
+                    <h2 th:text="${product.getName_es}"></h2>
+                </div>
+            </div>
+
     </table>
 </main>
 </body>
