@@ -35,10 +35,10 @@
                 <select id="flag-multiselect" name="flags" class="selectpicker" data-style="btn btn_back" multiple title="Filter">
                         <th:block th:each="flag : ${flagList}">
                             <th:block th:if="${#lists.contains(selectedFlags, flag.getId().toString())}">
-                                <option th:name="${flag.getId()}" th:value="${flag.getId()}" selected>[[${flag.getName_en()}]]</option>
+                                <option th:name="${flag.getId()}" th:value="${flag.getId()}" selected>[[${flag.getNameEn()}]]</option>
                             </th:block>
                             <th:block th:unless="${#lists.contains(selectedFlags, flag.getId().toString())}">
-                                <option th:name="${flag.getId()}" th:value="${flag.getId()}">[[${flag.getName_en()}]]</option>
+                                <option th:name="${flag.getId()}" th:value="${flag.getId()}">[[${flag.getNameEn()}]]</option>
                             </th:block>
                         </th:block>
                 </select>
