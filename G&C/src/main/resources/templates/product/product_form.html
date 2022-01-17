@@ -31,13 +31,24 @@
             </div>
              <div class="col-12 col-sm-6 input-box choose">
 
-                <input class="form-control" list="datalistOptions"placeholder="Choose a Product Type">
+                <input class="form-control" list="datalistOptions" placeholder="Choose a Product Type" name="productType">
                 <datalist id="datalistOptions">
-                    <option value="Ma">
-                    <option value="Mae">
-                    <option value="Mai">
-                    <option value="Maee">
-                    <option value="Maea">
+
+                    <!--<th:block th:each="prodType : ${productType}">-->
+
+                    <!--<select th:field="*{productType}">
+                        <option th:value="${prodType.getName_es()}">
+                    </select>-->
+
+                        <select id="ac-dropdown" name="productType" class="col-12 form-select" required>
+                            <option  value="" disabled selected>Product Type</option>
+                            <th:block th:each="productType : ${productTypeList}">
+                                <option th:value="${productType.getId()}">[[${productType.getName_es()}]]</option>
+                            </th:block>
+                        </select>
+
+
+                    <!--</th:block>-->
                 </datalist>
             </div>
         </div>
