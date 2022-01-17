@@ -49,7 +49,7 @@ public class ProductController {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
         Product producto = new Product();
-        producto.setName_es(request.getParameter("name_en"));
+        producto.setNameEn(request.getParameter("name_en"));
 
         double quantity = Double.parseDouble(request.getParameter("quantity"));
         producto.setQuantity(quantity);
