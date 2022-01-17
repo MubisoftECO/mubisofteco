@@ -16,8 +16,7 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class CityServiceFacade implements CityService
-{
+public class CityServiceFacade implements CityService {
 
     private final CityRepository cityRepository;
 

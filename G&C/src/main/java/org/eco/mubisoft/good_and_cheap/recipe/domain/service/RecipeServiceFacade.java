@@ -99,9 +99,6 @@ public class RecipeServiceFacade implements RecipeService{
     @Transactional
     public boolean removeRecipe(Long id){
         if (id != null) {
-            //borrar primero los steps
-
-            //borrar la receta
             recipeRepository.deleteById(id);
             return true;
         }

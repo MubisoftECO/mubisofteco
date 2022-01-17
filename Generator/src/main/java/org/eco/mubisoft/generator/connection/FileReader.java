@@ -1,13 +1,19 @@
 package org.eco.mubisoft.generator.connection;
 
-import org.eco.mubisoft.data.product.model.ProductTypeNames;
-import org.eco.mubisoft.data.recipe.model.RecipeNames;
-import org.eco.mubisoft.data.user.model.AutonomousCommunity;
-import org.eco.mubisoft.data.user.model.City;
-import org.eco.mubisoft.data.user.model.Province;
+import org.eco.mubisoft.generator.data.product.domain.model.ProductTypeNames;
+import org.eco.mubisoft.generator.data.recipe.domain.model.RecipeNames;
+import org.eco.mubisoft.generator.data.user.domain.model.AutonomousCommunity;
+import org.eco.mubisoft.generator.data.user.domain.model.City;
+import org.eco.mubisoft.generator.data.user.domain.model.Province;
+import org.eco.mubisoft.generator.data.user.domain.repo.AutonomousCommunityRepository;
+import org.eco.mubisoft.generator.data.user.domain.repo.CityRepository;
+import org.eco.mubisoft.generator.data.user.domain.repo.ProvinceRepository;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class FileReader {
@@ -21,15 +27,16 @@ public class FileReader {
     public List<ProductTypeNames> getProductTypeNames() {
         List<ProductTypeNames> names = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new java.io.FileReader(PRODUCT_TYPE_FILE))) {
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(new FileInputStream(PRODUCT_TYPE_FILE), StandardCharsets.UTF_8)
+        )) {
             String line = br.readLine();
 
             do {
                 if (!line.contains("name_es")) {
                     String[] values = line.split(",");
                     names.add(new ProductTypeNames(
-                            values[0], values[1], values[2],
-                            Long.parseLong(values[3])
+                            Long.parseLong(values[3]), values[0], values[1], values[2]
                     ));
                 }
             } while ((line = br.readLine()) != null);
@@ -43,7 +50,9 @@ public class FileReader {
     public List<RecipeNames> getRecipeNames() {
         List<RecipeNames> names = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new java.io.FileReader(RECIPE_FILE))) {
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(new FileInputStream(RECIPE_FILE), StandardCharsets.UTF_8)
+        )) {
             String line = br.readLine();
 
             do {
@@ -62,53 +71,45 @@ public class FileReader {
         return names;
     }
 
-    public List<City> getCities() {
-        Map<Long, Province> provinces = this.getProvinces();
-        List<City> cities = new ArrayList<>();
-
-        try (BufferedReader br = new BufferedReader(new java.io.FileReader(CITY_FILE))) {
+    public void getCities(Map<Long, Province> provinces, CityRepository cityRepo) {
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(new FileInputStream(CITY_FILE), StandardCharsets.UTF_8)
+        )) {
             String line = br.readLine();
-            long id = 1L;
 
             do {
                 if (!line.toLowerCase(Locale.ROOT).contains("id")) {
                     String[] values = line.split(",");
-                    cities.add(
-                            new City(
-                                    id++,
+                    cityRepo.save(new City(
                                     provinces.get(Long.parseLong(values[0])),
                                     Integer.parseInt(values[1]),
                                     Integer.parseInt(values[2]),
                                     values[3]
-                            )
-                    );
+                    ));
                 }
             } while ((line = br.readLine()) != null);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return cities;
     }
 
-    private Map<Long, Province> getProvinces() {
-        Map<Long, AutonomousCommunity> communities = this.getAutonomousCommunities();
+    public Map<Long, Province> getProvinces(Map<Long, AutonomousCommunity> communities, ProvinceRepository provinceRepo) {
         Map<Long, Province> provinces = new HashMap<>();
 
-        try (BufferedReader br = new BufferedReader(new java.io.FileReader(PROVINCE_FILE))) {
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(new FileInputStream(PROVINCE_FILE), StandardCharsets.UTF_8)
+        )) {
             String line = br.readLine();
 
             do {
                 if (!line.toLowerCase(Locale.ROOT).contains("id")) {
                     String[] values = line.split(",");
-                    provinces.put(
-                            Long.parseLong(values[0]),
-                            new Province(
-                                    Long.parseLong(values[0]),
-                                    communities.get(Long.parseLong(values[1])),
-                                    values[2]
-                            )
-                    );
+                    Province province = provinceRepo.save(new Province(
+                            communities.get(Long.parseLong(values[1])),
+                            values[2]
+                    ));
+                    provinces.put(Long.parseLong(values[0]), province);
                 }
             } while ((line = br.readLine()) != null);
 
@@ -118,19 +119,19 @@ public class FileReader {
         return provinces;
     }
 
-    private Map<Long, AutonomousCommunity> getAutonomousCommunities() {
+    public Map<Long, AutonomousCommunity> getAutonomousCommunities(AutonomousCommunityRepository acRepo) {
         Map<Long, AutonomousCommunity> autonomousCommunities = new HashMap<>();
 
-        try (BufferedReader br = new BufferedReader(new java.io.FileReader(AC_FILE))) {
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(new FileInputStream(AC_FILE), StandardCharsets.UTF_8)
+        )) {
             String line = br.readLine();
 
             do {
                 if (!line.toLowerCase(Locale.ROOT).contains("id")) {
                     String[] values = line.split(",");
-                    autonomousCommunities.put(
-                            Long.parseLong(values[0]),
-                            new AutonomousCommunity(Long.parseLong(values[0]), values[1])
-                    );
+                    AutonomousCommunity ac = acRepo.save(new AutonomousCommunity(values[1]));
+                    autonomousCommunities.put(Long.parseLong(values[0]), ac);
                 }
             } while ((line = br.readLine()) != null);
 

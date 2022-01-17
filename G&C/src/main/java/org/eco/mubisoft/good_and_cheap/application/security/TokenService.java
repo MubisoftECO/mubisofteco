@@ -83,4 +83,10 @@ public class TokenService {
         return decodedJWT.getSubject();
     }
 
+    public Collection<String> getRolesFromToken(String authToken) throws JWTVerificationException{
+        String token = authToken.substring("Bearer ".length());
+        DecodedJWT decodedJWT = verifier.verify(token);
+
+        return decodedJWT.getClaim("roles").asList(String.class);
+    }
 }

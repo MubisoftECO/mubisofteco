@@ -19,9 +19,9 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id")
     private Long id;
-    private String name_es;
-    private String name_en;
-    private String name_eu;
+    private String nameEs;
+    private String nameEn;
+    private String nameEu;
     @ManyToOne(fetch = FetchType.EAGER)
     private ProductType productType;
     private Double price;

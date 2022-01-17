@@ -77,10 +77,13 @@
                             <select class="selectpicker" name="ingredient"
                                     title="Ingredient" data-live-search="true">
                                 <th:block th:each="ingredient : ${ingredientList}">
-                                    <option th:value="${ingredient.getId()}" th:text="${ingredient.getName_en()}"></option>
+                                    <option th:value="${ingredient.getId()}" th:text="${ingredient.getNameEn()}"></option>
                                 </th:block>
                             </select>
                         </td>
+
+
+
                         <td class="ingredient-quantity">
                             <input type="number" class="productQuantity form-control bckgr-gray" name="quantity" min="0">
                         </td>
@@ -153,7 +156,7 @@
                                     <input class="form-check-input mt-0 align-middle" type="checkbox" th:name="'flag-' + ${flag.getId()}">
                                 </div>
                             </td>
-                            <td th:text="${flag.getName_en()}"></td>
+                            <td th:text="${flag.getNameEn()}"></td>
                         </tr>
                     </th:block>
                 </tbody>
