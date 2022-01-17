@@ -11,34 +11,30 @@
 <body>
 
 <main  class="container">
-    <h1 class="badge bg-secondary">Product list</h1>
+
     <table class="table">
-        <thead>
-            <th scope="col">Product_id</th>
-            <th scope="col">Expiration_date</th>
-            <th scope="col">name</th>
-            <th scope="col">price</th>
-            <th scope="col">publish_date</th>
-            <th scope="col">quantity</th>
-            <th scope="col">remove_date</th>
-            <th scope="col">remove_reason</th>
-            <th scope="col">vendor_id</th>
-            <th scope="col">Product_type</th>
-        </thead>
-        <tbody>
-        <th:block th:with="product=${product}">
-            <tr >
-                <th scope="row">[[${product.getId()}]]</th>
-                <td>[[${product.getExpirationDate()}]]</td>
-                <td>[[${product.getName()}]]</td>
-                <td>[[${product.getPrice()}]]</td>
-                <td>[[${product.getPublishDate()}]]</td>
-                <td>[[${product.getQuantity()}]]</td>
-                <td>[[${product.getRemovedDate()}]]</td>
-                <td>[[${product.getRemoveReason()}]]</td>
-            </tr>
-        </th:block>
-        </tbody>
+
+        <h2 th:text="${product.getName_es}"></h2>
+
+        <img th:src="${'/media/imgs/' + product.getProductType().getImgSrc()}" th:alt="${product.getName_es() + ' Image'}">
+        <h3 th:text="${#numbers.formatDecimal(product.getPrice, 0, 'COMMA', 2, 'POINT')} + '€'"></h3>
+        <h3 th:text="'Publish Date: ' + ${product.getPublishDate()}"> </h3>
+        <h3 th:text="'Expiration Date: ' + ${product.getExpirationDate()}"> </h3>
+        <h3 th:text="${'Quantity: '} + ${#numbers.formatDecimal(product.getQuantity(), 1, 2)} + ${product.getProductType().getMeasurementUnit().toLowerCase()}"></h3>
+
+
+        <!--<img th:src="@{''+${product.getVendor().getId()}}" th:alt="${product.getName_es() + ' Image'}">-->
+        <h2 th:text="${product.getVendor().getName()}"></h2>
+        <h2 th:text="${product.getVendor().getLocation().getStreet()}+', '+${product.getVendor().getLocation().getCity().getCityCode()}"></h2>
+        <h2 th:text="${product.getVendor().getLocation().getCity().getName()}+', '+${product.getVendor().getLocation().getCity().getProvince().getName()}"></h2>
+
+
+        <div>
+                <div class="card_title">
+
+                </div>
+            </div>
+
     </table>
 </main>
 </body>
