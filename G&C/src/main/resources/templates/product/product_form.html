@@ -15,16 +15,16 @@
 <!-- Main -->
 <main  class="container align-items-center">
     <h1 class="title">NEW PRODUCT</h1>
-    <form th:action="@{/product/save}" method="post" class="justify-content-center" th:object="${product}">
+    <form th:action="@{/product/save}" method="post" class="justify-content-center">
         <div class="row gy-2" id="form-customer">
             <div class="col-12 col-sm-6 input-box name">
-                <input type="text" name="name" th:field="*{getNameEs}" placeholder="Name" class="form-control" >
+                <input type="text" name="name" placeholder="Name" class="form-control" >
             </div>
             <div class="col-12 col-sm-6 input-box quantity">
-                <input type="text" name="quantity" th:field="*{quantity}" placeholder="Quantity"   class="form-control" >
+                <input type="text" name="quantity" placeholder="Quantity"   class="form-control" >
             </div>
             <div class="col-12 col-sm-6 input-box price">
-                <input type="text" name="price" th:field="*{price}" placeholder="Price"   class="form-control" >
+                <input type="text" name="price" placeholder="Price"   class="form-control" >
             </div>
             <div class="col-12 col-sm-6 input-box expiration_date">
                 <input type="date" name="date" placeholder="Expiration Date"   class="form-control" >
@@ -33,28 +33,18 @@
 
                 <input class="form-control" list="datalistOptions" placeholder="Choose a Product Type" name="productType">
                 <datalist id="datalistOptions">
-
-                    <!--<th:block th:each="prodType : ${productType}">-->
-
-                    <!--<select th:field="*{productType}">
-                        <option th:value="${prodType.getName_es()}">
-                    </select>-->
-
-                        <select id="ac-dropdown" name="productType" class="col-12 form-select" required>
-                            <option  value="" disabled selected>Product Type</option>
+                    <select id="ac-dropdown" name="productType" class="col-12 form-select" required>
+                        <option  value="" disabled selected>Product Type</option>
                             <th:block th:each="productType : ${productTypeList}">
-                                <option th:value="${productType.getId()}">[[${productType.getName_es()}]]</option>
+                                <option th:value="${productType.getId()}">[[${productType.getNameEu()}]]</option>
                             </th:block>
-                        </select>
-
-
-                    <!--</th:block>-->
+                    </select>
                 </datalist>
             </div>
         </div>
         <button type="submit" class="btn btn-dark btn_save ">SAVE</button>
     </form>
-    <form th:action="@{/product/back}" method="post" class="justify-content-center">
+    <form th:action="@{/product/view}" method="get" class="justify-content-center">
         <button type="submit" class="btn btn-dark btn_back">BACK</button>
     </form>
 </main>

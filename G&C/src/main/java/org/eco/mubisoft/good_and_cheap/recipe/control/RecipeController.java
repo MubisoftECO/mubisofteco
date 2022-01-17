@@ -64,6 +64,8 @@ public class RecipeController {
         recipe.setImgSrc(request.getParameter("imgSrc"));
 
         recipeService.saveRecipe(recipe);
+
+
         return "redirect:/recipe/view/";
     }
 

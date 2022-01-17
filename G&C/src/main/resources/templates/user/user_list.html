@@ -21,16 +21,18 @@
         </th:block>
         <option th:value="-1">ALL USERS</option>
     </select>
-    <table class="table">
-        <thead>
-        <th scope="col">Id</th>
-        <th scope="col">Name</th>
-        <th scope="col">Second Name</th>
-        <th scope="col">Username</th>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Second Name</th>
+            <th scope="col">Username</th>
 
-        </thead>
-        <tbody id="tbody"></tbody>
-    </table>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>
+    </div>
 </main>
 <!-- Footer -->
 <footer th:replace="includes/footer :: footer"></footer>

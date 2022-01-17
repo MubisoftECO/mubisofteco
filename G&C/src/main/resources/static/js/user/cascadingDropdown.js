@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $('#ac-dropdown').on('change', function(){
+    $('.ac-dropdown').on('change', function(){
         let acId = $(this).val();
         $.ajax({
             type: 'GET',
@@ -10,11 +10,11 @@ $(document).ready(function(){
                 for(let i = 0; i < result.length; i++) {
                     s += '<option value="' + result[i].id + '">' + result[i].name + '</option>';
                 }
-                $('#province-dropdown').html(s);
+                $('.province-dropdown').html(s);
             }
         });
     });
-    $('#province-dropdown').on('change', function(){
+    $('.province-dropdown').on('change', function(){
         let provinceId = $(this).val();
         $.ajax({
             type: 'GET',
@@ -25,7 +25,7 @@ $(document).ready(function(){
                 for(let i = 0; i < result.length; i++) {
                     s += '<option value="' + result[i].id + '">' + result[i].name + '</option>';
                 }
-                $('#city-dropdown').html(s);
+                $('.city-dropdown').html(s);
             }
         });
     });
