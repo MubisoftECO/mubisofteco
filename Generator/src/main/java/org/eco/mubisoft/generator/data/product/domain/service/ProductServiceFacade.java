@@ -68,7 +68,7 @@ public class ProductServiceFacade implements ProductService {
 
         typeNames.forEach(name -> productTypeRepository.save(new ProductType(
                 id.getAndIncrement(),
-                name.getNameEn(), name.getNameEs(), name.getNameEu(),
+                name.getNameEs(), name.getNameEn(), name.getNameEu(),
                 MeasurementUnit.getRandom().toString(),
                 productFamilies.get((int) (name.getId() - 1))
         )));
