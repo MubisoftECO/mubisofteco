@@ -38,7 +38,7 @@ public class RecipeController {
     private final StepService stepService;
 
     @GetMapping("/create")
-    public String createProduct(Model model){
+    public String createRecipe(Model model){
         model.addAttribute("flagList", flagService.getAllFlags());
         model.addAttribute("ingredientList", productService.getIngredients());
         model.addAttribute("measurementList", productService.getMeasurementUnits());
@@ -131,6 +131,12 @@ public class RecipeController {
     @GetMapping("modify/{recipeId}")
     public String editRecipe(@PathVariable("recipeId") Long id, Model model) {
         Recipe recipe = recipeService.getRecipe(id);
+        model.addAttribute("flagList", flagService.getAllFlags());
+        model.addAttribute("ingredientList", productService.getIngredients());
+        model.addAttribute("measurementList", productService.getMeasurementUnits());
+        List <Long> selectedFlagList = new ArrayList<>();
+        recipe.getRecipeFlags().forEach(flag -> selectedFlagList.add(flag.getId()));
+        model.addAttribute("selectedFlagList", selectedFlagList);
         model.addAttribute("recipe", recipe);
         /* Hay que ordenar la lista */
         model.addAttribute("steps", stepService.getStepsByRecipe(recipe));

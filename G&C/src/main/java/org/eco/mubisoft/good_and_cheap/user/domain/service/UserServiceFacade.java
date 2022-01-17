@@ -1,5 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.user.domain.service;
 
+import antlr.actions.python.CodeLexer;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -155,5 +156,17 @@ public class UserServiceFacade implements UserService, UserDetailsService {
         return this.getUser(username);
     }
 
+    @Override
+    public Collection<String> getRolesFromLoggedUser(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        TokenService tokenService = new TokenService();
 
+        Collection<String> roles;
+        try {
+            roles = tokenService.getRolesFromToken((String) session.getAttribute("accessToken"));
+        } catch (JWTVerificationException e) {
+            roles = tokenService.getRolesFromToken((String) session.getAttribute("refreshToken"));
+        }
+        return roles;
+    }
 }

@@ -11,6 +11,7 @@ import org.eco.mubisoft.good_and_cheap.application.security.TokenService;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.City;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.Location;
+import org.eco.mubisoft.good_and_cheap.user.domain.model.Role;
 import org.eco.mubisoft.good_and_cheap.user.domain.service.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -120,8 +122,19 @@ public class UserController {
 
     @GetMapping("/info")
     public String getUser(Model model, HttpServletRequest request) {
-        model.addAttribute("user", userService.getLoggedUser(request));
-        return "user/customer_profile";
+        String page;
+        AppUser loggedUser = userService.getLoggedUser(request);
+        model.addAttribute("user", loggedUser);
+
+        Collection<Role> roles = loggedUser.getRoles();
+        boolean hasVendorRole = roles.stream().anyMatch(role -> role.getName().equals("ROLE_VENDOR"));
+        if(hasVendorRole){
+            page = "user/vendor_profile";
+        }else{
+            page = "user/customer_profile";
+        }
+
+        return page;
     }
 
     @GetMapping("/delete/{userID}")
