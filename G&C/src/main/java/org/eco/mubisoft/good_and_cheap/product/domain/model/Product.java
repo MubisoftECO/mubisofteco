@@ -4,10 +4,25 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.eco.mubisoft.good_and_cheap.product.dto.ProductDto;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 
 import javax.persistence.*;
 import java.util.Date;
+
+@SqlResultSetMapping(
+        name = "ProductDetailsMapping",
+        classes = @ConstructorResult(
+                targetClass = ProductDto.class,
+                columns = {
+                        @ColumnResult(name = "nameEn"),
+                        @ColumnResult(name = "nameEs"),
+                        @ColumnResult(name = "nameEu"),
+                        @ColumnResult(name = "total"),
+                        @ColumnResult(name = "reason")
+                }
+        )
+)
 
 @Getter
 @Setter

@@ -10,6 +10,7 @@ import org.eco.mubisoft.good_and_cheap.user.domain.model.Location;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.Role;
 import org.eco.mubisoft.good_and_cheap.user.domain.repo.LocationRepository;
 import org.eco.mubisoft.good_and_cheap.user.domain.repo.UserRepository;
+import org.eco.mubisoft.good_and_cheap.user.thread.UserBuffer;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,6 +36,7 @@ public class UserServiceFacade implements UserService, UserDetailsService {
     private final UserRepository userRepo;
     private final LocationRepository locationRepo;
     private final PasswordEncoder passwordEncoder;
+    private final UserBuffer userBuffer;
 
     @Override
     public AppUser saveUser(AppUser user) {
@@ -168,5 +170,27 @@ public class UserServiceFacade implements UserService, UserDetailsService {
             roles = tokenService.getRolesFromToken((String) session.getAttribute("refreshToken"));
         }
         return roles;
+    }
+
+    @Override
+    public List<Long> getIdListFromDB(String city) {
+        List<Long> list = userRepo.getIdListByCity(city);
+        return list;
+    }
+
+    @Override
+    public void setIdListToBuffer(Long id) {
+        userBuffer.put(id);
+    }
+
+    @Override
+    public List<Long> getIdListFromBuffer() {
+        List<Long> list = new ArrayList<>();
+
+        while(userBuffer.getBufferSize() > 0) {
+            list.add(userBuffer.get());
+        }
+
+        return list;
     }
 }
