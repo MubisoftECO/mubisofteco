@@ -4,127 +4,127 @@
     <title id="pageTitle">Modify personal recipe</title>
 </head>
 <body>
-    <!-- js Libraries -->
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- js Libraries -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-    <!-- Custom Styling -->
-    <link rel="stylesheet" th:href="@{'/css/recipe/recipe_form.css'}">
+<!-- Custom Styling -->
+<link rel="stylesheet" th:href="@{'/css/recipe/recipe_form.css'}">
 
-    <!-- Custom js -->
-    <script th:src="@{'/js/recipe/create/add_remove_element.js'}"></script>
-    <script th:src="@{'/js/recipe/create/draggable.js'}"></script>
-    <script th:src="@{'/js/recipe/create/base.js'}"></script>
+<!-- Custom js -->
+<script th:src="@{'/js/recipe/create/add_remove_element.js'}"></script>
+<script th:src="@{'/js/recipe/create/draggable.js'}"></script>
+<script th:src="@{'/js/recipe/create/base.js'}"></script>
 
-    <!-- Model variables to js -->
-    <script th:inline="javascript">
-        const ingredientList = [[${ingredientList}]];
-        const measurementList = [[${measurementList}]];
-    </script>
+<!-- Model variables to js -->
+<script th:inline="javascript">
+    const ingredientList = [[${ingredientList}]];
+    const measurementList = [[${measurementList}]];
+</script>
 
-    <!-- Header -->
-    <header th:replace="includes/header :: header"></header>
+<!-- Header -->
+<header th:replace="includes/header :: header"></header>
 
-    <!-- Main -->
-    <main class="container-fluid align-items-center">
-        <h2 class="title display-2 mx-auto">Modify recipe</h2>
+<!-- Main -->
+<main class="container-fluid align-items-center">
+    <h2 class="title display-2 mx-auto">Modify recipe</h2>
 
-        <form action="/recipe/save" method="post" class="justify-content-center">
-            <section id="recipe-introduction">
-                <div class="form-floating">
-                    <input type="text" id="title" class="form-control" name="title" placeholder="Title" maxlength="255" th:value="${recipe.getTitle()}">
-                    <label for="title">Title</label>
-                </div>
-                <div class="form-floating">
+    <form action="/recipe/save" method="post" class="justify-content-center">
+        <section id="recipe-introduction">
+            <div class="form-floating">
+                <input type="text" id="title" class="form-control" name="title" placeholder="Title" maxlength="255" th:value="${recipe.getTitle()}">
+                <label for="title">Title</label>
+            </div>
+            <div class="form-floating">
                 <textarea id="description" class="form-control" style="height: 25vh"
                           name="description" placeholder="Description" maxlength="255" th:text="${recipe.getDescription()}"></textarea>
-                    <label for="description">Description</label>
-                </div>
-                <div class="form-floating">
-                    <input type="number" id="timeInMinutes" class="form-control" name="time"
-                           placeholder="Time in minutes" min="1" th:value="${recipe.getTimeInMinutes()}">
-                    <label for="timeInMinutes">Time in minutes</label>
-                </div>
-            </section>
-            <hr>
+                <label for="description">Description</label>
+            </div>
+            <div class="form-floating">
+                <input type="number" id="timeInMinutes" class="form-control" name="time"
+                       placeholder="Time in minutes" min="1" th:value="${recipe.getTimeInMinutes()}">
+                <label for="timeInMinutes">Time in minutes</label>
+            </div>
+        </section>
+        <hr>
 
-            <!----------------------------- INGREDIENTS ---------------------->
-            <section id="recipe-ingredients">
-                <h3 class="title display-6">Products</h3>
+        <!----------------------------- INGREDIENTS ---------------------->
+        <section id="recipe-ingredients">
+            <h3 class="title display-6">Products</h3>
 
-                <div id="max-ingredient-alert" class="alert alert-danger hidden" role="alert">
-                    You have reached the maximum amount of ingredients that you can add!
-                </div>
-                <div id="min-ingredient-alert" class="alert alert-danger hidden" role="alert">
-                    You cannot remove any further ingredients!
-                </div>
+            <div id="max-ingredient-alert" class="alert alert-danger hidden" role="alert">
+                You have reached the maximum amount of ingredients that you can add!
+            </div>
+            <div id="min-ingredient-alert" class="alert alert-danger hidden" role="alert">
+                You cannot remove any further ingredients!
+            </div>
 
 
-                <table id="add_ingredient" class="table table-bordered table-responsive">
-                    <thead id="add_ingredient_head">
-                    <tr>
-                        <th scope="col" class="col-1">#</th>
-                        <th scope="col" class="col-5">Ingredient</th>
-                        <th scope="col" class="col-2">Quantity</th>
-                        <th scope="col" class="col-3">Unit/Value</th>
-                        <th scope="col" class="col-2">Delete</th>
+            <table id="add_ingredient" class="table table-bordered table-responsive">
+                <thead id="add_ingredient_head">
+                <tr>
+                    <th scope="col" class="col-1">#</th>
+                    <th scope="col" class="col-5">Ingredient</th>
+                    <th scope="col" class="col-2">Quantity</th>
+                    <th scope="col" class="col-3">Unit/Value</th>
+                    <th scope="col" class="col-2">Delete</th>
+                </tr>
+                </thead>
+                <tbody id="add_ingredient_body">
+                <th:block th:each="ingredients : ${recipe.getIngredients()}">
+                    <tr th:id="${'ingredient-'+(recipe.getIngredients().indexOf(ingredients)+1)}" class="new-ingredient">
+                        <th scope="row" class="ingredient-id align-middle" th:text="${recipe.getIngredients().indexOf(ingredients)+1}"></th>
+                        <td class="ingredient-description custom-select">
+                            <select class="selectpicker" name="ingredient"
+                                    title="" data-live-search="true">
+                                <th:block th:each="ingredient : ${ingredientList}">
+                                    <th:block th:if="${#strings.equals(ingredients.getId(), ingredient.getId())}">
+                                        <option selected th:value="${ingredient.getId()}" th:text="${ingredient.getProductType().getNameEn()}"></option>
+                                    </th:block>
+                                    <th:block th:unless="${#strings.equals(ingredients.getId(), ingredient.getId())}">
+                                        <option th:value="${ingredient.getId()}" th:text="${ingredient.getProductType().getNameEn()}"></option>
+                                    </th:block>
+                                </th:block>
+                            </select>
+                        </td>
+
+
+                        <td class="ingredient-quantity">
+                            <input type="number" class="productQuantity form-control bckgr-gray" name="quantity" min="0">
+                        </td>
+                        <td class="ingredient-unit custom-select">
+                            <select class="selectpicker" name="unit" title="Unit">
+                                <th:block th:each="unit : ${measurementList}">
+                                    <option th:value="${unit}" th:text="${unit.toUpperCase()}"></option>
+                                </th:block>
+                            </select>
+                        </td>
+                        <td class="ingredient-delete form-control">
+                            <input type="button" th:id="${'btn-remove-ingredient-'+(recipe.getIngredients().indexOf(ingredients)+1)}"
+                                   class="btn btn-remove-ingredient btn-danger align-middle" value="Remove">
+                        </td>
                     </tr>
-                    </thead>
-                    <tbody id="add_ingredient_body">
-                        <th:block th:each="ingredients : ${recipe.getIngredients()}">
-                            <tr th:id="${'ingredient-'+(recipe.getIngredients().indexOf(ingredients)+1)}" class="new-ingredient">
-                                <th scope="row" class="ingredient-id align-middle" th:text="${recipe.getIngredients().indexOf(ingredients)+1}"></th>
-                                <td class="ingredient-description custom-select">
-                                    <select class="selectpicker" name="ingredient"
-                                            title="" data-live-search="true">
-                                        <th:block th:each="ingredient : ${ingredientList}">
-                                            <th:block th:if="${#strings.equals(ingredients.getId(), ingredient.getId())}">
-                                                <option selected th:value="${ingredient.getId()}" th:text="${ingredient.getName_en()}"></option>
-                                            </th:block>
-                                            <th:block th:unless="${#strings.equals(ingredients.getId(), ingredient.getId())}">
-                                                <option th:value="${ingredient.getId()}" th:text="${ingredient.getName_en()}"></option>
-                                            </th:block>
-                                        </th:block>
-                                    </select>
-                                </td>
+                </th:block>
+                </tbody>
+            </table>
+            <div class="col center-content">
+                <input type=button id="btn-add-ingredient" class="btn btn-add btn-success col-2" value="Add">
+            </div>
+        </section>
+        <hr>
 
+        <!-- ------------------------ ADD STEP ------------------------------>
 
-                                <td class="ingredient-quantity">
-                                    <input type="number" class="productQuantity form-control bckgr-gray" name="quantity" min="0">
-                                </td>
-                                <td class="ingredient-unit custom-select">
-                                    <select class="selectpicker" name="unit" title="Unit">
-                                        <th:block th:each="unit : ${measurementList}">
-                                            <option th:value="${unit}" th:text="${unit.toUpperCase()}"></option>
-                                        </th:block>
-                                    </select>
-                                </td>
-                                <td class="ingredient-delete form-control">
-                                    <input type="button" th:id="${'btn-remove-ingredient-'+(recipe.getIngredients().indexOf(ingredients)+1)}"
-                                           class="btn btn-remove-ingredient btn-danger align-middle" value="Remove">
-                                </td>
-                            </tr>
-                        </th:block>
-                    </tbody>
-                </table>
-                <div class="col center-content">
-                    <input type=button id="btn-add-ingredient" class="btn btn-add btn-success col-2" value="Add">
-                </div>
-            </section>
-            <hr>
+        <section class="recipe-step">
+            <h3 class="title display-6">Steps</h3>
 
-            <!-- ------------------------ ADD STEP ------------------------------>
-
-            <section class="recipe-step">
-                <h3 class="title display-6">Steps</h3>
-
-                <div id="max-step-alert" class="alert alert-danger hidden" role="alert">
-                    You have reached the maximum amount of steps that you can add!
-                </div>
-                <div id="min-step-alert" class="alert alert-danger hidden" role="alert">
-                    You cannot remove any further steps!
-                </div>
-                <div id="add-step" class="wrapper">
-                    <th:block th:each="step : ${steps}">
+            <div id="max-step-alert" class="alert alert-danger hidden" role="alert">
+                You have reached the maximum amount of steps that you can add!
+            </div>
+            <div id="min-step-alert" class="alert alert-danger hidden" role="alert">
+                You cannot remove any further steps!
+            </div>
+            <div id="add-step" class="wrapper">
+                <th:block th:each="step : ${steps}">
                     <div id="recipe-step-1" class="card recipe-step mb-3">
                         <div class="card-header space-between">
 
@@ -138,68 +138,68 @@
                             </label>
                         </div>
                     </div>
-                    </th:block>
-                </div>
-                <div class="col center-content button">
-                    <input type=button id="btn-add-step" class="btn btn-add btn-success col-2" value="Add">
-                </div>
-            </section>
+                </th:block>
+            </div>
+            <div class="col center-content button">
+                <input type=button id="btn-add-step" class="btn btn-add btn-success col-2" value="Add">
+            </div>
+        </section>
 
-            <!------------------------------FLAGS--------------------------------------->
-            <section class="allergen-selection">
-                <h3 class="title display-6">Flags</h3>
-                <table class="container-fluid table table-bordered">
-                    <thead>
+        <!------------------------------FLAGS--------------------------------------->
+        <section class="allergen-selection">
+            <h3 class="title display-6">Flags</h3>
+            <table class="container-fluid table table-bordered">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Flag</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="flag : ${flagList}">
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Flag</th>
+                        <th:block th:if="${#lists.contains(selectedFlagList, flag.getId())}">
+                            <td>
+                                <div class="custom-control custom-checkbox text-center">
+                                    <input class="form-check-input mt-0 align-middle" type="checkbox" th:name="'flag-' + ${flag.getId()}" checked>
+                                </div>
+                            </td>
+                            <td th:text="${flag.getName_en()}"></td>
+                        </th:block>
+                        <th:block th:unless="${#lists.contains(selectedFlagList, flag.getId())}">
+                            <td>
+                                <div class="custom-control custom-checkbox text-center">
+                                    <input class="form-check-input mt-0 align-middle" type="checkbox" th:name="'flag-' + ${flag.getId()}">
+                                </div>
+                            </td>
+                            <td th:text="${flag.getName_en()}"></td>
+                        </th:block>
                     </tr>
-                    </thead>
-                    <tbody>
-                    <th:block th:each="flag : ${flagList}">
-                        <tr>
-                                <th:block th:if="${#lists.contains(selectedFlagList, flag.getId())}">
-                                    <td>
-                                        <div class="custom-control custom-checkbox text-center">
-                                            <input class="form-check-input mt-0 align-middle" type="checkbox" th:name="'flag-' + ${flag.getId()}" checked>
-                                        </div>
-                                    </td>
-                                    <td th:text="${flag.getName_en()}"></td>
-                                </th:block>
-                                <th:block th:unless="${#lists.contains(selectedFlagList, flag.getId())}">
-                                    <td>
-                                        <div class="custom-control custom-checkbox text-center">
-                                            <input class="form-check-input mt-0 align-middle" type="checkbox" th:name="'flag-' + ${flag.getId()}">
-                                        </div>
-                                    </td>
-                                    <td th:text="${flag.getName_en()}"></td>
-                                </th:block>
-                        </tr>
-                    </th:block>
-                    </tbody>
-                </table>
-            </section>
-            <hr>
+                </th:block>
+                </tbody>
+            </table>
+        </section>
+        <hr>
 
-            <!--------------------------------------------------------------------->
-            <section class="image-upload">
-                <h3>Image</h3>a
-                <input class="form-control" name="imgSrc" type="file" id="formFile">
-            </section>
+        <!--------------------------------------------------------------------->
+        <section class="image-upload">
+            <h3>Image</h3>a
+            <input class="form-control" name="imgSrc" type="file" id="formFile">
+        </section>
 
-            <!--------------------------------------------------------------------->
-            <div class="button">
-                <input id="submit" class="btn btn-success" type="submit" value="Submit"><br><br>
-            </div>
-        </form>
-        <form th:action="@{'/recipe/view/modify'}" method="get">
-            <div class="button">
-                <input id="back" type="submit" class="btn btn-secondary" value="BACK">
-            </div>
-        </form>
-    </main>
+        <!--------------------------------------------------------------------->
+        <div class="button">
+            <input id="submit" class="btn btn-success" type="submit" value="Submit"><br><br>
+        </div>
+    </form>
+    <form th:action="@{'/recipe/view/modify'}" method="get">
+        <div class="button">
+            <input id="back" type="submit" class="btn btn-secondary" value="BACK">
+        </div>
+    </form>
+</main>
 
-    <!-- Footer -->
-    <footer th:replace="includes/footer :: footer"></footer>
+<!-- Footer -->
+<footer th:replace="includes/footer :: footer"></footer>
 </body>
 </html>
