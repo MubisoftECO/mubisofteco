@@ -5,12 +5,12 @@
     <title id="pageTitle">Recipe List</title>
 </head>
 
-<!-- Custom Styling -->
-<link rel="stylesheet" th:href="@{'/css/recipe/recipe_view.css'}">
-<!-- JS -->
-<script th:src="@{'/js/recipe/multiselect_recipe_view.js'}"></script>
-
 <body>
+    <!-- Custom Styling -->
+    <link rel="stylesheet" th:href="@{'/css/recipe/recipe_view.css'}">
+    <!-- JS -->
+    <script th:src="@{'/js/recipe/multiselect_recipe_view.js'}"></script>
+
     <!-- Header -->
     <header th:replace="includes/header :: header"></header>
 
@@ -29,7 +29,7 @@
         </div>
 
         <div class="button_bar custom-select">
-                <select id="flag-multiselect" name="flags" class="selectpicker" data-style="btn btn_back" multiple title="Filter">
+                <select id="flag-multiselect" name="flags" class="selectpicker w-30" data-style="btn btn_back" multiple title="Filter">
                         <th:block th:each="flag : ${flagList}">
                             <th:block th:if="${#lists.contains(selectedFlags, flag.getId().toString())}">
                                 <option th:name="${flag.getId()}" th:value="${flag.getId()}" selected>[[${flag.getNameEn()}]]</option>
@@ -39,9 +39,7 @@
                             </th:block>
                         </th:block>
                 </select>
-                <form action="/recipe/create" method="get">
-                    <button type="submit" class="btn btn-dark btn_back">Create</button>
-                </form>
+                <a th:href="@{'/recipe/create'}" class="w-30 btn btn-dark btn_back">Create</a>
         </div>
 
         <!-- Main -->

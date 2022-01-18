@@ -3,16 +3,17 @@
     padding: 1.5rem;
     width: 90%;
     display: flex;
-    justify-content: center;
-
+    justify-content: space-around;
 }
-.button_bar > form{
-    width: 30%;
 
+.w-30 {
+    width: 30% !important;
 }
+
 form + form{
     margin-left: 1rem;
 }
+
 .btn_search{
     align-items: center;
     width: calc(90% - 3rem);
