@@ -1,6 +1,7 @@
 package org.eco.mubisoft.good_and_cheap.application.control;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
@@ -17,7 +18,8 @@ public class ApplicationController {
      * @return The name of the html file.
      */
     @GetMapping("/")
-    public String getIndex() {
+    public String getIndex(Model model) {
+        model.addAttribute("pageTitle", "index");
         return "index";
     }
 
