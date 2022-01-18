@@ -6,7 +6,7 @@
 </head>
 
 <!-- Custom Styling -->
-<link rel="stylesheet" th:href="@{'/css/recipe_individual_view.css'}">
+<link rel="stylesheet" th:href="@{'/css/recipe/recipe_individual_view.css'}">
 
 <script th:src="@{'/js/recipe/recipe_view.js'}"></script>
 
@@ -30,8 +30,9 @@
     <h4>Alergen</h4>
 
     <th:block th:each="flag : ${recipe.getRecipeFlags}">
-        <input type="checkbox" id="flag" name="flag">
-        <label for="flag" th:text="${flag.getNameEn()}"></label>
+        <ul>
+            <li><label th:text="${flag.getNameEn()}"></label></li>
+        </ul>
     </th:block>
     <br>
     <br>

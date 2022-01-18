@@ -1,3 +1,6 @@
+main{
+    margin: 20px;
+}
 
 .username{
     color: #66AE61;
@@ -8,7 +11,7 @@ h4{
 }
 
 .elaboration{
-    text-align: right;
+    text-align: right !important;
 }
 
 .report{
