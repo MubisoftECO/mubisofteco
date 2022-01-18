@@ -67,7 +67,6 @@ function resetCurrent(e) {
 /*SIGN UP customer & vendor*/
 function change(e) {
     let id;
-    let customer = document.getElementById("form-customer");
     let vendor = document.getElementById("form-vendor");
 
     if(e.target.tagName === "INPUT") {
@@ -76,11 +75,9 @@ function change(e) {
         switch (e.target.value) {
             case "vendor":
                 vendor.classList.remove('hidden');
-                customer.classList.add('hidden');
                 break;
 
             case "customer":
-                customer.classList.remove('hidden');
                 vendor.classList.add('hidden');
                 break;
         }
