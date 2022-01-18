@@ -80,4 +80,6 @@ public interface UserService {
     public AppUser getLoggedUser(HttpServletRequest request);
 
     Collection<String> getRolesFromLoggedUser(HttpServletRequest request);
+
+    boolean userHasRole (AppUser user, String role);
 }

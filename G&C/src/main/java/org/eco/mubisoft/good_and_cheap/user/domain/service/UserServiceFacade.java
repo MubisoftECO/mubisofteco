@@ -114,9 +114,17 @@ public class UserServiceFacade implements UserService, UserDetailsService {
             user.setUsername(username);
         }
         if(location != null && !Objects.equals(user.getLocation().getCity().getName(), location.getCity().getName())){
-           Location locationToEdit = locationRepo.getById(user.getLocation().getId());
-           locationToEdit.setCity(location.getCity());
+            Location locationToEdit = locationRepo.getById(user.getLocation().getId());
+            locationToEdit.setCity(location.getCity());
         }
+        if(location != null && !Objects.equals(user.getLocation().getStreet(), location.getStreet())){
+            Location locationToEdit = locationRepo.getById(user.getLocation().getId());
+            locationToEdit.setStreet(location.getStreet());
+        }
+
+
+
+
         if(imageSrc != null && !Objects.equals(user.getImgSrc(), imageSrc)){
             user.setImgSrc(imageSrc);
         }
@@ -168,5 +176,11 @@ public class UserServiceFacade implements UserService, UserDetailsService {
             roles = tokenService.getRolesFromToken((String) session.getAttribute("refreshToken"));
         }
         return roles;
+    }
+
+    @Override
+    public boolean userHasRole(AppUser user, String role) {
+        Collection<Role> roles = user.getRoles();
+        return roles.stream().anyMatch(r -> r.getName().equals(role));
     }
 }

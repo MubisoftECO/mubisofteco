@@ -28,7 +28,7 @@
                             <input type="email" th:value="${user.getUsername()}" name="username" class="form-control">
                         </div>
                         <div class="col-12">
-                            <select id="ac-dropdown" name="autonomousCommunity" class="col-12 form-select">
+                            <select name="autonomousCommunity" class="ac-dropdown col-12 form-select">
                                 <option  value="" disabled selected>Autonomous Community</option>
                                 <th:block th:each="ac : ${acList}">
                                     <th:block th:if="${#strings.equals(ac.getId(), user.getLocation().getCity().getProvince().getAutonomousCommunity().getId())}">
@@ -41,7 +41,7 @@
                             </select>
                         </div>
                         <div class="col-12">
-                            <select class="col-12 form-select" name="province" id="province-dropdown" >
+                            <select class="province-dropdown col-12 form-select" name="province" >
                                 <option  value="" disabled selected>Province</option>
                                 <th:block th:each="province : ${provinceList}">
                                     <th:block th:if="${#strings.equals(province.getId(), user.getLocation().getCity().getProvince().getId())}">
@@ -54,7 +54,7 @@
                             </select>
                         </div>
                         <div class="col-12">
-                        <select class="col-12 form-select" name="city" id="city-dropdown" >
+                        <select class="city-dropdown col-12 form-select" name="city" >
                             <option  value="" disabled selected>City</option>
                             <th:block th:each="city : ${cityList}">
                                 <th:block th:if="${#strings.equals(city.getId(), user.getLocation().getCity().getId())}">
@@ -65,6 +65,11 @@
                                 </th:block>
                             </th:block>
                         </select>
+                            <th:block th:if="${isVendor}">
+                                <div class="col-12 mt-2">
+                                    <input type="text" th:value="${user.getLocation().getStreet()}" name="street" class="form-control">
+                                </div>
+                            </th:block>
                         </div>
                         <div class="col-12">
                             <label>Profile picture: 1MB MAX</label>

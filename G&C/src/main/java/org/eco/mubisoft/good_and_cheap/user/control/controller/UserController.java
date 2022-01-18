@@ -137,9 +137,7 @@ public class UserController {
         AppUser loggedUser = userService.getLoggedUser(request);
         model.addAttribute("user", loggedUser);
 
-        Collection<Role> roles = loggedUser.getRoles();
-        boolean hasVendorRole = roles.stream().anyMatch(role -> role.getName().equals("ROLE_VENDOR"));
-        if(hasVendorRole){
+        if(userService.userHasRole(loggedUser, "ROLE_VENDOR")){
             page = "user/vendor_profile";
         }else{
             page = "user/customer_profile";
@@ -167,6 +165,7 @@ public class UserController {
                 provinceService.getProvince(loggedUser.getLocation().getCity().getProvince().getId())
         ));
         model.addAttribute("user", loggedUser);
+        model.addAttribute("isVendor", userService.userHasRole(loggedUser, "ROLE_VENDOR"));
         return "user/user_edit";
     }
 
@@ -207,6 +206,7 @@ public class UserController {
 
         Location locationToSave = new Location();
         locationToSave.setCity(cityService.getCity(Long.parseLong(request.getParameter("city"))));
+        if(request.getParameter("street") != null) locationToSave.setStreet(request.getParameter("street"));
         userService.updateUser(user.getId(), request.getParameter("name"), request.getParameter("secondName"),
                 request.getParameter("username"), locationToSave, fileName);
 
