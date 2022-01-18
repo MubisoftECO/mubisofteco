@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
-<head th:insert="includes/head :: head">
+<head th:replace="includes/head :: head">
     <title id="pageTitle">Personal Recipe List</title>
 </head>
-
+<body>
 <!-- Custom Styling -->
 <link rel="stylesheet" th:href="@{'/css/recipe/recipe_view.css'}">
 
-<body>
 <!-- Header -->
 <header th:replace="includes/header :: header"></header>
 

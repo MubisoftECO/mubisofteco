@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
-<head th:insert="includes/head :: head">
+<head th:replace="includes/head :: head">
     <title id="pageTitle">Profile</title>
 </head>
 
+<body>
 <!-- Custom Styling -->
 <link rel="stylesheet" th:href="@{'/css/user/profile.css'}">
-
 <script th:src="@{'/js/user/login.js'}"></script>
 
-<body>
 <!-- Header -->
 <header th:replace="includes/header :: header"></header>
 
@@ -39,8 +37,6 @@
                 <img th:src="@{'/media/imgs/arrow.svg'}" alt="Flecha">
             </a>
         </div>
-
-    </div>
     </div>
 </main>
 

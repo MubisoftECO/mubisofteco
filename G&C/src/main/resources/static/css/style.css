@@ -150,6 +150,7 @@ hr {
 .btn-green {
     background-color: var(--color-background-green);
     border-color: var(--color-background-green);
+    color: white;
 }
 
 .custom-select > div.dropdown.bootstrap-select > div {

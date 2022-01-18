@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
-<head th:insert="includes/head :: head">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="includes/head :: head">
     <title id="pageTitle">Modify recipe list</title>
 </head>
-
+<body>
 <!-- Custom Styling -->
 <link rel="stylesheet" th:href="@{'/css/recipe/recipe_view.css'}">
 
-<body>
 <!-- Header -->
 <header th:replace="includes/header :: header"></header>
 
@@ -60,14 +59,15 @@
              </div>
          </th:block>
      </div>
-     <div class="pagination_form">
-
-         <form action="/recipe/view" method="get">
-             <label>Page: <input type="number" name="page" th:value="${page}" readonly></label>
-             <button type="submit" name="page-move" class="btn btn-dark" th:value="previous">Previous</button>
-             <button type="submit" name="page-move" class="btn btn-dark" th:value="next">Next</button>
-         </form>
-     </div>
+    <form action="/recipe/view/modify" method="get" class="pagination_form containers-fluid">
+        <button type="submit" name="page-move" class="btn btn-dark" th:value="previous">Previous</button>
+        <div class="d-flex">
+            <label class="form-control">Page:
+                <input style="border: none" class="fw-normal" type="number" name="page" th:value="${page}" readonly>
+            </label>
+        </div>
+        <button type="submit" name="page-move" class="btn btn-dark" th:value="next">Next</button>
+    </form>
  </main>
 
  <!-- Footer -->
