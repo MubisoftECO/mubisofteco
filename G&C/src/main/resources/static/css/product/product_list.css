@@ -27,6 +27,7 @@ a{
 
 }
 .card_body{
+    height: 8rem;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -60,6 +61,20 @@ form + form{
     margin-top: 1rem;
     display: flex;
     justify-content: center;
+
+}
+
+
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+    .product_list_area{
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+}
+
+/*Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
 
 }
 

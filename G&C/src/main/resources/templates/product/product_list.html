@@ -32,6 +32,7 @@
         </form>
     </div>
     <div>
+        <div class="product_list_area">
         <th:block th:each="product : ${productList}">
             <a th:href="'/product/view/'+${product.getId()}">
                 <div  class="product_card">
@@ -41,12 +42,13 @@
                         + ${product.getProductType().getMeasurementUnit().toLowerCase()}"></h2>
                     </div>
                     <div class="card_body">
-                        <img th:src="${product.getProductType().getImgSrc()}" th:alt="${product.getNameEn() + ' Image'}">
+                        <img th:src="'/media/imgs/'+${product.getProductType().getImgSrc()}" th:alt="${product.getNameEn() + ' Image'}">
                         <h4 th:text="${product.getVendor().getName() + ' ' + product.getVendor().getSecondName()}"></h4>
                         <h3 th:text="${#numbers.formatDecimal(product.getPrice(), 1, 2)} + '€'"></h3>
                     </div>
                 </div>
             </a>
+        </div>
         </th:block>
         <div class="pagination_form">
         <form action="/product/view" method="get">
