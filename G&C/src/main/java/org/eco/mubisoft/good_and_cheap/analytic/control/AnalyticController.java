@@ -3,6 +3,7 @@ package org.eco.mubisoft.good_and_cheap.analytic.control;
 import com.sun.org.apache.bcel.internal.generic.RETURN;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eco.mubisoft.good_and_cheap.analytic.domain.business.model.Business;
 import org.eco.mubisoft.good_and_cheap.analytic.domain.sales_balance.model.SalesBalance;
 import org.eco.mubisoft.good_and_cheap.analytic.service.AnalyticService;
 import org.eco.mubisoft.good_and_cheap.application.security.TokenService;
@@ -51,9 +52,8 @@ public class AnalyticController {
         return "/analytic/analytic_option";
     }
 
-
     @GetMapping("/sales-balance")
-    public String get(HttpServletRequest request, Model model) throws ExecutionException, InterruptedException {
+    public String displaySalesBalance(HttpServletRequest request, Model model) throws ExecutionException, InterruptedException {
         String lang = "EN";
 
         countSales++;
@@ -100,6 +100,31 @@ public class AnalyticController {
         return "analytic/analytic_salesbalance";
     }
 
+    @GetMapping("/business")
+    public String displayMyBusiness(HttpServletRequest request, Model model) throws ExecutionException, InterruptedException {
+        String lang = "EN";
+
+        countBusiness++;
+        if(countBusiness>= 2) {
+            model.addAttribute("reasonList",reason);
+            model.addAttribute("totalList", total);
+            return "analytic/analytic_business";
+        }
+
+        id = getLoggedUser(request).getId();
+        analyticService.storeSalesBalanceData(id);
+        List<Business> businessDetailList = analyticService.displayMyBusiness(lang);
+
+        for (Business b: businessDetailList) {
+            reason.add(b.getReason());
+            total.add(b.getTotal());
+        }
+
+        model.addAttribute("reasonList",reason);
+        model.addAttribute("totalList", total);
+
+        return "analytic/analytic_business";
+    }
 
     /** NEEDED LOCAL FUNCTIONALITIES*/
 

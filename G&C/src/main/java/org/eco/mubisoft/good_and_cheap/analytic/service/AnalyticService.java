@@ -1,5 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.analytic.service;
 
+import org.eco.mubisoft.good_and_cheap.analytic.domain.business.model.Business;
 import org.eco.mubisoft.good_and_cheap.analytic.domain.sales_balance.model.SalesBalance;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public interface AnalyticService {
     List<SalesBalance> displaySalesBalance(String lang) throws ExecutionException, InterruptedException;
 
     /** - BUSINESS - */
-
+    List<Business> displayMyBusiness(String lang) throws ExecutionException, InterruptedException;
     /** - MOST - LEAST - */
 
 }
