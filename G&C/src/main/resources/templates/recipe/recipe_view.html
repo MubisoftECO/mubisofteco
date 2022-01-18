@@ -15,27 +15,44 @@
 
 <!-- Main -->
 <main class="container-fluid align-items-center">
-    <h2 class="title display-2 mx-auto" th:text="${recipe.getTitle()}"></h2>
 
-    <section id="recipe-introduction">
-        <div class="form-floating">
-            <span></span>
+    <section id="recipe-introduction" class="container container-fluid border border-light border-4 mt-2">
+        <div id="recipe-title" class="col">
+            <h2 class="title display-2 mx-auto" th:text="${recipe.getTitle()}"></h2>
+            <div id="author" class="link-info ms-2" th:text="${recipe.getAuthor().getUsername()}"></div>
         </div>
-        <div class="form-floating">
-                <textarea id="description" class="form-control" style="height: 25vh"
-                          name="description" placeholder="Description" maxlength="255"></textarea>
-            <label for="description">Description</label>
-        </div>
-        <div class="form-floating">
-            <input type="number" id="timeInMinutes" class="form-control" name="time"
-                   placeholder="Time in minutes" min="1" required>
-            <label for="timeInMinutes">Time in minutes</label>
+        <div class="container container-fluid row justify-content-between align-items-center">
+            <div id="recipe-information" class="col-6">
+                <div class="form-floating">
+                    <p class="fw-normal text-break" th:text="${recipe.getDescription()}"></p>
+                </div>
+                <div class="form-floating">
+                    <th:block th:switch="${recipe.getLanguage()}">
+                        <div th:case="'es'" class="fw-normal">
+                            Se tardan <span th:text="${recipe.getTimeInMinutes()}"></span> minutos en realizar esta receta.
+                        </div>
+                        <div th:case="'eu'" class="fw-normal">
+                            Errezeta hau <span th:text="${recipe.getTimeInMinutes()}"></span> minutu behar ditu.
+                        </div>
+                        <div th:case="'en'" class="fw-normal">
+                            This recipe will take <span th:text="${recipe.getTimeInMinutes()}"></span> minutes.
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+            <div id="recipe-image" class="col-4">
+                <div th:if="${recipe.getImgSrc() == null || recipe.getImgSrc().equals('')}">
+                    <img src="/media/imgs/recipe/recipe-base.png" class="card-img" alt="Default Recipe Image">
+                </div>
+                <div th:unless="${recipe.getImgSrc() == null || recipe.getImgSrc().equals('')}">
+                    <img src="/media/imgs/recipe/recipe-base.png" class="card-img" th:alt="${recipe.getTitle()}">
+                </div>
+            </div>
         </div>
     </section>
-    <hr>
 
     <!----------------------------- INGREDIENTS ---------------------->
-    <section id="recipe-ingredients">
+    <section id="recipe-ingredients" class="container-xl">
         <h3 class="title display-6">Ingredients</h3>
         <table id="add_ingredient" class="table table-bordered table-responsive">
             <thead id="add_ingredient_head">
@@ -63,10 +80,9 @@
             </tbody>
         </table>
     </section>
-    <hr>
 
     <!-- ------------------------ ADD STEP ------------------------------>
-    <section class="recipe-step">
+    <section class="recipe-step container-xl">
         <h3 class="title display-6">Steps</h3>
         <div id="recipe-steps">
             <div class="card recipe-step mb-3"  th:each="step : ${steps}">
