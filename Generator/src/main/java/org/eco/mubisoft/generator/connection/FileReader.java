@@ -36,7 +36,7 @@ public class FileReader {
                 if (!line.contains("name_es")) {
                     String[] values = line.split(",");
                     names.add(new ProductTypeNames(
-                            Long.parseLong(values[3]), values[0], values[1], values[2]
+                            Long.parseLong(values[3]), values[2], values[0], values[1]
                     ));
                 }
             } while ((line = br.readLine()) != null);
