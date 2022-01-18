@@ -179,8 +179,12 @@ public class RecipeController {
 
     @PostMapping("delete/{recipeId}")
     public void removeRecipe (@PathVariable("recipeId") Long id, HttpServletResponse response) throws IOException {
-        stepService.deleteRecipeSteps(new Recipe(id));
+        Recipe recipe = recipeService.getRecipe(id);
+
+        ingredientService.deleteRecipeIngredients(recipe);
+        stepService.deleteRecipeSteps(recipe);
         recipeService.removeRecipe(id);
+
         response.setStatus(HttpServletResponse.SC_OK);
         response.sendRedirect(response.encodeRedirectURL("/recipe/view/modify"));
     }

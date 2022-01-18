@@ -75,6 +75,7 @@ public class ProductServiceFacade implements ProductService {
     public double countPages() {
         return Math.ceil(productRepository.count() / ELEMENT_NUM);
     }
+
     @Override
     public List<ProductType> getIngredientTypes() {
         List<ProductType> productTypeList = productTypeRepository.findAll();

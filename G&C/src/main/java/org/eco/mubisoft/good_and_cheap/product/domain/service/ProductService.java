@@ -18,6 +18,7 @@ public interface ProductService {
     boolean removeProduct(Long id);
     double countPages();
     List<ProductType> getIngredients();
+    List<ProductType> getIngredientTypes();
 
     /**
      * <p><b>THREAD</b></p>

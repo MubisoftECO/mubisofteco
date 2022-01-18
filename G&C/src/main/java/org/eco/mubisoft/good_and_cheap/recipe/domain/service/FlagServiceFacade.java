@@ -3,6 +3,7 @@ package org.eco.mubisoft.good_and_cheap.recipe.domain.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Flag;
+import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Recipe;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.repo.FlagRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +15,13 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class FlagServiceFacade implements FlagService {
+
     private final FlagRepository flagRepo;
 
     @Override
-    public Flag saveFlag(Flag flag) {
+    public void saveFlag(Flag flag) {
         log.info("Saving flag {} on the database.", flag.getNameEn());
-        return flagRepo.save(flag);
+        flagRepo.save(flag);
     }
 
     @Override
@@ -31,4 +33,5 @@ public class FlagServiceFacade implements FlagService {
     public Flag getFlag(Long id) {
         return flagRepo.getById(id);
     }
+
 }
