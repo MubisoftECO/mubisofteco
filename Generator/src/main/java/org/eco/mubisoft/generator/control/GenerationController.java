@@ -44,6 +44,9 @@ public class GenerationController {
         log.info("Starting recipe generation [" + quantity + "].");
         recipeService.generateRecipes(quantity);
         log.info("Recipes generated.");
+
+        recipeService.generateIngredients();
+        log.info("Recipe ingredients generated.");
     }
 
     public void generateBasic() {

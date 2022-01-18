@@ -129,6 +129,23 @@ public class RecipeServiceFacade implements RecipeService{
     }
 
     @Override
+    public void generateIngredients() {
+        List<Recipe> recipeList = recipeRepository.findAll();
+        List<ProductType> productTypeList = productTypeRepository.findAll();
+        Random random = new Random();
+
+        recipeList.forEach(recipe -> {
+            for (int i = 0; i < random.nextInt(20) + 2; i++) {
+                ingredientRepository.save(new Ingredient(
+                        recipe,
+                        productTypeList.get(random.nextInt(productTypeList.size())),
+                        random.nextInt(100) + 1
+                ));
+            }
+        });
+    }
+
+    @Override
     public void deleteAll() {
         flagRepository.deleteAll();
         stepRepository.deleteAll();
