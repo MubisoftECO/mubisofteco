@@ -33,7 +33,7 @@ public class GenerationController {
         generate((generationQuantity != null) ? generationQuantity : GENERATION_QUANTITY);
         log.info("Generation process finished.");
 
-        return "index";
+        return "redirect:/index";
     }
 
     public void generate(int quantity) {

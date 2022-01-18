@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
-<head th:insert="includes/head :: head">
+<head th:replace="includes/head :: head">
     <title id="pageTitle">Create a Recipe</title>
 </head>
 
@@ -135,7 +134,6 @@
         </section>
         <hr>
 
-        <!-- ------------------------------------------------------------------->
         <section class="allergen-selection">
             <h3 class="title display-6">Flags</h3>
             <table class="container-fluid table table-bordered">
@@ -150,7 +148,8 @@
                         <tr>
                             <td>
                                 <div class="custom-control custom-checkbox text-center">
-                                    <input class="form-check-input mt-0 align-middle" type="checkbox" name="flag" th:value="${flag.getId()}">
+                                    <input class="form-check-input mt-0 align-middle" type="checkbox" name="flag"
+                                           th:value="${flag.getId()}">
                                 </div>
                             </td>
                             <td th:text="${flag.getNameEn()}"></td>
@@ -161,13 +160,11 @@
         </section>
         <hr>
 
-        <!--------------------------------------------------------------------->
         <section class="image-upload">
             <h3>Image</h3>
             <input class="form-control" name="imgSrc" type="file" id="formFile">
         </section>
 
-        <!--------------------------------------------------------------------->
         <div class="button">
             <input id="submit" class="btn btn-success btn-green" type="submit" value="Submit"><br><br>
         </div>

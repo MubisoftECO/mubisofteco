@@ -59,7 +59,7 @@ public class AppUser {
      * <p><b>ROLES</b></p>
      * <p>A list with the different roles of the user.</p>
      */
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     private Collection<Role> roles = new ArrayList<>();
 
     /**
@@ -73,7 +73,7 @@ public class AppUser {
      * <p><b>LOCATION</b></p>
      * <p>The location of the user.</p>
      */
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Location location;
 
     @Transient

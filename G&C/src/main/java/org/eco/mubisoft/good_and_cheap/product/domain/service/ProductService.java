@@ -13,5 +13,5 @@ public interface ProductService {
     void addProduct(Product product);
     boolean removeProduct(Long id);
     double countPages();
-    List<ProductType> getIngredients();
+    List<ProductType> getIngredientTypes();
 }

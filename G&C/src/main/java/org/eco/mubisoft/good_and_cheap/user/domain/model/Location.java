@@ -31,7 +31,7 @@ public class Location {
      * <p><b>CITY</b></p>
      * <p>City of the location.</p>
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private City city;
 
 }

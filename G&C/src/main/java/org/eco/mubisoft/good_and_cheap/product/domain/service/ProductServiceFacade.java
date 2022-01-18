@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -60,8 +61,21 @@ public class ProductServiceFacade implements ProductService {
     }
 
     @Override
-    public List<ProductType> getIngredients() {
-        return productTypeRepository.findAll();
+    public List<ProductType> getIngredientTypes() {
+        List<ProductType> productTypeList = productTypeRepository.findAll();
+        List<ProductType> productTypeListCopy = new ArrayList<>();
+
+        productTypeList.forEach(productType -> {
+                productTypeListCopy.add(new ProductType(
+                        productType.getId(),
+                        productType.getNameEs(),
+                        productType.getNameEn(),
+                        productType.getNameEu(),
+                        productType.getMeasurementUnit(),
+                        productType.getProductFamily()
+                ));
+        });
+        return productTypeListCopy;
     }
 
 }

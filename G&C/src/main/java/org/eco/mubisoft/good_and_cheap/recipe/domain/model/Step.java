@@ -19,7 +19,7 @@ public class Step {
     private Long id;
     private Integer stepNum;
     private String description;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Recipe recipe;
 
     public Step(Integer stepNum, String description, Recipe recipe) {

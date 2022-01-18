@@ -22,7 +22,7 @@ public class Product {
     private String nameEs;
     private String nameEn;
     private String nameEu;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private ProductType productType;
     private Double price;
     private Double quantity;
@@ -30,7 +30,7 @@ public class Product {
     private Date expirationDate;
     private Date removedDate;
     private String removeReason;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private AppUser vendor;
 
 }
