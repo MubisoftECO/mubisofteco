@@ -169,7 +169,8 @@ public class RecipeController {
     public String editRecipe(@PathVariable("recipeId") Long id, Model model) {
         Recipe recipe = recipeService.getRecipe(id);
         model.addAttribute("flagList", flagService.getAllFlags());
-        model.addAttribute("ingredientList", ingredientService.getRecipeIngredients(recipe));
+        model.addAttribute("recipeIngredients", recipe.getIngredientList());
+        model.addAttribute("ingredientList", productService.getIngredients());
         model.addAttribute("measurementList", productService.getMeasurementUnits());
         List <Long> selectedFlagList = new ArrayList<>();
         recipe.getRecipeFlags().forEach(flag -> selectedFlagList.add(flag.getId()));

@@ -24,7 +24,6 @@
                 <th:block th:unless="${#strings.isEmpty(keyword)}">
                     <input id="search-box" class="form-control mr-sm-2" name="keyword" type="text" placeholder="Search..." aria-label="Search..." th:value="${keyword}">
                 </th:block>
-
                 <button id="search-submit" class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button>
             </div>
         </div>
@@ -40,6 +39,9 @@
                             </th:block>
                         </th:block>
                 </select>
+                <form action="/recipe/create" method="get">
+                    <button type="submit" class="btn btn-dark btn_back">Create</button>
+                </form>
         </div>
 
         <!-- Main -->
