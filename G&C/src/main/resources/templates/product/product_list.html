@@ -43,7 +43,7 @@
                     </div>
                     <div class="card_body">
                         <th:block th:if="${#strings.isEmpty(product.getProductType().getImgSrc())}">
-                            <img th:src="@{'/media/imgs/gc_box.png'}" alt="Product icon" style="">
+                            <img th:src="@{'/media/imgs/gc_bag.png'}" alt="Product icon" class="product_image">
                         </th:block>
                         <th:block th:unless="${#strings.isEmpty(product.getProductType().getImgSrc())}">
                             <img th:src="${'/media/imgs/' + product.getProductType().getImgSrc()}" th:alt="${product.getNameEn() + ' Image'}">

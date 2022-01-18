@@ -63,6 +63,9 @@ form + form{
     justify-content: center;
 
 }
+.product_image{ width: 20%;
+
+}
 
 
 /*Large devices (desktops, 992px and up)*/
@@ -71,6 +74,7 @@ form + form{
         display: grid;
         grid-template-columns: auto auto;
     }
+    
 }
 
 /*Extra large devices (large desktops, 1200px and up)*/
