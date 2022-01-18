@@ -1,9 +1,11 @@
 package org.eco.mubisoft.good_and_cheap.analytic.control;
 
+import com.google.gson.Gson;
 import com.sun.org.apache.bcel.internal.generic.RETURN;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.analytic.domain.business.model.Business;
+import org.eco.mubisoft.good_and_cheap.analytic.domain.most_least.model.MostLeastSold;
 import org.eco.mubisoft.good_and_cheap.analytic.domain.sales_balance.model.SalesBalance;
 import org.eco.mubisoft.good_and_cheap.analytic.service.AnalyticService;
 import org.eco.mubisoft.good_and_cheap.application.security.TokenService;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -124,6 +127,36 @@ public class AnalyticController {
         model.addAttribute("totalList", total);
 
         return "analytic/analytic_business";
+    }
+
+    @GetMapping("/most-least-sold")
+    public String displayMostLeast(){
+        return "analytic/analytic_most_least";
+    }
+
+    @GetMapping("/most-sold")
+    @ResponseBody
+    public String getMostSoldProducts(HttpServletRequest request) throws ExecutionException, InterruptedException {
+
+        String city =  getLoggedUser(request).getLocation().getCity().getName();
+
+        analyticService.storeSoldOnlyData(city);
+        List<MostLeastSold> list = analyticService.productMostList();
+
+        Gson gson = new Gson();
+        return gson.toJson(list);
+    }
+
+    @GetMapping("/least-sold")
+    @ResponseBody
+    public String getLessSoldProducts(HttpServletRequest request) throws ExecutionException, InterruptedException {
+
+        String city =  getLoggedUser(request).getLocation().getCity().getName();
+
+        analyticService.storeSoldOnlyData(city);
+        List<MostLeastSold> list = analyticService.productLeastList();
+        Gson gson = new Gson();
+        return gson.toJson(list);
     }
 
     /** NEEDED LOCAL FUNCTIONALITIES*/

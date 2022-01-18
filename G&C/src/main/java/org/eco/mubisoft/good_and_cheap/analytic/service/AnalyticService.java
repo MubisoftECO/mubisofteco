@@ -1,6 +1,7 @@
 package org.eco.mubisoft.good_and_cheap.analytic.service;
 
 import org.eco.mubisoft.good_and_cheap.analytic.domain.business.model.Business;
+import org.eco.mubisoft.good_and_cheap.analytic.domain.most_least.model.MostLeastSold;
 import org.eco.mubisoft.good_and_cheap.analytic.domain.sales_balance.model.SalesBalance;
 
 import java.util.List;
@@ -36,6 +37,10 @@ public interface AnalyticService {
 
     /** - BUSINESS - */
     List<Business> displayMyBusiness(String lang) throws ExecutionException, InterruptedException;
+
     /** - MOST - LEAST - */
+    void storeSoldOnlyData(String city) throws ExecutionException, InterruptedException;
+    List<MostLeastSold> productLeastList() throws ExecutionException, InterruptedException;
+    List<MostLeastSold> productMostList() throws ExecutionException, InterruptedException;
 
 }

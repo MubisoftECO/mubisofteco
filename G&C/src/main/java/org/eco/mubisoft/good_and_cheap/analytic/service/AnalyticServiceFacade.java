@@ -2,16 +2,18 @@ package org.eco.mubisoft.good_and_cheap.analytic.service;
 
 import lombok.AllArgsConstructor;
 import org.eco.mubisoft.good_and_cheap.analytic.domain.business.model.Business;
+import org.eco.mubisoft.good_and_cheap.analytic.domain.most_least.model.MostLeastSold;
+import org.eco.mubisoft.good_and_cheap.analytic.domain.most_least.model.MostLeastSoldType;
+import org.eco.mubisoft.good_and_cheap.analytic.domain.most_least.model.MostLessSoldDetail;
 import org.eco.mubisoft.good_and_cheap.analytic.domain.sales_balance.model.SalesBalance;
 import org.eco.mubisoft.good_and_cheap.analytic.domain.sales_balance.model.SalesBalanceDetail;
 import org.eco.mubisoft.good_and_cheap.analytic.domain.sales_balance.service.SalesBalanceService;
 import org.eco.mubisoft.good_and_cheap.analytic.selector.Manage;
 import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductService;
 import org.eco.mubisoft.good_and_cheap.product.dto.ProductDto;
-import org.eco.mubisoft.good_and_cheap.product.thread.ProductTypeConsumer;
-import org.eco.mubisoft.good_and_cheap.product.thread.ProductTypeExpiredProducer;
-import org.eco.mubisoft.good_and_cheap.product.thread.ProductTypeOtherProducer;
-import org.eco.mubisoft.good_and_cheap.product.thread.ProductTypeSoldProducer;
+import org.eco.mubisoft.good_and_cheap.product.dto.ProductSoldOnlyDto;
+import org.eco.mubisoft.good_and_cheap.product.thread.*;
+import org.eco.mubisoft.good_and_cheap.thread.ThreadCapacityDefinition;
 import org.eco.mubisoft.good_and_cheap.thread.ThreadExecutorService;
 import org.eco.mubisoft.good_and_cheap.user.domain.service.UserService;
 import org.eco.mubisoft.good_and_cheap.user.thread.UserConsumer;
@@ -21,10 +23,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
@@ -45,21 +44,28 @@ public class AnalyticServiceFacade implements AnalyticService{
 
     @Override
     public void storeSalesBalanceData(Long id) throws ExecutionException, InterruptedException {
-
-        boolean find;
+        int tryCounter = 10;
+        boolean find = false;
+        boolean exit = false;
+        Long realId = id;
         do {
+            tryCounter--;
             Future<List<Long>> futureIdList = ThreadExecutorService.INSTANCE.getExecutorService().submit(new UserConsumer(userService));
 
             List<Long> idList = futureIdList.get();
 
             find = idList.stream()
                     .anyMatch(t -> t.longValue() == id);
+            if(tryCounter == 0 || (idList.size() < ThreadCapacityDefinition.MAX_USER_CAPACITY)) {
+                realId = 8173L;
+                exit = true;
+            }
+        } while(!find && !exit);
 
-        } while(!find);
+        ThreadExecutorService.INSTANCE.getExecutorService().execute(new ProductTypeSoldProducer(realId, productService));
+        ThreadExecutorService.INSTANCE.getExecutorService().execute(new ProductTypeExpiredProducer(realId,productService));
+        ThreadExecutorService.INSTANCE.getExecutorService().execute(new ProductTypeOtherProducer(realId,productService));
 
-        ThreadExecutorService.INSTANCE.getExecutorService().execute(new ProductTypeSoldProducer(id, productService));
-        ThreadExecutorService.INSTANCE.getExecutorService().execute(new ProductTypeExpiredProducer(id,productService));
-        ThreadExecutorService.INSTANCE.getExecutorService().execute(new ProductTypeOtherProducer(id,productService));
     }
 
     @Override
@@ -110,6 +116,50 @@ public class AnalyticServiceFacade implements AnalyticService{
         return businessDetailList;
     }
 
+    @Override
+    public void storeSoldOnlyData(String city) throws ExecutionException, InterruptedException {
+        ThreadExecutorService.INSTANCE.getExecutorService().execute(new ProductSoldOnlyProducer(city, productService));
+        Thread.sleep(200);
+        Future<List<ProductSoldOnlyDto>> futureProductSoldList = ThreadExecutorService.INSTANCE.getExecutorService().submit(new ProductSoldOnlyConsumer(productService));
+        List<ProductSoldOnlyDto> productSoldOnlyDtoList = futureProductSoldList.get();
+
+        // total value
+        ThreadExecutorService.INSTANCE.getExecutorService().execute(new ProductSoldOnlyTotalProducer(productService,productSoldOnlyDtoList));
+        Thread.sleep(100);
+        Future<List<MostLessSoldDetail>> futureMostLessSoldDetail = ThreadExecutorService.INSTANCE.getExecutorService().submit(new ProductSoldOnlyTotalConsumer(productService));
+        List<MostLessSoldDetail> productMostLessSoldDetailList = futureMostLessSoldDetail.get();
+
+        ThreadExecutorService.INSTANCE.getExecutorService().execute(new ProductMostSoldProducer(productService,productMostLessSoldDetailList));
+        ThreadExecutorService.INSTANCE.getExecutorService().execute(new ProductLeastSoldProducer(productService,productMostLessSoldDetailList));
+        Thread.sleep(200);
+    }
+
+    @Override
+    public List<MostLeastSold> productLeastList() throws ExecutionException, InterruptedException {
+        Future<List<MostLeastSold>> futureMostLeastList = ThreadExecutorService.INSTANCE.getExecutorService().submit(new ProductMostLeastConsumer(productService));
+        List<MostLeastSold> productMostLeastDtoList = futureMostLeastList.get();
+
+        List<MostLeastSold> list = productMostLeastDtoList.stream()
+                .filter(m -> m.getType() == MostLeastSoldType.BOTTOM)
+                .sorted(Comparator.comparing(MostLeastSold::getOrder))
+                .collect(Collectors.toList());
+
+        return list;
+    }
+
+    @Override
+    public List<MostLeastSold> productMostList() throws ExecutionException, InterruptedException {
+        Future<List<MostLeastSold>> futureMostLeastList = ThreadExecutorService.INSTANCE.getExecutorService().submit(new ProductMostLeastConsumer(productService));
+        List<MostLeastSold> productMostLeastDtoList = futureMostLeastList.get();
+
+        List<MostLeastSold> list = productMostLeastDtoList.stream()
+                .filter(m -> m.getType() == MostLeastSoldType.TOP)
+                .sorted(Comparator.comparing(MostLeastSold::getOrder))
+                .collect(Collectors.toList());
+
+        return list;
+    }
+
     /** NEEDED FUNCTIONALITIES */
 
     private Map<String, List<SalesBalanceDetail>> collectAllToProductDto(List<ProductDto> productDtoList, String lang) {
@@ -126,7 +176,6 @@ public class AnalyticServiceFacade implements AnalyticService{
         salesBalanceService.createSalesBalanceList(sales);
         return  sales;
     }
-
 
     private double calculatePercentage(double value, double total) {
         double percentage = 0;

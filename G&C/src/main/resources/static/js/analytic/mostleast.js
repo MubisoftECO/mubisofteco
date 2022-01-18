@@ -18,10 +18,10 @@ $(document).ready(function() {
         });
     });
 
-    $('#less').on('click', function () {
+    $('#least').on('click', function () {
         $.ajax({
             method: 'GET',
-            url: 'less-sold',
+            url: 'least-sold',
             success: function (result) {
                 let details = JSON.parse(result);
                 let products = details.values();
