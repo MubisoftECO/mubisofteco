@@ -22,4 +22,9 @@ public class Step {
     @ManyToOne
     private Recipe recipe;
 
+    public Step(Integer stepNum, String description, Recipe recipe) {
+        this.stepNum = stepNum;
+        this.description = description;
+        this.recipe = recipe;
+    }
 }

@@ -14,8 +14,14 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class StepServiceFacade implements StepService{
+public class StepServiceFacade implements StepService {
+
     private final StepRepository stepRepo;
+
+    @Override
+    public Step insertStep(Step step) {
+        return stepRepo.save(step);
+    }
 
     @Override
     public List<Step> getStepsByRecipe(Recipe recipe){return stepRepo.getStepsByRecipe(recipe);}
@@ -25,4 +31,5 @@ public class StepServiceFacade implements StepService{
     public void deleteRecipeSteps(Recipe recipe) {
         stepRepo.deleteStepsByRecipe(recipe);
     }
+
 }

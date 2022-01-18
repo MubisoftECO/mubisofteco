@@ -5,8 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.application.pages.PageManager;
 import org.eco.mubisoft.good_and_cheap.application.security.TokenService;
 import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductService;
+import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductTypeService;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Flag;
+import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Ingredient;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Recipe;
+import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Step;
+import org.eco.mubisoft.good_and_cheap.recipe.domain.repo.IngredientRepository;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.service.FlagService;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.service.RecipeService;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.service.StepService;
@@ -20,10 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -31,6 +32,8 @@ import java.util.Optional;
 @RequestMapping(path = "/recipe")
 public class RecipeController {
 
+    private final IngredientRepository ingredientRepository;
+    private final ProductTypeService productTypeService;
     private final ProductService productService;
     private final RecipeService recipeService;
     private final UserService userService;
@@ -50,10 +53,14 @@ public class RecipeController {
     public String saveRecipe(HttpServletRequest request, HttpServletResponse response){
         Recipe recipe = new Recipe();
 
+        // Basic fields
         recipe.setTitle(request.getParameter("title"));
         recipe.setDescription(request.getParameter("description"));
-        recipe.setTimeInMinutes(Integer.parseInt(request.getParameter("timeInMinutes")));
+        recipe.setTimeInMinutes(Integer.parseInt(request.getParameter("time")));
+        recipe.setImgSrc(request.getParameter("imgSrc"));
+        recipe.setLanguage("ES");
 
+        // Get the user.
         HttpSession session = request.getSession();
         String accessToken = (String) session.getAttribute("accessToken");
         TokenService tokenService = new TokenService();
@@ -61,12 +68,42 @@ public class RecipeController {
         AppUser loggedUser = userService.getUser(username);
         recipe.setAuthor(loggedUser);
 
-        recipe.setImgSrc(request.getParameter("imgSrc"));
+        // Flags
+        List<String> flags = Arrays.asList(request.getParameterValues("flag"));
+        Collection<Flag> flagList = new ArrayList<>();
 
-        recipeService.saveRecipe(recipe);
+        flags.forEach(flagID -> {
+                flagList.add(flagService.getFlag(Long.parseLong(flagID)));
+        });
+        recipe.setRecipeFlags(flagList);
 
+        // Save the recipe
+        Recipe savedRecipe = recipeService.saveRecipe(recipe);
 
-        return "redirect:/recipe/view/";
+        // Ingredients
+        List<String> ingredients = Arrays.asList(request.getParameterValues("ingredient"));
+        List<String> quantity = Arrays.asList(request.getParameterValues("quantity"));
+
+        ingredients.forEach(ingID -> {
+            Ingredient ingredient = new Ingredient(
+                    savedRecipe,
+                    productTypeService.getProductType(Long.parseLong(ingID)),
+                    Integer.parseInt(quantity.get(ingredients.indexOf(ingID)))
+            );
+            ingredientRepository.save(ingredient);
+        });
+
+        // Steps
+        List<String> steps = Arrays.asList(request.getParameterValues("step"));
+        steps.forEach(stepValue -> {
+            Step step = new Step(
+                    steps.indexOf(stepValue),
+                    stepValue, savedRecipe
+            );
+            stepService.insertStep(step);
+        });
+
+        return "redirect:/recipe/view";
     }
 
     @GetMapping("/view")

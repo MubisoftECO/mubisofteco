@@ -124,7 +124,7 @@
                     <div class="card-body">
                         <label class="container-fluid">
                             <textarea id="recipe-step-description-1" class="form-control recipe-step" required
-                                      name="step-1" maxlength="255"></textarea>
+                                      name="step" maxlength="255"></textarea>
                         </label>
                     </div>
                 </div>
@@ -150,7 +150,7 @@
                         <tr>
                             <td>
                                 <div class="custom-control custom-checkbox text-center">
-                                    <input class="form-check-input mt-0 align-middle" type="checkbox" th:name="'flag-' + ${flag.getId()}">
+                                    <input class="form-check-input mt-0 align-middle" type="checkbox" name="flag" th:value="${flag.getId()}">
                                 </div>
                             </td>
                             <td th:text="${flag.getNameEn()}"></td>

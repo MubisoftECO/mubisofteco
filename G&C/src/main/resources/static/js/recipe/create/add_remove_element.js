@@ -17,7 +17,7 @@ function addStep(){
             "            <div class='card-body'>" +
             "               <label class='container-fluid'>" +
             "                   <textarea id='recipe-step-description-" + id + "' class='form-control recipe-step'\n" +
-            "                       name='step-" + id + "' maxlength='255'></textarea>" +
+            "                       name='step' maxlength='255'></textarea>" +
             "               </label>" +
             "            </div>"
 

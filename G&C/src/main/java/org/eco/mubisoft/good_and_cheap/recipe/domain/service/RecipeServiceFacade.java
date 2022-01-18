@@ -58,9 +58,9 @@ public class RecipeServiceFacade implements RecipeService{
     }
 
     @Override
-    public void saveRecipe(Recipe recipe){
+    public Recipe saveRecipe(Recipe recipe){
         log.info("Saving recipe {} on the database.", recipe.getTitle());
-        recipeRepository.save(recipe);
+        return recipeRepository.save(recipe);
     }
 
     @Override
