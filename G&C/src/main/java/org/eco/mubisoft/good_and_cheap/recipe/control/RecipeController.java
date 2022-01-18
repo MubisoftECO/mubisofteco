@@ -4,13 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.application.pages.PageManager;
 import org.eco.mubisoft.good_and_cheap.application.security.TokenService;
+import org.eco.mubisoft.good_and_cheap.product.domain.model.ProductType;
 import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductService;
 import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductTypeService;
-import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Flag;
-import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Ingredient;
-import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Recipe;
-import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Step;
-import org.eco.mubisoft.good_and_cheap.recipe.domain.repo.IngredientRepository;
+import org.eco.mubisoft.good_and_cheap.recipe.domain.model.*;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.service.*;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.service.UserService;
@@ -41,7 +38,7 @@ public class RecipeController {
     @GetMapping("/create")
     public String createRecipe(Model model){
         model.addAttribute("flagList", flagService.getAllFlags());
-        model.addAttribute("ingredientList", productService.getIngredients());
+        model.addAttribute("ingredientList", productService.getIngredientTypes());
         model.addAttribute("measurementList", productService.getMeasurementUnits());
 
         return "recipe/recipe_form";
@@ -83,9 +80,10 @@ public class RecipeController {
         List<String> quantity = Arrays.asList(request.getParameterValues("quantity"));
 
         ingredients.forEach(ingID -> {
+            ProductType pt = productTypeService.getProductType(Long.parseLong(ingID));
             Ingredient ingredient = new Ingredient(
-                    savedRecipe,
-                    productTypeService.getProductType(Long.parseLong(ingID)),
+                    new IngredientId(recipe.getId(), pt.getId()),
+                    savedRecipe, pt,
                     Integer.parseInt(quantity.get(ingredients.indexOf(ingID)))
             );
             ingredientService.saveIngredient(ingredient);
@@ -130,8 +128,6 @@ public class RecipeController {
             nextPage = PageManager.getPageNum(pageNum.orElse(null), (int) recipeService.countPages(keyword), direction);
             recipeList = recipeService.getAllRecipesWithTitleContaining(nextPage - 1, keyword);
         }
-
-
         model.addAttribute("keyword", keyword);
         model.addAttribute("recipeList", recipeList);
         model.addAttribute("flagList", flagService.getAllFlags());
@@ -170,7 +166,7 @@ public class RecipeController {
         Recipe recipe = recipeService.getRecipe(id);
         model.addAttribute("flagList", flagService.getAllFlags());
         model.addAttribute("recipeIngredients", recipe.getIngredientList());
-        model.addAttribute("ingredientList", productService.getIngredients());
+        model.addAttribute("ingredientList", productService.getIngredientTypes());
         model.addAttribute("measurementList", productService.getMeasurementUnits());
         List <Long> selectedFlagList = new ArrayList<>();
         recipe.getRecipeFlags().forEach(flag -> selectedFlagList.add(flag.getId()));

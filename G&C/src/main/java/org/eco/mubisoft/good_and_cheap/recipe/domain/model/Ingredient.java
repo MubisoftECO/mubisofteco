@@ -7,27 +7,30 @@ import lombok.Setter;
 import org.eco.mubisoft.good_and_cheap.product.domain.model.ProductType;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
+@Entity
 @Getter
 @Setter
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@IdClass(IngredientId.class)
-public class Ingredient {
+@Table(name = "ingredient")
+public class Ingredient implements Serializable {
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "recipe_id", referencedColumnName = "id")
+    @EmbeddedId
+    private IngredientId id;
+
+    @MapsId("recipe")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "product_type_id", referencedColumnName = "id")
+    @MapsId("productType")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_type_id")
     private ProductType productType;
 
     @Column(name = "quantity")
     private Integer quantity;
-
 
 }

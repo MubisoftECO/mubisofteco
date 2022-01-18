@@ -21,7 +21,7 @@ public class Province {
      * <p><b>AUTONOMOUS COMMUNITY</b></p>
      * <p>ID of the AC.</p>
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private AutonomousCommunity autonomousCommunity;
 
     /**
