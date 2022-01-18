@@ -71,6 +71,7 @@ public class UserController {
 
     @PostMapping("/save")
     public void saveUser(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "image", required = false) MultipartFile imageFile) throws IOException {
+        String fileName = null;
         AppUser user = new AppUser();
 
         user.setName(request.getParameter("name"));
@@ -82,20 +83,30 @@ public class UserController {
 
         Location locationToSave = new Location();
         locationToSave.setCity(cityService.getCity(Long.parseLong(request.getParameter("city"))));
+        if (request.getParameter("usertype").equals("vendor")) {
+            locationToSave.setStreet(request.getParameter("street"));
+        }
         Location savedLocation = locationService.saveLocation(locationToSave);
 
         user.setLocation(savedLocation);
 
+        if (!imageFile.isEmpty()) {
+            fileName = StringUtils.cleanPath(Objects.requireNonNull(imageFile.getOriginalFilename()));
+            user.setImgSrc(fileName);
+        }
+
         AppUser savedUser = userService.saveUser(user);
-        roleService.setUserRole(savedUser.getUsername(), "ROLE_USER");
+        if (request.getParameter("usertype").equals("customer")) {
+            roleService.setUserRole(savedUser.getUsername(), "ROLE_USER");
+        } else {
+            roleService.setUserRole(savedUser.getUsername(), "ROLE_VENDOR");
+        }
+
 
         if (!imageFile.isEmpty()){
-            String fileName = StringUtils.cleanPath(Objects.requireNonNull(imageFile.getOriginalFilename()));
-            user.setImgSrc(fileName);
             String uploadDir = "user-photos/" + savedUser.getId();
             FileUploadUtil.saveFile(uploadDir, fileName, imageFile);
         }
-
 
         // Send response
         response.setStatus(HttpServletResponse.SC_CREATED);

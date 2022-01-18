@@ -60,44 +60,10 @@
                                     <option  value="" disabled selected>City</option>
                                 </select>
                             </div>
-                            <div class="col-12">
-                                <label>Profile picture: 1MB MAX</label>
-                                <input type="file" name="image" accept="image/png, image/jpeg" />
-                            </div>
-                        </div>
-                        <div class="row gy-2 hidden" id="form-vendor">
-                            <div class="col-12 col-sm-6">
-                                <input type="text" placeholder="Name" name="name" class="form-control" required>
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <input type="text" placeholder="Surname" name="secondName" class="form-control" required>
-                            </div>
-                            <div class="col-12">
-                                <input type="email" placeholder="Email" name="username" class="form-control" required>
-                            </div>
-                            <div class="col-12">
-                                <input type="password" placeholder="Password" name="password" class="form-control" required>
-                            </div>
-                            <div class="col-12">
-                                <select name="autonomousCommunity" class="ac-dropdown col-12 form-select" required>
-                                    <option  value="" disabled selected>Autonomous Community</option>
-                                    <th:block th:each="ac : ${acList}">
-                                        <option th:value="${ac.getId()}">[[${ac.getName()}]]</option>
-                                    </th:block>
-                                </select>
-                            </div>
-                            <div class="col-12">
-                                <select class="province-dropdown col-12 form-select" name="province" required>
-                                    <option  value="" disabled selected>Province</option>
-                                </select>
-                            </div>
-                            <div class="col-12">
-                                <select class="city-dropdown col-12 form-select" name="city" required>
-                                    <option  value="" disabled selected>City</option>
-                                </select>
-                            </div>
-                            <div class="col-12">
-                                <input type="text" placeholder="Street" name="street" class="form-control" required>
+                            <div class="row gy-2 hidden" id="form-vendor">
+                                <div class="col-12">
+                                    <input type="text" placeholder="Street" name="street" class="form-control">
+                                </div>
                             </div>
                             <div class="col-12">
                                 <label>Profile picture: 1MB MAX</label>
@@ -114,8 +80,8 @@
                                 <label class="form-check-label">Vendor</label>
                             </div>
                         </div>
-                        <div class="row gy-2 mt-3">
-                            <div class="col-12">
+
+                            <div class="row gy-2 mt-3 col-12">
                                 <button type="submit" class="form-control btn btn-dark">SUBMIT</button>
                             </div>
                         </div>

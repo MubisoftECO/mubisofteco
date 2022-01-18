@@ -10,6 +10,7 @@ import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -35,5 +36,9 @@ public class Recipe {
 
     public Recipe(Long id) {
         this.id = id;
+    }
+
+    public List<Ingredient> getIngredientList() {
+        return new ArrayList<>(ingredients);
     }
 }

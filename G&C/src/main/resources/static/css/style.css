@@ -147,7 +147,7 @@ hr {
     justify-content: space-between;
 }
 
-.btn-add {
+.btn-green {
     background-color: var(--color-background-green);
     border-color: var(--color-background-green);
 }

@@ -101,9 +101,6 @@ public class ProductController {
         Product product = productService.getProduct(id);
         model.addAttribute("product", product);
 
-        AppUser loggedUser = userService.getLoggedUser(request);
-        model.addAttribute("user", loggedUser);
-
         return "/product/product_current";
     }
 

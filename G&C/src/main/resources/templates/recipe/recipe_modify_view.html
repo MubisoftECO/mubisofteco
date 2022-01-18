@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:insert="includes/head :: head">
     <title id="pageTitle">Modify personal recipe</title>
 </head>
@@ -69,41 +69,41 @@
                     <th scope="col" class="col-2">Delete</th>
                 </tr>
                 </thead>
+
                 <tbody id="add_ingredient_body">
-                <th:block th:each="ingredients : ${recipe.getIngredients()}">
-                    <tr th:id="${'ingredient-'+(recipe.getIngredients().indexOf(ingredients)+1)}" class="new-ingredient">
-                        <th scope="row" class="ingredient-id align-middle" th:text="${recipe.getIngredients().indexOf(ingredients)+1}"></th>
-                        <td class="ingredient-description custom-select">
-                            <select class="selectpicker" name="ingredient"
-                                    title="" data-live-search="true">
-                                <th:block th:each="ingredient : ${ingredientList}">
-                                    <th:block th:if="${#strings.equals(ingredients.getId(), ingredient.getId())}">
-                                        <option selected th:value="${ingredient.getId()}" th:text="${ingredient.getProductType().getNameEn()}"></option>
+                    <th:block th:each="recipeIngredient : ${recipe.getIngredientList()}">
+                        <tr th:id="${'ingredient-' + (recipe.getIngredientList().indexOf(recipeIngredient) + 1)}" class="new-ingredient">
+                            <th scope="row" class="ingredient-id align-middle" th:text="${recipe.getIngredientList().indexOf(recipeIngredient) + 1}"></th>
+                            <td class="ingredient-description custom-select">
+                                <select class="selectpicker" name="ingredient"
+                                        title="" data-live-search="true">
+                                    <th:block th:each="ingredient : ${ingredientList}">
+                                        <option th:if="${#strings.equals(recipeIngredient.getProductType().getId(), ingredient.getId())}"
+                                                selected th:value="${ingredient.getId()}" th:text="${ingredient.getNameEn()}">
+                                        </option>
+                                        <option th:unless="${#strings.equals(recipeIngredient.getProductType().getId(), ingredient.getId())}"
+                                                th:value="${ingredient.getId()}" th:text="${ingredient.getNameEn()}">
+                                        </option>
                                     </th:block>
-                                    <th:block th:unless="${#strings.equals(ingredients.getId(), ingredient.getId())}">
-                                        <option th:value="${ingredient.getId()}" th:text="${ingredient.getProductType().getNameEn()}"></option>
+                                </select>
+                            </td>
+
+                            <td class="ingredient-quantity">
+                                <input type="number" class="productQuantity form-control bckgr-gray" name="quantity" min="0">
+                            </td>
+                            <td class="ingredient-unit custom-select">
+                                <select class="selectpicker" name="unit" title="Unit">
+                                    <th:block th:each="unit : ${measurementList}">
+                                        <option th:value="${unit}" th:text="${unit.toUpperCase()}"></option>
                                     </th:block>
-                                </th:block>
-                            </select>
-                        </td>
-
-
-                        <td class="ingredient-quantity">
-                            <input type="number" class="productQuantity form-control bckgr-gray" name="quantity" min="0">
-                        </td>
-                        <td class="ingredient-unit custom-select">
-                            <select class="selectpicker" name="unit" title="Unit">
-                                <th:block th:each="unit : ${measurementList}">
-                                    <option th:value="${unit}" th:text="${unit.toUpperCase()}"></option>
-                                </th:block>
-                            </select>
-                        </td>
-                        <td class="ingredient-delete form-control">
-                            <input type="button" th:id="${'btn-remove-ingredient-'+(recipe.getIngredients().indexOf(ingredients)+1)}"
-                                   class="btn btn-remove-ingredient btn-danger align-middle" value="Remove">
-                        </td>
-                    </tr>
-                </th:block>
+                                </select>
+                            </td>
+                            <td class="ingredient-delete form-control">
+                                <input type="button" th:id="${'btn-remove-ingredient-'+(recipe.getIngredientList().indexOf(recipeIngredient)+1)}"
+                                       class="btn btn-remove-ingredient btn-danger align-middle" value="Remove">
+                            </td>
+                        </tr>
+                    </th:block>
                 </tbody>
             </table>
             <div class="col center-content">
@@ -164,7 +164,7 @@
                                     <input class="form-check-input mt-0 align-middle" type="checkbox" th:name="'flag-' + ${flag.getId()}" checked>
                                 </div>
                             </td>
-                            <td th:text="${flag.getName_en()}"></td>
+                            <td th:text="${flag.getNameEn()}"></td>
                         </th:block>
                         <th:block th:unless="${#lists.contains(selectedFlagList, flag.getId())}">
                             <td>
@@ -172,7 +172,7 @@
                                     <input class="form-check-input mt-0 align-middle" type="checkbox" th:name="'flag-' + ${flag.getId()}">
                                 </div>
                             </td>
-                            <td th:text="${flag.getName_en()}"></td>
+                            <td th:text="${flag.getNameEn()}"></td>
                         </th:block>
                     </tr>
                 </th:block>
@@ -183,7 +183,7 @@
 
         <!--------------------------------------------------------------------->
         <section class="image-upload">
-            <h3>Image</h3>a
+            <h3>Image</h3>
             <input class="form-control" name="imgSrc" type="file" id="formFile">
         </section>
 
