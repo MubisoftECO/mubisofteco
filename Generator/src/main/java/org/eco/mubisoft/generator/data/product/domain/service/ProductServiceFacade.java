@@ -96,7 +96,7 @@ public class ProductServiceFacade implements ProductService {
             int day = random.nextInt(28) + 1;
 
             productRepository.save(new Product(
-                    type.getNameEn(), type.getNameEs(), type.getNameEu(),
+                    type.getNameEs(), type.getNameEn(), type.getNameEu(),
                     type, random.nextDouble() * 20, random.nextDouble() * 10,
                     new GregorianCalendar(year, month, day).getTime(),
                     new GregorianCalendar(year, month, day + random.nextInt(3)).getTime(),
