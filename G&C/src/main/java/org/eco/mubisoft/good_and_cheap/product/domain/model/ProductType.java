@@ -5,7 +5,6 @@ import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Ingredient;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.Set;
 
 @Getter
 @Setter

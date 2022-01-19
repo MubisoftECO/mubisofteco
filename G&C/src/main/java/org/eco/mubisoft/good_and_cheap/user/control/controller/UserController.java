@@ -127,7 +127,9 @@ public class UserController {
         } else {
             users = userService.getUsersByRole(roleService.getRole(roleId));
         }
-        Gson gson = new Gson();
+        GsonBuilder b = new GsonBuilder();
+        b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
+        Gson gson = b.create();
         return gson.toJson(users);
     }
 
