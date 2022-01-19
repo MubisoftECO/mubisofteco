@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
-<head th:insert="includes/head :: head">
+<head th:replace="includes/head :: head">
     <title id="pageTitle">Recipe List</title>
 </head>
-
 <body>
     <!-- Custom Styling -->
     <link rel="stylesheet" th:href="@{'/css/recipe/recipe_view.css'}">
@@ -15,7 +13,6 @@
     <header th:replace="includes/header :: header"></header>
 
     <form id="form-select-pages" action="/recipe/view" method="get">
-
         <div id="search">
             <div id="search-form" class="form-inline">
                 <th:block th:if="${#strings.isEmpty(keyword)}">
@@ -67,15 +64,16 @@
                     </div>
                 </th:block>
             </div>
-            <div class="pagination_form">
-
-
-                <label>Page: <input type="number" name="page" th:value="${page}" readonly></label>
-                <button type="submit" name="page-move" class="btn btn-dark" th:value="previous">Previous</button>
-                <button type="submit" name="page-move" class="btn btn-dark" th:value="next">Next</button>
-
-            </div>
         </main>
+        <div class="pagination_form containers-fluid">
+            <button type="submit" name="page-move" class="btn btn-dark" th:value="previous">Previous</button>
+            <div class="d-flex">
+                <label class="form-control">Page:
+                    <input style="border: none" class="fw-normal" type="number" name="page" th:value="${page}" readonly>
+                </label>
+            </div>
+            <button type="submit" name="page-move" class="btn btn-dark" th:value="next">Next</button>
+        </div>
     </form>
 
     <!-- Footer -->

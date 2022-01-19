@@ -1,26 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Set Role</title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="includes/head :: head">
+    <title id="pageTitle">Set a Role</title>
 </head>
 <body>
+    <!-- Header -->
+    <header th:replace="includes/header :: header"></header>
+    <!-- Main -->
     <form action="/role/set" method="post">
-        <table>
-            <tbody>
-            <tr>
-                <td><label for="username">Email</label></td>
-                <td><input type="text" id="username" name="username"></td>
-            </tr>
-            <tr>
-                <td><label for="name">Role Name</label></td>
-                <td><input type="text" id="name" name="name"></td>
-            </tr>
-            <tr>
-                <td><input type="submit" value="Submit"></td>
-            </tr>
+        <table class="d-flex justify-content-center">
+            <tbody class="d-flex">
+                <tr>
+                    <td><label for="username" class="form-control">Email</label></td>
+                    <td><input type="text" id="username" class="form-control" name="username"></td>
+                </tr>
+                <tr>
+                    <td><label for="name" class="form-control">Role Name</label></td>
+                    <td><input type="text" id="name" class="form-control" name="name"></td>
+                </tr>
+                <tr>
+                    <td class="container">
+                        <input type="submit" class="btn btn-green" value="Submit">
+                    </td>
+                </tr>
             </tbody>
         </table>
     </form>
+    <!-- Footer -->
+    <footer th:replace="includes/footer :: footer"></footer>
 </body>
 </html>

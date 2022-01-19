@@ -28,4 +28,9 @@ public class IngredientServiceFacade implements IngredientService {
         return ingredientRepository.findAllByRecipe(recipe);
     }
 
+    @Override
+    public void deleteRecipeIngredients(Recipe recipe) {
+        ingredientRepository.deleteAll(ingredientRepository.findAllByRecipe(recipe));
+    }
+
 }

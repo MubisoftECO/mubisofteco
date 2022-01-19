@@ -9,5 +9,6 @@ public interface IngredientService {
 
     Ingredient saveIngredient(Ingredient ingredient);
     List<Ingredient> getRecipeIngredients(Recipe recipe);
+    void deleteRecipeIngredients(Recipe recipe);
 
 }

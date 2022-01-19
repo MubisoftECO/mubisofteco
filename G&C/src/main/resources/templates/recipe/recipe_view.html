@@ -1,77 +1,111 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
-<head th:insert="includes/head :: head">
-    <title id="pageTitle">Good & Cheap</title>
+<head th:replace="includes/head :: head">
+    <title id="pageTitle">Create a Recipe</title>
 </head>
+<body>
+<!-- js Libraries -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <!-- Custom Styling -->
-<link rel="stylesheet" th:href="@{'/css/recipe/recipe_individual_view.css'}">
+<link rel="stylesheet" th:href="@{'/css/recipe/recipe_form.css'}">
 
-<script th:src="@{'/js/recipe/recipe_view.js'}"></script>
-
-<body>
 <!-- Header -->
 <header th:replace="includes/header :: header"></header>
 
 <!-- Main -->
-<main>
-    <h1>[[${recipe.getTitle()}]]</h1>
+<main class="container-fluid align-items-center">
 
-    <a href="" id="btn-share"><i class="fa fa-link"></i></a>
-
-    <p>[[${recipe.getDescription()}]]</p>
-    <a th:href="@{'/recipe/view/user/'+${recipe.getAuthor().getId}}" class="username">[[${recipe.getAuthor().getUsername}]]</a>
-
-    <img src="/media/imgs/ensalada_prueba.png" class="card-img" alt="...">
-    <a><div class="report">Report<img src="/media/imgs/alert.png"></img></div></a><br>
-    <h4>Duration</h4> <label>[[${recipe.getTimeInMinutes()}]] mins</label><br>
-    <br>
-    <h4>Alergen</h4>
-
-    <th:block th:each="flag : ${recipe.getRecipeFlags}">
-        <ul>
-            <li><label th:text="${flag.getNameEn()}"></label></li>
-        </ul>
-    </th:block>
-    <br>
-    <br>
-    <h4>Ingredients</h4>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Ingredient</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Unit/Value</th>
-            </tr>
-        </thead>
-        <tbody>
-        <th:block th:each="ingredient : ${recipe.getIngredients}">
-            <tr>
-                <td th:text="${ingredient.getProductType().getNameEn()}"></td>
-                <td th:text="${ingredient.getQuantity()}"></td>
-                <td th:text="${ingredient.getProductType().getMeasurementUnit()}"></td>
-            </tr>
-        </th:block>
-        </tbody>
-    </table>
-    <br>
-    <h4 class="elaboration">Elaboration</h4>
-    <th:block th:each="step : ${steps}">
-        <div class="step">
-            <h5>Step [[${step.getStepNum}]]</h5>
-            <label>[[${step.getDescription()}]]</label><br>
+    <section id="recipe-introduction" class="container container-fluid border border-light border-4 mt-2">
+        <div id="recipe-title" class="col">
+            <h2 class="title display-2 mx-auto" th:text="${recipe.getTitle()}"></h2>
+            <div id="author" class="link-info ms-2" th:text="${recipe.getAuthor().getUsername()}"></div>
         </div>
-        <br>
-    </th:block>
+        <div class="container container-fluid row justify-content-between align-items-center">
+            <div id="recipe-information" class="col-6">
+                <div class="form-floating">
+                    <p class="fw-normal text-break" th:text="${recipe.getDescription()}"></p>
+                </div>
+                <div class="form-floating">
+                    <th:block th:switch="${recipe.getLanguage()}">
+                        <div th:case="'es'" class="fw-normal">
+                            Se tardan <span th:text="${recipe.getTimeInMinutes()}"></span> minutos en realizar esta receta.
+                        </div>
+                        <div th:case="'eu'" class="fw-normal">
+                            Errezeta hau <span th:text="${recipe.getTimeInMinutes()}"></span> minutu behar ditu.
+                        </div>
+                        <div th:case="'en'" class="fw-normal">
+                            This recipe will take <span th:text="${recipe.getTimeInMinutes()}"></span> minutes.
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+            <div id="recipe-image" class="col-4">
+                <div th:if="${recipe.getImgSrc() == null || recipe.getImgSrc().equals('')}">
+                    <img src="/media/imgs/recipe/recipe-base.png" class="card-img" alt="Default Recipe Image">
+                </div>
+                <div th:unless="${recipe.getImgSrc() == null || recipe.getImgSrc().equals('')}">
+                    <img src="/media/imgs/recipe/recipe-base.png" class="card-img" th:alt="${recipe.getTitle()}">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!----------------------------- INGREDIENTS ---------------------->
+    <section id="recipe-ingredients" class="container-xl">
+        <h3 class="title display-6">Ingredients</h3>
+        <table id="add_ingredient" class="table table-bordered table-responsive">
+            <thead id="add_ingredient_head">
+            <tr>
+                <th scope="col" class="col-1">#</th>
+                <th scope="col" class="col-5">Ingredient</th>
+                <th scope="col" class="col-2">Quantity</th>
+                <th scope="col" class="col-3">Unit/Value</th>
+            </tr>
+            </thead>
+            <tbody id="add_ingredient_body">
+            <tr class="new-ingredient" th:each="ingredient : ${recipe.getIngredientList()}">
+                <th scope="row" class="ingredient-id align-middle"
+                    th:text="${recipe.getIngredientList().indexOf(ingredient) + 1}"></th>
+                <td class="ingredient-description">
+                    <span th:text="${ingredient.getProductType().getNameEn()}"></span>
+                </td>
+                <td class="ingredient-quantity">
+                    <span th:text="${ingredient.getQuantity()}"></span>
+                </td>
+                <td class="ingredient-unit">
+                    <span th:text="${ingredient.getProductType().getMeasurementUnit()}"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ------------------------ ADD STEP ------------------------------>
+    <section class="recipe-step container-xl">
+        <h3 class="title display-6">Steps</h3>
+        <div id="recipe-steps">
+            <div class="card recipe-step mb-3"  th:each="step : ${steps}">
+                <div class="card-header space-between">
+                    <span id="card-header-title-1" class="badge bg-secondary rounded-pill order"
+                          th:text="${step.getStepNum()}"></span>
+                </div>
+                <div class="card-body">
+                    <span th:text="${step.getDescription()}"></span>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
-
+    <form th:action="@{'/recipe/view'}" method="get">
+        <div class="button">
+            <input id="back" type="submit" class="btn btn-secondary" value="BACK">
+        </div>
+    </form>
 </main>
-
 
 <!-- Footer -->
 <footer th:replace="includes/footer :: footer"></footer>
 </body>
-
-
+</html>

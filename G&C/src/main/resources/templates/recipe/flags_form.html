@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Flags Form</title>
+<head th:insert="includes/head :: head">
+    <title id="pageTitle">Flag Form</title>
 </head>
 <body>
-<form action="/flag/save" method="post">
-    <table>
-        <tbody>
-        <tr>
-            <td><label for="name_en">Flag name</label></td>
-            <td><input type="text" id="name_en" name="name"></td>
-        </tr>
-        <tr>
-            <td><input type="submit" value="Submit"></td>
-        </tr>
-        </tbody>
-    </table>
-</form>
-
+    <!-- Header -->
+    <header th:replace="includes/header :: header"></header>
+    <!-- Main -->
+    <form action="/flag/save" method="post">
+        <table>
+            <tbody>
+            <tr>
+                <td><label for="name_en">Flag name</label></td>
+                <td><input type="text" id="name_en" name="name"></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Submit"></td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <!-- Footer -->
+    <footer th:replace="includes/footer :: footer"></footer>
 </body>
 </html>

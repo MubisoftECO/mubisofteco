@@ -82,4 +82,22 @@ public interface UserService {
     Collection<String> getRolesFromLoggedUser(HttpServletRequest request);
 
     boolean userHasRole (AppUser user, String role);
+    /**
+     * <p><b>Get user id list from Database</b></p>
+     * <p>Get user id with the data provided to the method.</p>
+     * @param city City related to the id.
+     */
+    List<Long> getIdListFromDB(String city);
+    /**
+     * <p><b>Add id to user buffer</b></p>
+     * <p>Thread concept is implemented to save each user id into the buffer.</p>
+     * @param id id from database
+     */
+    void setIdListToBuffer(Long id);
+    /**
+     * <p><b>Get user  id from buffer</b></p>
+     * <p>Get data stored in the buffer to a list.</p>
+     */
+    List<Long> getIdListFromBuffer();
+
 }

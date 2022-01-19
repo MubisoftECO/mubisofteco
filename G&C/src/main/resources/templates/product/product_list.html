@@ -1,70 +1,70 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head th:insert="includes/head :: head">
     <title id="pageTitle">Product List</title>
 </head>
-
-<!-- Custom Styling -->
-<link rel="stylesheet" th:href="@{'/css/product/product_list.css'}">
-
 <body>
-<!-- Header -->
-<header th:replace="includes/header :: header"></header>
-<!-- Main -->
-<main>
+    <!-- Custom Styling -->
+    <link rel="stylesheet" th:href="@{'/css/product/product_list.css'}">
 
-    <div class="search">
-        <button class="btn  btn_search"> Search</button>
-    </div>
+    <!-- Header -->
+    <header th:replace="includes/header :: header"></header>
 
-    <div class="button_bar">
-        <form th:action="@{/product/back}" method="post" class="justify-content-center">
-            <button type="submit" class="btn btn-dark btn_back">Filter</button>
-        </form>
+    <!-- Main -->
+    <main>
+        <div class="search">
+            <button class="btn  btn_search"> Search</button>
+        </div>
 
-        <form th:action="@{/product/back}" method="post" class="justify-content-center">
-            <button type="submit" class="btn btn-dark btn_back">Order</button>
-        </form>
+        <div class="button_bar">
+            <form th:action="@{/product/back}" method="post" class="justify-content-center">
+                <button type="submit" class="btn btn-dark btn_back">Filter</button>
+            </form>
 
-        <form th:action="@{/product/create}" method="get" class="justify-content-center">
-            <button type="submit" class="btn btn-dark btn_back">Add</button>
-        </form>
-    </div>
-    <div>
-        <div class="product_list_area">
-        <th:block th:each="product : ${productList}">
-            <a th:href="'/product/view/'+${product.getId()}">
-                <div  class="product_card">
-                    <div class="card_title">
-                        <h2 th:text="${product.getNameEu()} + ': '
-                        + ${#numbers.formatDecimal(product.getQuantity(), 1, 2)} + ' '
-                        + ${product.getProductType().getMeasurementUnit().toLowerCase()}"></h2>
+            <form th:action="@{/product/back}" method="post" class="justify-content-center">
+                <button type="submit" class="btn btn-dark btn_back">Order</button>
+            </form>
+
+            <form th:action="@{/product/create}" method="get" class="justify-content-center">
+                <button type="submit" class="btn btn-dark btn_back">Add</button>
+            </form>
+        </div>
+        <div>
+            <div class="product_list_area">
+            <th:block th:each="product : ${productList}">
+                <a th:href="'/product/view/'+${product.getId()}">
+                    <div  class="product_card">
+                        <div class="card_title">
+                            <h2 th:text="${product.getNameEu()} + ': '
+                            + ${#numbers.formatDecimal(product.getQuantity(), 1, 2)} + ' '
+                            + ${product.getProductType().getMeasurementUnit().toLowerCase()}"></h2>
+                        </div>
+                        <div class="card_body">
+                            <th:block th:if="${#strings.isEmpty(product.getProductType().getImgSrc())}">
+                                <img th:src="@{'/media/imgs/gc_bag.png'}" alt="Product icon" class="product_image">
+                            </th:block>
+                            <th:block th:unless="${#strings.isEmpty(product.getProductType().getImgSrc())}">
+                                <img th:src="${'/media/imgs/' + product.getProductType().getImgSrc()}" th:alt="${product.getNameEn() + ' Image'}">
+                            </th:block>
+                            <h4 th:text="${product.getVendor().getName() + ' ' + product.getVendor().getSecondName()}"></h4>
+                            <h3 th:text="${#numbers.formatDecimal(product.getPrice(), 1, 2)} + '€'"></h3>
+                        </div>
                     </div>
-                    <div class="card_body">
-                        <th:block th:if="${#strings.isEmpty(product.getProductType().getImgSrc())}">
-                            <img th:src="@{'/media/imgs/product/gc_bag.png'}" alt="Product icon" class="product_image">
-                        </th:block>
-                        <th:block th:unless="${#strings.isEmpty(product.getProductType().getImgSrc())}">
-                            <img th:src="${'/media/imgs/product/' + product.getProductType().getImgSrc()}" th:alt="${product.getNameEn() + ' Image'}" class="product_image">
-                        </th:block>
-                        <h4 th:text="${product.getVendor().getName() + ' ' + product.getVendor().getSecondName()}"></h4>
-                        <h3 th:text="${#numbers.formatDecimal(product.getPrice(), 1, 2)} + '€'"></h3>
-                    </div>
+                </a>
+            </th:block>
+            </div>
+            <form action="/product/view" method="get" class="pagination_form containers-fluid">
+                <button type="submit" name="page-move" class="btn btn-dark" th:value="previous">Previous</button>
+                <div class="d-flex">
+                    <label class="form-control">Page:
+                        <input style="border: none" class="fw-normal" type="number" name="page" th:value="${page}" readonly>
+                    </label>
                 </div>
-            </a>
-        </th:block>
+                <button type="submit" name="page-move" class="btn btn-dark" th:value="next">Next</button>
+            </form>
         </div>
-        <div class="pagination_form">
-        <form action="/product/view" method="get">
-            <label>Page: <input type="number" name="page" th:value="${page}" readonly></label>
-            <button type="submit" name="page-move" class="btn btn-dark" th:value="previous">Previous</button>
-            <button type="submit" name="page-move" class="btn btn-dark" th:value="next">Next</button>
-        </form>
-        </div>
-    </div>
-</main>
-<!-- Footer -->
-<footer th:replace="includes/footer :: footer"></footer>
+    </main>
+    <!-- Footer -->
+    <footer th:replace="includes/footer :: footer"></footer>
 </body>
 </html>

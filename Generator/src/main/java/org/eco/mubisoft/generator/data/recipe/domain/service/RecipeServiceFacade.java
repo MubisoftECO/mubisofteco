@@ -80,7 +80,6 @@ public class RecipeServiceFacade implements RecipeService{
             recipe.setAuthor(appUsers.get(random.nextInt(appUsers.size())));
 
             int flagCount = random.nextInt(5);
-            int ingredientCount = random.nextInt(10) + 3;
 
             for (int j = 0; j < flagCount; j++) {
                 Flag flag = flagList.get(random.nextInt(flagList.size()));
@@ -91,20 +90,6 @@ public class RecipeServiceFacade implements RecipeService{
                 }
             }
             recipe.setRecipeFlags(recipeFlags);
-
-            for (int j = 0; j < ingredientCount; j++) {
-                Ingredient ingredient = new Ingredient(
-                        recipe,
-                        productTypes.get(random.nextInt(productTypes.size())),
-                        random.nextInt(20) + 1
-                );
-                if (!recipeIngredients.contains(ingredient)) {
-                    recipeIngredients.add(ingredient);
-                } else {
-                    j--;
-                }
-            }
-            recipe.setIngredients(recipeIngredients);
 
             // Save recipe
             recipeRepository.save(recipe);
@@ -134,15 +119,21 @@ public class RecipeServiceFacade implements RecipeService{
         List<ProductType> productTypeList = productTypeRepository.findAll();
         Random random = new Random();
 
-        recipeList.forEach(recipe -> {
-            for (int i = 0; i < random.nextInt(20) + 2; i++) {
-                ingredientRepository.save(new Ingredient(
-                        recipe,
-                        productTypeList.get(random.nextInt(productTypeList.size())),
-                        random.nextInt(100) + 1
-                ));
-            }
-        });
+        try {
+            recipeList.forEach(recipe -> {
+                ProductType productType;
+
+                for (int i = 0; i < random.nextInt(20) + 2; i++) {
+                    productType = productTypeList.get(random.nextInt(productTypeList.size()));
+                    ingredientRepository.save(new Ingredient(
+                            new IngredientId(recipe.getId(), productType.getId()),
+                            recipe, productType, random.nextInt(100) + 1
+                    ));
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

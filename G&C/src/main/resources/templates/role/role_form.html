@@ -1,23 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Create Role</title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="includes/head :: head">
+    <title id="pageTitle">Create a Role</title>
 </head>
 <body>
-<h1>Create User</h1>
-<form action="/role/save" method="post">
-    <table>
-        <tbody>
-        <tr>
-            <td><label for="name">Role Name</label></td>
-            <td><input type="text" id="name" name="name"></td>
-        </tr>
-        <tr style="text-align: center">
-            <td><input type="submit" value="Submit"></td>
-        </tr>
-        </tbody>
-    </table>
-</form>
+    <!-- Header -->
+    <header th:replace="includes/header :: header"></header>
+    <!-- Main -->
+    <h1>Create User</h1>
+    <form action="/role/save" method="post">
+        <table>
+            <tbody>
+                <tr>
+                    <td><label for="name" class="form-control">Role Name</label></td>
+                    <td><input type="text" id="name" class="form-control" name="name" required></td>
+                    <td><input type="submit" class="btn form-control" value="Submit"></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <!-- Footer -->
+    <footer th:replace="includes/footer :: footer"></footer>
 </body>
 </html>

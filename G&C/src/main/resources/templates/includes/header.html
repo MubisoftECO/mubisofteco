@@ -7,7 +7,7 @@
         <div class="dropdown-menu center" aria-labelledby="dropdownMenuButton">
             <a class="dropdown-item" th:href="@{'/product/view'}">PRODUCTS</a>
             <a class="dropdown-item" th:href="@{'/recipe/view'}">RECIPES</a>
-            <a class="dropdown-item" href="#">ANALYTICS</a>
+            <a class="dropdown-item" th:href="@{'/analytic/options'}">ANALYTICS</a>
             <a class="dropdown-item" href="/user/info">PROFILE</a>
         </div>
     </div>
@@ -18,8 +18,9 @@
 
     <div class="dropdown header_profile">
         <button id="profile_dropdown" class="dropdown-toggle profile " type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            EN<span id="img_profile"><img id="profile_img" src="https://avatars.githubusercontent.com/u/56298271?v=4" alt="Imagen Foto de Perfil" class="rounded-circle profile_img">
+            EN<span id="img_profile"><img id="profile_img" th:src="@{'/media/imgs/supervised_user_circle.svg'}" alt="Imagen Foto de Perfil" class="rounded-circle profile_img">
               </span>
+
         </button>
         <div class="dropdown-menu dropdown-menu-right center" aria-labelledby="dropdownMenuButton">
             <a class="dropdown-item" href="/user/info">MY USER</a>

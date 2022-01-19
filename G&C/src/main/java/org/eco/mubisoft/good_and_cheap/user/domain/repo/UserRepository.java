@@ -4,6 +4,9 @@ import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.Location;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -42,4 +45,13 @@ public interface UserRepository extends JpaRepository<AppUser, Long> {
      * @return Optional value, the list of users with a specific role.
      */
     List<AppUser> findAppUsersByRoles(Role role);
+    /**
+     * <p><b>FIND ID BY CITY</b></p>
+     * <p>Search users that match id the id provided.</p>
+     * @param city The role to filter with
+     * @return Optional value, if the user match with the city it will return the user id.
+     */
+    @Query(value = "SELECT u.id FROM app_user u JOIN location l ON u.location_id = l.id JOIN city c ON l.city_id = c.id JOIN app_user_roles aur ON u.id = aur.app_user_id JOIN role r ON aur.roles_id = r.id WHERE (c.name = :city) AND (r.name =  'ROLE_VENDOR')"
+            ,nativeQuery = true)
+    List<Long> getIdListByCity(@Param("city") String city);
 }

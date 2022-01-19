@@ -22,9 +22,18 @@ public class ProductType {
     private String nameEu;
     private String imgSrc = null;
     private String measurementUnit;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private ProductFamily productFamily;
-    @OneToMany(mappedBy = "productType")
+    @OneToMany(mappedBy = "productType", fetch = FetchType.LAZY)
     private Collection<Ingredient> ingredient;
 
+    public ProductType(Long id, String nameEs, String nameEn, String nameEu, String measurementUnit,
+                       ProductFamily productFamily) {
+        this.id = id;
+        this.nameEs = nameEs;
+        this.nameEn = nameEn;
+        this.nameEu = nameEu;
+        this.measurementUnit = measurementUnit;
+        this.productFamily = productFamily;
+    }
 }

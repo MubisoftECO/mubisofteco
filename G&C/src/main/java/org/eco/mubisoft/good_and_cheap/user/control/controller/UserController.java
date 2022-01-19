@@ -139,7 +139,9 @@ public class UserController {
 
         if(userService.userHasRole(loggedUser, "ROLE_VENDOR")){
             page = "user/vendor_profile";
-        }else{
+        }else if (userService.userHasRole(loggedUser, "ROLE_ADMIN")){
+            page = "user/admin_profile";
+        } else {
             page = "user/customer_profile";
         }
 

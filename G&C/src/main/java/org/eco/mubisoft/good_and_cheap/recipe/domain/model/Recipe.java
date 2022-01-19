@@ -29,9 +29,9 @@ public class Recipe {
     private String imgSrc = null;
     @ManyToOne
     private AppUser author;
-    @OneToMany(mappedBy = "recipe")
+    @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY)
     private Collection<Ingredient> ingredients = new ArrayList<>();
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private Collection<Flag> recipeFlags = new ArrayList<>();
 
     public Recipe(Long id) {

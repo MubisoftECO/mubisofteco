@@ -1,31 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
-<head th:insert="includes/head :: head">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="includes/head :: head">
     <title id="pageTitle">Modify recipe list</title>
 </head>
-
+<body>
 <!-- Custom Styling -->
 <link rel="stylesheet" th:href="@{'/css/recipe/recipe_view.css'}">
 
-<body>
 <!-- Header -->
 <header th:replace="includes/header :: header"></header>
 
-<div class="search">
-    <button class="btn  btn_search"> Search</button>
-</div>
-
 <div class="button_bar">
-    <form th:action="@{/product/back}" method="post" class="justify-content-center">
-        <button type="submit" class="btn btn-dark btn_back">Filter</button>
-    </form>
-
-    <form th:action="@{/product/back}" method="post" class="justify-content-center">
-        <button type="submit" class="btn btn-dark btn_back">Order</button>
-    </form>
-
-    <form th:action="@{/recipe/create}" method="get" class="justify-content-center">
-        <button type="submit" class="btn btn-dark btn_back">Add</button>
+    <form th:action="@{/recipe/create}" method="get" class="justify-content-center container-fluid">
+        <button type="submit" class="btn btn-dark btn_back">Create a New Recipe</button>
     </form>
 </div>
 
@@ -36,8 +23,11 @@
             <div class="card mb-3" >
                 <a th:href="@{'/recipe/view/'+${recipe.getId()}}" class="recipe_card">
                     <div class="row no-gutters">
-                        <div>
-                            <img src="/media/imgs/ensalada_prueba.png" class="card-img" th:alt="${recipe.getTitle()}">
+                        <div th:if="${recipe.getImgSrc() == null || recipe.getImgSrc().equals('')}">
+                            <img src="/media/imgs/recipe/recipe-base.png" class="card-img" alt="Default Recipe Image">
+                        </div>
+                        <div th:unless="${recipe.getImgSrc() == null || recipe.getImgSrc().equals('')}">
+                            <img src="/media/imgs/recipe/recipe-base.png" class="card-img" th:alt="${recipe.getTitle()}">
                         </div>
                         <div>
                             <div class="card-body">
@@ -59,14 +49,6 @@
                  </a>
              </div>
          </th:block>
-     </div>
-     <div class="pagination_form">
-
-         <form action="/recipe/view" method="get">
-             <label>Page: <input type="number" name="page" th:value="${page}" readonly></label>
-             <button type="submit" name="page-move" class="btn btn-dark" th:value="previous">Previous</button>
-             <button type="submit" name="page-move" class="btn btn-dark" th:value="next">Next</button>
-         </form>
      </div>
  </main>
 
