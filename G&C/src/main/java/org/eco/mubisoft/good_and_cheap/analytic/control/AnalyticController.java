@@ -49,9 +49,8 @@ public class AnalyticController {
     public void displayOptions(HttpServletRequest request, HttpServletResponse response) throws InterruptedException, IOException {
         user = getLoggedUser(request);
 
-        if (user != null) {
-            String city = user.getLocation().getCity().getName();
-            analyticService.enableUserIdPicker(city);
+        if (user != null && analyticService.userIsAuthorized(user)) {
+            analyticService.enableUserIdPicker(user);
             restartList();
 
             response.sendRedirect("options/menu");
@@ -61,9 +60,8 @@ public class AnalyticController {
     }
 
     @GetMapping("/options/menu")
-    public String displayMenu() throws InterruptedException {
-        String city = user.getLocation().getCity().getName();
-        analyticService.enableUserIdPicker(city);
+    public String displayMenu()  {
+        analyticService.enableUserIdPicker(user);
         restartList();
 
         return "/analytic/analytic_option";

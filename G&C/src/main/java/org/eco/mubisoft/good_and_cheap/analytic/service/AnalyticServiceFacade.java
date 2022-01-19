@@ -1,6 +1,7 @@
 package org.eco.mubisoft.good_and_cheap.analytic.service;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.analytic.domain.business.model.Business;
 import org.eco.mubisoft.good_and_cheap.analytic.domain.most_least.model.MostLeastSold;
 import org.eco.mubisoft.good_and_cheap.analytic.domain.most_least.model.MostLeastSoldType;
@@ -15,6 +16,8 @@ import org.eco.mubisoft.good_and_cheap.product.dto.ProductSoldOnlyDto;
 import org.eco.mubisoft.good_and_cheap.product.thread.*;
 import org.eco.mubisoft.good_and_cheap.thread.ThreadCapacityDefinition;
 import org.eco.mubisoft.good_and_cheap.thread.ThreadExecutorService;
+import org.eco.mubisoft.good_and_cheap.thread.ThreadInitializer;
+import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.service.UserService;
 import org.eco.mubisoft.good_and_cheap.user.thread.UserConsumer;
 import org.eco.mubisoft.good_and_cheap.user.thread.UserProducer;
@@ -31,6 +34,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @AllArgsConstructor
+@Slf4j
 public class AnalyticServiceFacade implements AnalyticService{
     private final UserService userService;
     private final ProductService productService;
@@ -38,33 +42,28 @@ public class AnalyticServiceFacade implements AnalyticService{
     private final Manage manage;
 
     @Override
-    public void enableUserIdPicker(String city) throws InterruptedException {
-        ThreadExecutorService.INSTANCE.getExecutorService().execute(new UserProducer(city, userService));
+    public void enableUserIdPicker(AppUser appUser){
+        ThreadInitializer.setTypeRunnableList(appUser.getId(),productService);
+        ThreadInitializer.setFutureListProductDto(productService);
     }
 
     @Override
-    public void storeSalesBalanceData(Long id) throws ExecutionException, InterruptedException {
-        int tryCounter = 10;
-        boolean find = false;
-        boolean exit = false;
-        Long realId = id;
-        do {
-            tryCounter--;
-            Future<List<Long>> futureIdList = ThreadExecutorService.INSTANCE.getExecutorService().submit(new UserConsumer(userService));
+    public boolean userIsAuthorized(AppUser appUser) {
+        return userService.userHasRole(appUser, "ROLE_VENDOR");
+    }
 
-            List<Long> idList = futureIdList.get();
+    @Override
+    public void storeSalesBalanceData(Long id)  {
+        List<Runnable> list = ThreadInitializer.getListProductType();
 
-            find = idList.stream()
-                    .anyMatch(t -> t.longValue() == id);
-            if(tryCounter == 0 || (idList.size() < ThreadCapacityDefinition.MAX_USER_CAPACITY)) {
-                realId = 8173L;
-                exit = true;
+        ThreadExecutorService.INSTANCE.getExecutorService().execute(() -> {
+            log.info("(TASK STARTS) PRODUCT (EXPIRED|SOLD|OTHER) INFORMATION from DB to LIST {}", Thread.currentThread().getName());
+            for (int i = 0; i < list.size(); i++) {
+                log.info("RUNNABLE EXECUTING..");
+                list.get(i).run();
             }
-        } while(!find && !exit);
-
-        ThreadExecutorService.INSTANCE.getExecutorService().execute(new ProductTypeSoldProducer(realId, productService));
-        ThreadExecutorService.INSTANCE.getExecutorService().execute(new ProductTypeExpiredProducer(realId,productService));
-        ThreadExecutorService.INSTANCE.getExecutorService().execute(new ProductTypeOtherProducer(realId,productService));
+            log.info("(TASK ENDS) PRODUCT (EXPIRED|SOLD|OTHER) INFORMATION from DB to LIST {}", Thread.currentThread().getName());
+        });
 
     }
 
@@ -128,9 +127,18 @@ public class AnalyticServiceFacade implements AnalyticService{
         Thread.sleep(100);
         Future<List<MostLessSoldDetail>> futureMostLessSoldDetail = ThreadExecutorService.INSTANCE.getExecutorService().submit(new ProductSoldOnlyTotalConsumer(productService));
         List<MostLessSoldDetail> productMostLessSoldDetailList = futureMostLessSoldDetail.get();
+        ThreadInitializer.setProductMostLeastList(productService,productMostLessSoldDetailList);
 
-        ThreadExecutorService.INSTANCE.getExecutorService().execute(new ProductMostSoldProducer(productService,productMostLessSoldDetailList));
-        ThreadExecutorService.INSTANCE.getExecutorService().execute(new ProductLeastSoldProducer(productService,productMostLessSoldDetailList));
+        List<Runnable> list = ThreadInitializer.getListProductMostLeast();
+        ThreadExecutorService.INSTANCE.getExecutorService().execute(() -> {
+            log.info("(TASK STARTS) PRODUCT (MOST| LEAST) INFORMATION from DB to LIST {}", Thread.currentThread().getName());
+            for (int i = 0; i < list.size(); i++) {
+                log.info("RUNNABLE EXECUTING..");
+                list.get(i).run();
+            }
+            log.info("(TASK ENDS) PRODUCT (MOST| LEAST) INFORMATION from DB to LIST {}", Thread.currentThread().getName());
+        });
+
         Thread.sleep(200);
     }
 

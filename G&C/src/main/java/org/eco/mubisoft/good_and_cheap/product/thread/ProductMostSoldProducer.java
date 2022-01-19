@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Slf4j
 public class ProductMostSoldProducer implements Runnable {
     private ProductService productService;
     List<MostLessSoldDetail> productMostLessSoldDetailList;
@@ -22,9 +21,6 @@ public class ProductMostSoldProducer implements Runnable {
 
     @Override
     public void run() {
-        long start = System.currentTimeMillis();
-        log.info("(TASK STARTS) PRODUCT (MOST SOLD) INFORMATION from DB to LIST {}", Thread.currentThread().getName());
-
         List<MostLessSoldDetail> list = new ArrayList<>();
         List<MostLeastSold>  topList = new ArrayList<>();
         AtomicInteger i = new AtomicInteger();
@@ -39,9 +35,5 @@ public class ProductMostSoldProducer implements Runnable {
         list.forEach(p-> topList.add(new MostLeastSold(i.getAndIncrement(),p.getName_en(),p.getName_eu(), p.getName_es(),p.getTotal(), MostLeastSoldType.TOP)));
 
        topList.forEach(m-> productService.setProductsMostSoldInformationToBuffer(m));
-
-        log.info("(TASK ENDS) PRODUCT (MOST SOLD) INFORMATION from DB to LIST {}", Thread.currentThread().getName());
-        long end = System.currentTimeMillis();
-        log.info("Total time {}", (end -start));
     }
 }

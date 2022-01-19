@@ -19,12 +19,7 @@ public class ProductTypeOtherProducer implements  Runnable {
 
     @Override
     public void run() {
-        long start = System.currentTimeMillis();
-        log.info("(TASK STARTS) PRODUCT (OTHER) INFORMATION from DB to LIST {}", Thread.currentThread().getName());
         List<ProductDto> list = productService.getProductsInformationFromDB(id, REASON);
         list.forEach(p-> productService.setProductsInformationToBuffer(p));
-        log.info("(TASK ENDS) PRODUCT (OTHER) INFORMATION from DB to LIST {}", Thread.currentThread().getName());
-        long end = System.currentTimeMillis();
-        log.info("Total time {}", (end -start));
     }
 }

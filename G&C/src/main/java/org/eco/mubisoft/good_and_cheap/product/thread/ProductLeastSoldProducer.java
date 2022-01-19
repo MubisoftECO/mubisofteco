@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Slf4j
 public class ProductLeastSoldProducer implements Runnable{
     private ProductService productService;
     List<MostLessSoldDetail> productMostLessSoldDetailList;
@@ -24,9 +23,6 @@ public class ProductLeastSoldProducer implements Runnable{
 
     @Override
     public void run() {
-        long start = System.currentTimeMillis();
-        log.info("(TASK STARTS) PRODUCT (SOLD-ONLY) INFORMATION from DB to LIST {}", Thread.currentThread().getName());
-
         List<MostLessSoldDetail> list = new ArrayList<>();
         List<MostLeastSold>  bottomList = new ArrayList<>();
         AtomicInteger i = new AtomicInteger();
@@ -42,9 +38,5 @@ public class ProductLeastSoldProducer implements Runnable{
         Collections.sort(list, (t1, t2) -> t1.getTotal().compareTo(t2.getTotal()));
         list.forEach(p-> bottomList.add(new MostLeastSold(i.getAndIncrement(),p.getName_en(),p.getName_eu(), p.getName_es(),p.getTotal(), MostLeastSoldType.BOTTOM)));
         bottomList.forEach(m-> productService.setProductsMostSoldInformationToBuffer(m));
-
-        log.info("(TASK ENDS) PRODUCT (SOLD-ONLY) INFORMATION from DB to LIST {}", Thread.currentThread().getName());
-        long end = System.currentTimeMillis();
-        log.info("Total time {}", (end -start));
     }
 }
