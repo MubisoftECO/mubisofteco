@@ -45,13 +45,16 @@ public class AnalyticController {
 
     @GetMapping("/options")
     public String displayOptions(HttpServletRequest request) throws InterruptedException {
-
         user = getLoggedUser(request);
-        String city = user.getLocation().getCity().getName();
-        analyticService.enableUserIdPicker(city);
-        restartList();
 
-        return "/analytic/analytic_option";
+        if (user != null) {
+            String city = user.getLocation().getCity().getName();
+            analyticService.enableUserIdPicker(city);
+            restartList();
+
+            return "/analytic/analytic_option";
+        }
+        return "redirect:/login/sign-in";
     }
 
     @GetMapping("/sales-balance")
@@ -93,7 +96,6 @@ public class AnalyticController {
                 }
             }
         }
-
         model.addAttribute("expiredList", expired);
         model.addAttribute("soldList", sold);
         model.addAttribute("otherList", other);

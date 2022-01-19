@@ -87,7 +87,7 @@ public class TokenService {
 
             // 3. Return the subject of the token.
             return decodedJWT.getSubject();
-        } catch (JWTVerificationException e) {
+        } catch (JWTVerificationException | NullPointerException e) {
             return null;
         }
     }
