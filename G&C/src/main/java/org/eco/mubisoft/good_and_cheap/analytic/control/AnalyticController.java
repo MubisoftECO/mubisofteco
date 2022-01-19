@@ -161,13 +161,7 @@ public class AnalyticController {
     /** NEEDED LOCAL FUNCTIONALITIES*/
 
     private AppUser getLoggedUser(HttpServletRequest request){
-        HttpSession session = request.getSession();
-        String accessToken = (String) session.getAttribute("accessToken");
-        TokenService tokenService = new TokenService();
-        String username = tokenService.getUsernameFromToken(accessToken);
-
-
-        return userService.getUser(username);
+        return userService.getLoggedUser(request);
     }
 
     private void restartList() {

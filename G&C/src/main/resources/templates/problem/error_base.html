@@ -1,0 +1,38 @@
+!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org/">
+<head th:insert="includes/head :: head">
+    <title id="pageTitle">Error 500</title>
+</head>
+<body>
+    <!-- Header -->
+    <header th:replace="includes/header :: header"></header>
+
+    <main class="container">
+        <h3>SOMETHING WENT WRONG! CONTACT THE MAINTENANCE TEAM</h3>
+        <table th:if="${status != null}" class="table table-bordered">
+            <tr>
+                <td>status</td>
+                <td th:text="${status}"></td>
+            </tr>
+
+            <tr>
+                <td>error</td>
+                <td th:text="${error}"></td>
+            </tr>
+
+            <tr>
+                <td>path</td>
+                <td th:text="${path}"></td>
+            </tr>
+
+            <tr>
+                <td>Trace</td>
+                <td th:text="${trace}"></td>
+            </tr>
+        </table>
+        <section id="go-back" class="col d-flex justify-content-center">
+            <a href="/" class="btn btn-light">Go Home</a>
+        </section>
+    </main>
+</body>
+</html>
