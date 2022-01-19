@@ -17,7 +17,13 @@
 <main>
     <div class="container">
         <div class="profile_info">
-            <img th:src="@{${user.getImagePath}}" alt="Profile Icon" class="rounded-circle user_img">
+            <th:block th:if="${#strings.isEmpty(user.getImagePath())}">
+                <img th:src="@{'/media/imgs/gc_profile.png'}" alt="Profile Icon" class="rounded-circle user_img">
+            </th:block>
+            <th:block th:unless="${#strings.isEmpty(user.getImagePath())}">
+                <img th:src="@{${user.getImagePath()}}" alt="Profile Icon" class="rounded-circle user_img">
+            </th:block>
+
             <h1 id="userName" th:text="${user.getName}+' '+ ${user.secondName}"></h1>
         </div>
 

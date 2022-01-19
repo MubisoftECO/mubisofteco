@@ -20,7 +20,7 @@
                 <img th:src="${'/media/imgs/product/' + product.getProductType().getImgSrc()}" th:alt="${product.getNameEn() + ' Image'}" class="product_image item1">
             </th:block>
             <div class="item2">
-                <h1 th:text="${product.getNameEs()}"></h1>
+                <h1 th:text="${product.getNameEn()}"></h1>
                 <div class="product_view_horizontal">
                     <div class="quantity_dates">
                         <h3 th:text="${'Quantity: '} + ${#numbers.formatDecimal(product.getQuantity(), 1, 2)} + ${product.getProductType().getMeasurementUnit().toLowerCase()}"></h3>
