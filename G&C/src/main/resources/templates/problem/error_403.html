@@ -11,14 +11,16 @@
 <header th:replace="includes/header :: header"></header>
 
 <main class="main row">
-    <section id="error-info" class="col">
+    <section id="error-info">
         <h1>Hey there!</h1>
         <p>You have no permission to enter this page. Stop sniffing around.</p>
     </section>
-    <section id="error-display" class="col">
-        
+    <section id="error-display">
+        <div id="container_anim" class="d-flex justify-content-center">
+            <img th:src="@{'/media/imgs/error/lock.png'}" alt="The image of a lock." class="img-fluid"/>
+        </div>
     </section>
-    <section id="go-back" class="col d-flex justify-content-center">
+    <section id="go-back" class="d-flex justify-content-center">
         <a href="/" class="btn btn-light">Go Home</a>
     </section>
 </main>
