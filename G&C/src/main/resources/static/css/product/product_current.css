@@ -47,6 +47,11 @@
     flex-direction: column;
     align-items: center;
 }
+@media (min-width: 576px){
+    .container{
+        max-width: none;
+    }
+}
 /*Large devices (desktops, 992px and up)*/
 @media (min-width: 992px) {
     .product_view_center{
