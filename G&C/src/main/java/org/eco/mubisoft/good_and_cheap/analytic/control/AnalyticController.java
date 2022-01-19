@@ -8,6 +8,7 @@ import org.eco.mubisoft.good_and_cheap.analytic.domain.most_least.model.MostLeas
 import org.eco.mubisoft.good_and_cheap.analytic.domain.sales_balance.model.SalesBalance;
 import org.eco.mubisoft.good_and_cheap.analytic.service.AnalyticService;
 import org.eco.mubisoft.good_and_cheap.application.security.TokenService;
+import org.eco.mubisoft.good_and_cheap.metric.statistic.ActionCounter;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -44,6 +45,7 @@ public class AnalyticController {
     private List<String> reason;
     private List<Double> total;
     private final int MAX_REQUEST_REFRESH = 2;
+    private final ActionCounter actionCounter;
 
     @GetMapping("/options")
     public void displayOptions(HttpServletRequest request, HttpServletResponse response) throws InterruptedException, IOException {
@@ -70,7 +72,7 @@ public class AnalyticController {
     @GetMapping("/sales-balance")
     public String displaySalesBalance(HttpServletRequest request, Model model) throws ExecutionException, InterruptedException {
         String lang = "EN";
-
+        actionCounter.increment(user,"salesBalanceBtn");
         countSales++;
         if(countSales >= MAX_REQUEST_REFRESH) {
             model.addAttribute("expiredList", expired);
@@ -117,7 +119,7 @@ public class AnalyticController {
     @GetMapping("/business")
     public String displayMyBusiness(HttpServletRequest request, Model model) throws ExecutionException, InterruptedException {
         String lang = "EN";
-
+        actionCounter.increment(user,"businessBtn");
         countBusiness++;
         if(countBusiness>= 2) {
             model.addAttribute("reasonList",reason);
@@ -142,6 +144,7 @@ public class AnalyticController {
 
     @GetMapping("/most-least-sold")
     public String displayMostLeast(){
+        actionCounter.increment(user,"most-least-btn");
         return "analytic/analytic_most_least";
     }
 
