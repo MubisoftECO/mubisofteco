@@ -43,10 +43,10 @@
                     </div>
                     <div class="card_body">
                         <th:block th:if="${#strings.isEmpty(product.getProductType().getImgSrc())}">
-                            <img th:src="@{'/media/imgs/gc_bag.png'}" alt="Product icon" class="product_image">
+                            <img th:src="@{'/media/imgs/product/gc_bag.png'}" alt="Product icon" class="product_image">
                         </th:block>
                         <th:block th:unless="${#strings.isEmpty(product.getProductType().getImgSrc())}">
-                            <img th:src="${'/media/imgs/' + product.getProductType().getImgSrc()}" th:alt="${product.getNameEn() + ' Image'}">
+                            <img th:src="${'/media/imgs/product/' + product.getProductType().getImgSrc()}" th:alt="${product.getNameEn() + ' Image'}" class="product_image">
                         </th:block>
                         <h4 th:text="${product.getVendor().getName() + ' ' + product.getVendor().getSecondName()}"></h4>
                         <h3 th:text="${#numbers.formatDecimal(product.getPrice(), 1, 2)} + '€'"></h3>
