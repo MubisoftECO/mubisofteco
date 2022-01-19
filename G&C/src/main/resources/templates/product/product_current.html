@@ -13,7 +13,7 @@
         <!-- Main -->
         <main  class="container">
         <div class="product_view_center">
-            <img th:src="${'/media/imgs/' + product.getProductType().getImgSrc()}" th:alt="${product.getNameEs() + ' Image'}" class="product_image item1">
+            <img th:src="${'/media/imgs/product/' + product.getProductType().getImgSrc()}" th:alt="${product.getNameEs() + ' Image'}" class="product_image item1">
             <div class="item2">
                 <h1 th:text="${product.getNameEs()}"></h1>
                 <div class="product_view_horizontal">
