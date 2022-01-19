@@ -22,8 +22,10 @@ public class ProductType {
     private String nameEu;
     private String imgSrc = null;
     private String measurementUnit;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private ProductFamily productFamily;
+
     @OneToMany(mappedBy = "productType", fetch = FetchType.LAZY)
     private Collection<Ingredient> ingredient;
 

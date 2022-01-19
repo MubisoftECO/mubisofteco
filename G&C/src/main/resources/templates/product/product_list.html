@@ -10,25 +10,14 @@
     <!-- Header -->
     <header th:replace="includes/header :: header"></header>
 
+    <div class="button_bar">
+        <form th:action="@{/recipe/create}" method="get" class="justify-content-center container-fluid">
+            <button type="submit" class="btn btn-dark btn-wide">Publish a new product</button>
+        </form>
+    </div>
+
     <!-- Main -->
     <main>
-        <div class="search">
-            <button class="btn  btn_search"> Search</button>
-        </div>
-
-        <div class="button_bar">
-            <form th:action="@{/product/back}" method="post" class="justify-content-center">
-                <button type="submit" class="btn btn-dark btn_back">Filter</button>
-            </form>
-
-            <form th:action="@{/product/back}" method="post" class="justify-content-center">
-                <button type="submit" class="btn btn-dark btn_back">Order</button>
-            </form>
-
-            <form th:action="@{/product/create}" method="get" class="justify-content-center">
-                <button type="submit" class="btn btn-dark btn_back">Add</button>
-            </form>
-        </div>
         <div>
             <div class="product_list_area">
             <th:block th:each="product : ${productList}">

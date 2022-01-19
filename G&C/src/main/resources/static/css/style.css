@@ -147,6 +147,22 @@ hr {
     justify-content: space-between;
 }
 
+.button_bar{
+    margin: auto;
+    padding: 1.5rem;
+    width: 90%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.btn-wide {
+    width: 100%;
+    background-color: var(--mubisoft-lightgrey);
+    color: var(--mubisoft-darkgrey);
+    border: 0;
+    box-shadow: 0px 0px 6px 3px rgba(48,46,46,0.34);
+}
+
 .btn-green {
     background-color: var(--color-background-green);
     border-color: var(--color-background-green);

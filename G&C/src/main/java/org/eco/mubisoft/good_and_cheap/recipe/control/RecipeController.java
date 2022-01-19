@@ -38,7 +38,7 @@ public class RecipeController {
     @GetMapping("/create")
     public String createRecipe(Model model){
         model.addAttribute("flagList", flagService.getAllFlags());
-        model.addAttribute("ingredientList", productService.getIngredientTypes());
+        model.addAttribute("ingredientList", productTypeService.getAllProductTypes());
         model.addAttribute("measurementList", productService.getMeasurementUnits());
 
         return "recipe/recipe_form";
@@ -166,7 +166,7 @@ public class RecipeController {
         Recipe recipe = recipeService.getRecipe(id);
         model.addAttribute("flagList", flagService.getAllFlags());
         model.addAttribute("recipeIngredients", recipe.getIngredientList());
-        model.addAttribute("ingredientList", productService.getIngredientTypes());
+        model.addAttribute("ingredientList", productTypeService.getAllProductTypes());
         model.addAttribute("measurementList", productService.getMeasurementUnits());
         List <Long> selectedFlagList = new ArrayList<>();
         recipe.getRecipeFlags().forEach(flag -> selectedFlagList.add(flag.getId()));

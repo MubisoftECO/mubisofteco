@@ -1,4 +1,4 @@
-.btn_back{
+.btn-wide{
     width: 100%;
     background-color: var(--mubisoft-lightgrey);
     color: var(--mubisoft-darkgrey);
@@ -11,8 +11,7 @@ a{
 }
 
 .product_card{
-    margin: auto;
-    margin-bottom: 5%;
+    margin: auto auto 5%;
     padding: 0;
     width: 80%;
     border: 1px solid #302E2E;
@@ -42,10 +41,7 @@ a{
     justify-content: center;
 
 }
-.button_bar > form{
-    width: 30%;
 
-}
 form + form{
     margin-left: 1rem;
 }
@@ -63,8 +59,8 @@ form + form{
     justify-content: center;
 
 }
-.product_image{ width: 20%;
-
+.product_image{
+    width: 20%;
 }
 
 

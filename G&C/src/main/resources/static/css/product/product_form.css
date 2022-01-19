@@ -64,7 +64,7 @@ input[type="date"]:focus:before {
     background-color: var(--mubisoft-darkgrey);
     box-shadow: 0px 0px 6px 3px rgba(48,46,46,0.34);
 }
-.btn_back{
+.btn-wide{
     display: block;
     margin: auto;
 

@@ -17,7 +17,7 @@
 
     <!-- Model variables to js -->
     <script th:inline="javascript">
-        const ingredientList = [[${ingredientList}]];
+        //const ingredientList = [[${ingredientList}]];
         const measurementList = [[${measurementList}]];
     </script>
 
@@ -27,7 +27,6 @@
     <!-- Main -->
     <main class="container-fluid align-items-center">
         <h2 class="title display-2 mx-auto">New Recipe</h2>
-
         <form class="justify-content-center" th:action="@{'/recipe/save'}" method="post">
             <section id="recipe-introduction">
                 <div class="form-floating">

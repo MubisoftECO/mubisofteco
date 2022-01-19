@@ -77,24 +77,6 @@ public class ProductServiceFacade implements ProductService {
     }
 
     @Override
-    public List<ProductType> getIngredientTypes() {
-        List<ProductType> productTypeList = productTypeRepository.findAll();
-        List<ProductType> productTypeListCopy = new ArrayList<>();
-
-        productTypeList.forEach(productType -> {
-                productTypeListCopy.add(new ProductType(
-                        productType.getId(),
-                        productType.getNameEs(),
-                        productType.getNameEn(),
-                        productType.getNameEu(),
-                        productType.getMeasurementUnit(),
-                        productType.getProductFamily()
-                ));
-        });
-        return productTypeListCopy;
-    }
-
-    @Override
     public List<ProductType> getIngredients() {
         return productTypeRepository.findAll();
     }

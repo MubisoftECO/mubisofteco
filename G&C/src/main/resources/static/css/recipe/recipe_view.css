@@ -1,11 +1,3 @@
-.button_bar{
-    margin: auto;
-    padding: 1.5rem;
-    width: 90%;
-    display: flex;
-    justify-content: space-around;
-}
-
 .w-30 {
     width: 30% !important;
 }
@@ -36,14 +28,6 @@ form + form{
     flex-direction: row;
     width: 75%;
     gap: 1rem;
-}
-
-.btn_back{
-    width: 100%;
-    background-color: var(--mubisoft-lightgrey);
-    color: var(--mubisoft-darkgrey);
-    border: 0;
-    box-shadow: 0px 0px 6px 3px rgba(48,46,46,0.34);
 }
 
 main{
@@ -94,7 +78,7 @@ a:link, a:visited, a:active{
 @media (min-width: 576px) {
     #card-container{
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         grid-gap: 1rem;
         grid-auto-rows: 1fr
     }
@@ -104,6 +88,12 @@ a:link, a:visited, a:active{
     }
     .recipe_card{
         height: 100%;
+    }
+}
+
+@media (min-width: 720px) {
+    #card-container{
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 

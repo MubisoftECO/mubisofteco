@@ -27,10 +27,13 @@ public class Recipe {
     private String language;
     private Integer timeInMinutes;
     private String imgSrc = null;
+
     @ManyToOne
     private AppUser author;
+
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY)
     private Collection<Ingredient> ingredients = new ArrayList<>();
+
     @ManyToMany(fetch = FetchType.LAZY)
     private Collection<Flag> recipeFlags = new ArrayList<>();
 

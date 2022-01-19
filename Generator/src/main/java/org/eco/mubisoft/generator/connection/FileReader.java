@@ -78,7 +78,7 @@ public class FileReader {
             String line = br.readLine();
 
             do {
-                if (!line.toLowerCase(Locale.ROOT).contains("id")) {
+                if (!line.contains("ID,")) {
                     String[] values = line.split(",");
                     cityRepo.save(new City(
                                     provinces.get(Long.parseLong(values[0])),
@@ -103,7 +103,7 @@ public class FileReader {
             String line = br.readLine();
 
             do {
-                if (!line.toLowerCase(Locale.ROOT).contains("id")) {
+                if (!line.contains("ID,")) {
                     String[] values = line.split(",");
                     Province province = provinceRepo.save(new Province(
                             communities.get(Long.parseLong(values[1])),
@@ -128,7 +128,7 @@ public class FileReader {
             String line = br.readLine();
 
             do {
-                if (!line.toLowerCase(Locale.ROOT).contains("id")) {
+                if (!line.contains("ID,")) {
                     String[] values = line.split(",");
                     AutonomousCommunity ac = acRepo.save(new AutonomousCommunity(values[1]));
                     autonomousCommunities.put(Long.parseLong(values[0]), ac);
