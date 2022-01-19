@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +46,7 @@ public class AnalyticController {
     private final int MAX_REQUEST_REFRESH = 2;
 
     @GetMapping("/options")
-    public String displayOptions(HttpServletRequest request) throws InterruptedException {
+    public void displayOptions(HttpServletRequest request, HttpServletResponse response) throws InterruptedException, IOException {
         user = getLoggedUser(request);
 
         if (user != null) {
@@ -52,9 +54,19 @@ public class AnalyticController {
             analyticService.enableUserIdPicker(city);
             restartList();
 
-            return "/analytic/analytic_option";
+            response.sendRedirect("options/menu");
+        } else {
+            response.sendRedirect("/login/sign-in/");
         }
-        return "redirect:/login/sign-in";
+    }
+
+    @GetMapping("/options/menu")
+    public String displayMenu() throws InterruptedException {
+        String city = user.getLocation().getCity().getName();
+        analyticService.enableUserIdPicker(city);
+        restartList();
+
+        return "/analytic/analytic_option";
     }
 
     @GetMapping("/sales-balance")
