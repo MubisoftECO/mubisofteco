@@ -66,7 +66,6 @@ public class RecipeServiceFacade implements RecipeService{
 
         for (long i = 0; i < quantity; i++) {
             RecipeNames recipeName = recipeNames.get(random.nextInt(recipeNames.size()));
-            Collection<Ingredient> recipeIngredients = new ArrayList<>();
             Collection<Flag> recipeFlags = new ArrayList<>();
             Recipe recipe = new Recipe();
 
