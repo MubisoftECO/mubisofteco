@@ -24,7 +24,7 @@
                 <a th:href="'/product/view/'+${product.getId()}">
                     <div  class="product_card">
                         <div class="card_title">
-                            <h2 th:text="${product.getNameEu()} + ': '
+                            <h2 th:text="${product.getNameEn()} + ': '
                             + ${#numbers.formatDecimal(product.getQuantity(), 1, 2)} + ' '
                             + ${product.getProductType().getMeasurementUnit().toLowerCase()}"></h2>
                         </div>
