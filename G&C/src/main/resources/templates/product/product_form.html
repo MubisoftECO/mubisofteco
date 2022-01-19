@@ -17,20 +17,20 @@
         <form th:action="@{/product/save}" method="post" class="justify-content-center">
             <div class="row gy-2" id="form-customer">
                 <div class="col-12 col-sm-6 input-box name">
-                    <input type="text" name="name" placeholder="Name" class="form-control" >
+                    <input type="text" name="name" placeholder="Name" class="form-control" required>
                 </div>
                 <div class="col-12 col-sm-6 input-box quantity">
-                    <input type="text" name="quantity" placeholder="Quantity"   class="form-control" >
+                    <input type="number" name="quantity" placeholder="Quantity"   class="form-control" required>
                 </div>
                 <div class="col-12 col-sm-6 input-box price">
-                    <input type="text" name="price" placeholder="Price"   class="form-control" >
+                    <input type="number" name="price" placeholder="Price"   class="form-control" required>
                 </div>
                 <div class="col-12 col-sm-6 input-box expiration_date">
-                    <input type="date" name="date" placeholder="Expiration Date"   class="form-control" >
+                    <input type="date" name="date" placeholder="Expiration Date"   class="form-control" required>
                 </div>
                  <div class="col-12 col-sm-6 input-box choose">
 
-                    <input class="form-control" list="datalistOptions" placeholder="Choose a Product Type" name="productType">
+                    <input class="form-control" list="datalistOptions" placeholder="Choose a Product Type" name="productType" required>
                     <datalist id="datalistOptions">
                         <select id="ac-dropdown" name="productType" class="col-12 form-select" required>
                             <option  value="" disabled selected>Product Type</option>
