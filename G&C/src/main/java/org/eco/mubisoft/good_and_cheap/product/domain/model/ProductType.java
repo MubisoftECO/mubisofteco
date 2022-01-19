@@ -1,5 +1,7 @@
 package org.eco.mubisoft.good_and_cheap.product.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Ingredient;
 
@@ -22,10 +24,11 @@ public class ProductType {
     private String imgSrc = null;
     private String measurementUnit;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private ProductFamily productFamily;
 
-    @OneToMany(mappedBy = "productType", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "productType", fetch = FetchType.EAGER)
+    @JsonBackReference
     private Collection<Ingredient> ingredient;
 
     public ProductType(Long id, String nameEs, String nameEn, String nameEu, String measurementUnit,

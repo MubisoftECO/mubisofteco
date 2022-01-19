@@ -1,5 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.user.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler", "fieldHandler"})
 public class Location {
     /**
      * <p><b>ID</b></p>
@@ -31,7 +33,7 @@ public class Location {
      * <p><b>CITY</b></p>
      * <p>City of the location.</p>
      */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private City city;
 
 }

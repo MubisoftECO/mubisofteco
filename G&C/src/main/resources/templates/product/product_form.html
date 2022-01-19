@@ -35,7 +35,7 @@
                         <select id="ac-dropdown" name="productType" class="col-12 form-select" required>
                             <option  value="" disabled selected>Product Type</option>
                                 <th:block th:each="productType : ${productTypeList}">
-                                    <option th:value="${productType.getId()}">[[${productType.getNameEu()}]]</option>
+                                    <option th:value="${productType.getId()}" th:text="${productType.getNameEu()}"></option>
                                 </th:block>
                         </select>
                     </datalist>

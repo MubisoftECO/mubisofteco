@@ -37,41 +37,43 @@ public class ProductController {
     @GetMapping("/create")
     public String createProduct(Model model) {
         Product product = new Product();
-        List<ProductType> productTypeList = productTypeService.getAllProductTypes();
 
-        model.addAttribute("productTypeList", productTypeList);
+        model.addAttribute("productTypeList", productTypeService.getAllProductTypes());
         model.addAttribute("product", product);
+
         return "/product/product_form";
     }
 
     @PostMapping("/save")
-    public String saveProduct(HttpServletRequest request, HttpServletResponse response, @RequestParam(name = "date") String date) throws ParseException {
+    public String saveProduct(
+            HttpServletRequest request,
+            @RequestParam(name = "date") String date
+    ) throws ParseException {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-        Product producto = new Product();
-        producto.setNameEn(request.getParameter("name"));
+        Product product = new Product();
+        product.setNameEn(request.getParameter("name"));
 
         double quantity = Double.parseDouble(request.getParameter("quantity"));
-        producto.setQuantity(quantity);
+        product.setQuantity(quantity);
         double price = Double.parseDouble(request.getParameter("price"));
-        producto.setPrice(price);
+        product.setPrice(price);
 
         Date expirationDate = format.parse(date);
-        producto.setExpirationDate(expirationDate);
+        product.setExpirationDate(expirationDate);
 
         Date publishDate = new Date();
-        producto.setPublishDate(publishDate);
+        product.setPublishDate(publishDate);
 
-        producto.setVendor(userService.getLoggedUser(request));
+        product.setVendor(userService.getLoggedUser(request));
 
-        producto.setProductType(productTypeService.getProductType(
+        product.setProductType(productTypeService.getProductType(
                 Long.parseLong(request.getParameter("productType"))
         ));
+        productService.addProduct(product);
 
-        productService.addProduct(producto);
-
-        return "redirect:/product/view/"+producto.getId().toString();
+        return "redirect:/product/view/"+product.getId().toString();
     }
 
     @PostMapping("/back")

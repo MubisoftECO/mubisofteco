@@ -1,5 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.recipe.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,7 @@ public class Recipe {
     private AppUser author;
 
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Collection<Ingredient> ingredients = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)

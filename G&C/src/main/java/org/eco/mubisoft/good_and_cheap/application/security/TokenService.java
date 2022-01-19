@@ -77,10 +77,19 @@ public class TokenService {
         return new User(username, "null", authorities);
     }
 
-    public String getUsernameFromToken (String authToken) throws JWTVerificationException {
-        String token = authToken.substring("Bearer ".length());
-        DecodedJWT decodedJWT = verifier.verify(token);
-        return decodedJWT.getSubject();
+    public String getUsernameFromToken (String authToken) {
+        try {
+            // 1. Get the token.
+            String token = authToken.substring("Bearer ".length());
+
+            // 2. Decode the token.
+            DecodedJWT decodedJWT = verifier.verify(token);
+
+            // 3. Return the subject of the token.
+            return decodedJWT.getSubject();
+        } catch (JWTVerificationException e) {
+            return null;
+        }
     }
 
     public Collection<String> getRolesFromToken(String authToken) throws JWTVerificationException{

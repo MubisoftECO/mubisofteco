@@ -165,6 +165,8 @@ public class AnalyticController {
         String accessToken = (String) session.getAttribute("accessToken");
         TokenService tokenService = new TokenService();
         String username = tokenService.getUsernameFromToken(accessToken);
+
+
         return userService.getUser(username);
     }
 

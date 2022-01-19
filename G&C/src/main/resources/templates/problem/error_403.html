@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="includes/head :: head">
+    <title id="pageTitle">Error 403</title>
+</head>
+<body>
+<!-- Custom Styling -->
+<link rel="stylesheet" th:href="@{'/css/error/error_403.css'}">
+
+<!-- Header -->
+<header th:replace="includes/header :: header"></header>
+
+<main class="main row">
+    <section id="error-info" class="col">
+        <h1>Hey there!</h1>
+        <p>You have no permission to enter this page. Stop sniffing around.</p>
+    </section>
+    <section id="error-display" class="col">
+        
+    </section>
+    <section id="go-back" class="col d-flex justify-content-center">
+        <a href="/" class="btn btn-light">Go Home</a>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer th:replace="includes/footer :: footer"></footer>
+</body>
+</html>
