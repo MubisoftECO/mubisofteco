@@ -1,0 +1,21 @@
+<table th:fragment="error_table" th:if="${status != null}" class="table table-bordered">
+    <tr>
+        <td>status</td>
+        <td th:text="${status}"></td>
+    </tr>
+
+    <tr>
+        <td>error</td>
+        <td th:text="${error}"></td>
+    </tr>
+
+    <tr>
+        <td>path</td>
+        <td th:text="${path}"></td>
+    </tr>
+
+    <tr>
+        <td>Trace</td>
+        <td th:text="${trace}"></td>
+    </tr>
+</table>

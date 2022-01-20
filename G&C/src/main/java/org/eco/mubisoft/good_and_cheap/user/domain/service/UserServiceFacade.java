@@ -66,16 +66,12 @@ public class UserServiceFacade implements UserService, UserDetailsService {
     @Override
     public List<AppUser> getAllUsers(){
         log.info("Fetching all the users from the database");
-        //Aqui marca un code smell. Segun sonar, la funcion findAll no devuelve null. Pero segun internet, si.
-        //Asi que compruebo si es null para devolver una lista vacia en vez de un null. Para que luego el
-        //programa no se queje.
         List<AppUser> userList = userRepo.findAll();
         if (userList == null){
             userList = new ArrayList<>();
         }
         return userList;
     }
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -97,37 +93,30 @@ public class UserServiceFacade implements UserService, UserDetailsService {
         return new User(user.getUsername(), user.getPassword(), authorities);
     }
 
-
     @Override
     @Transactional
     public AppUser updateUser(Long id, String name, String secondName, String username, Location location, String imageSrc) {
         AppUser user = userRepo.findById(id).orElseThrow(() -> new IllegalStateException(
                 "User not found when updating user"
         ));
-
         if (name != null && name.length() > 0 && !Objects.equals(user.getName(), name)){
             user.setName(name);
         }
-
         if (secondName != null && secondName.length() > 0 && !Objects.equals(user.getSecondName(), secondName)){
             user.setSecondName(secondName);
         }
         if (username != null && username.length() > 0 && !Objects.equals(user.getUsername(), username)){
             user.setUsername(username);
         }
-        if(location != null && !Objects.equals(user.getLocation().getCity().getName(), location.getCity().getName())){
+        if (location != null && !Objects.equals(user.getLocation().getCity().getName(), location.getCity().getName())){
            Location locationToEdit = locationRepo.getById(user.getLocation().getId());
            locationToEdit.setCity(location.getCity());
         }
-        if(location != null && !Objects.equals(user.getLocation().getStreet(), location.getStreet())){
+        if (location != null && !Objects.equals(user.getLocation().getStreet(), location.getStreet())){
             Location locationToEdit = locationRepo.getById(user.getLocation().getId());
             locationToEdit.setStreet(location.getStreet());
         }
-
-
-
-
-        if(imageSrc != null && !Objects.equals(user.getImgSrc(), imageSrc)){
+        if (imageSrc != null && !Objects.equals(user.getImgSrc(), imageSrc)){
             user.setImgSrc(imageSrc);
         }
 
@@ -182,8 +171,12 @@ public class UserServiceFacade implements UserService, UserDetailsService {
 
     @Override
     public boolean userHasRole(AppUser user, String role) {
-        Collection<Role> roles = user.getRoles();
-        return roles.stream().anyMatch(r -> r.getName().equals(role));
+        try {
+            Collection<Role> roles = user.getRoles();
+            return roles.stream().anyMatch(r -> r.getName().equals(role));
+        } catch (NullPointerException e) {
+            return false;
+        }
     }
 
     @Override

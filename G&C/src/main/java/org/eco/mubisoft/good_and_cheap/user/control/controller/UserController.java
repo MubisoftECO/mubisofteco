@@ -134,19 +134,22 @@ public class UserController {
     }
 
     @GetMapping("/info")
-    public String getUser(Model model, HttpServletRequest request) {
-        String page;
+    public String getUser(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
         AppUser loggedUser = userService.getLoggedUser(request);
-        model.addAttribute("user", loggedUser);
+        String page = "/problem/error_403";
 
-        if(userService.userHasRole(loggedUser, "ROLE_VENDOR")){
-            page = "user/vendor_profile";
-        }else if (userService.userHasRole(loggedUser, "ROLE_ADMIN")){
-            page = "user/admin_profile";
-        } else {
-            page = "user/customer_profile";
+        if (loggedUser != null) {
+            // Set user on response
+            model.addAttribute("user", loggedUser);
+
+            if (userService.userHasRole(loggedUser, "ROLE_VENDOR")){
+                page = "/user/vendor_profile";
+            } else if (userService.userHasRole(loggedUser, "ROLE_ADMIN")){
+                page = "/user/admin_profile";
+            } else {
+                page = "/user/customer_profile";
+            }
         }
-
         return page;
     }
 

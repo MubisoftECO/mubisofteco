@@ -6,6 +6,7 @@ import org.eco.mubisoft.good_and_cheap.user.domain.service.AutonomousCommunitySe
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,8 +32,17 @@ public class LoginController {
      * <p>Get the route for the login page through the route "/login/sign-in".</p>
      * @return The route to the login page.
      */
-    @GetMapping("/sign-in")
-    public String getLoginForm() {
+    @GetMapping("/sign-in{errorMsg}")
+    public String getLoginForm(
+            Model model,
+            @PathVariable(name = "errorMsg", required = false) String errorMsg
+   ) {
+        if (errorMsg != null && errorMsg.length() > 1) {
+            model.addAttribute("errorMsg", "Error: " + errorMsg);
+        }
+        else {
+            model.addAttribute("errorMsg", null);
+        }
         log.info("Request login form");
         return "/login/login_form";
     }
