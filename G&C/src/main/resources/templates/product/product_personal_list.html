@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="includes/head :: head">
+    <title id="pageTitle">Product List</title>
+</head>
+<body>
+<!-- Custom Styling -->
+<link rel="stylesheet" th:href="@{'/css/product/product_list.css'}">
+
+<!-- Header -->
+<header th:replace="includes/header :: header"></header>
+
+<div class="button_bar">
+    <form th:action="@{/product/create}" method="get" class="justify-content-center container-fluid">
+        <button type="submit" class="btn btn-dark btn-wide">Publish a new product</button>
+    </form>
+</div>
+
+<!-- Main -->
+<main>
+    <div>
+        <div class="product_list_area">
+            <th:block th:each="product : ${productList}">
+                <a th:href="'/product/view/'+${product.getId()}">
+                    <div  class="product_card">
+                        <div class="card_title">
+                            <h2 th:text="${product.getNameEn()} + ': '
+                            + ${#numbers.formatDecimal(product.getQuantity(), 1, 2)} + ' '
+                            + ${product.getProductType().getMeasurementUnit().toLowerCase()}"></h2>
+                        </div>
+                        <div class="card_body">
+                            <th:block th:if="${#strings.isEmpty(product.getProductType().getImgSrc())}">
+                                <img th:src="@{'/media/imgs/product/gc_bag.png'}" alt="Product icon" class="product_image">
+                            </th:block>
+                            <th:block th:unless="${#strings.isEmpty(product.getProductType().getImgSrc())}">
+                                <img th:src="${'/media/imgs/product/' + product.getProductType().getImgSrc()}" th:alt="${product.getNameEn() + ' Image'}" class="product_image">
+                            </th:block>
+                            <h4 th:text="${product.getVendor().getName() + ' ' + product.getVendor().getSecondName()}"></h4>
+                            <h3 th:text="${#numbers.formatDecimal(product.getPrice(), 1, 2)} + '€'"></h3>
+                        </div>
+                    </div>
+                </a>
+            </th:block>
+        </div>
+        <form action="/product/view/modify" method="get" class="pagination_form containers-fluid">
+            <button type="submit" name="page-move" class="btn btn-dark" th:value="previous">Previous</button>
+            <div class="d-flex">
+                <label class="form-control">Page:
+                    <input style="border: none" class="fw-normal" type="number" name="page" th:value="${page}" readonly>
+                </label>
+            </div>
+            <button type="submit" name="page-move" class="btn btn-dark" th:value="next">Next</button>
+        </form>
+    </div>
+</main>
+<!-- Footer -->
+<footer th:replace="includes/footer :: footer"></footer>
+</body>
+</html>

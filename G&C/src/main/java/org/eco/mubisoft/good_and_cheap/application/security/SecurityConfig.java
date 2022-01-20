@@ -63,8 +63,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/delete/**", "/user/view/**")
                 .hasAuthority("ROLE_ADMIN");
         http.authorizeRequests()
-                .antMatchers("/recipe/create/**", "/product/create/**")
+                .antMatchers("/recipe/create/**")
                 .hasAnyAuthority("ROLE_USER", "ROLE_ADMIN");
+        http.authorizeRequests()
+                        .antMatchers("/product/create/**")
+                        .hasAnyAuthority("ROLE_VENDOR", "ROLE_ADMIN");
+
         http.authorizeRequests().anyRequest().permitAll();
 
         // Add filters

@@ -14,6 +14,8 @@ import org.eco.mubisoft.good_and_cheap.product.dto.ProductSoldOnlyDto;
 import org.eco.mubisoft.good_and_cheap.product.thread.ProductBuffer;
 import org.eco.mubisoft.good_and_cheap.product.thread.ProductSoldOnlyBuffer;
 import org.eco.mubisoft.good_and_cheap.product.thread.ProductSoldOnlyTotalBuffer;
+import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -42,6 +44,16 @@ public class ProductServiceFacade implements ProductService {
     private final ProductSoldOnlyTotalBuffer productSoldOnlyTotalBuffer;
     private final MostLeastSoldBuffer mostLeastSoldBuffer;
 
+    @Override
+    public List<Product> getProductByVendor(AppUser vendor, int pageNum) {
+        Pageable pageable = PageRequest.of(pageNum, (int) ELEMENT_NUM);
+        return productRepository.findProductByVendor(vendor, pageable).toList();
+    }
+
+    @Override
+    public double countPages(AppUser vendor) {
+        return Math.ceil(productRepository.countAllByVendor(vendor) / ELEMENT_NUM);
+    }
 
     @Override
     public List<Product> getAllProducts(Integer pageNum) {

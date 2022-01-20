@@ -6,6 +6,8 @@ import org.eco.mubisoft.good_and_cheap.product.domain.model.Product;
 import org.eco.mubisoft.good_and_cheap.product.domain.model.ProductType;
 import org.eco.mubisoft.good_and_cheap.product.dto.ProductDto;
 import org.eco.mubisoft.good_and_cheap.product.dto.ProductSoldOnlyDto;
+import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Recipe;
+import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 
 import java.util.List;
 
@@ -18,6 +20,8 @@ public interface ProductService {
     boolean removeProduct(Long id);
     double countPages();
     List<ProductType> getIngredients();
+    List<Product> getProductByVendor(AppUser vendor, int pageNum);
+    double countPages(AppUser vendor);
 
     /**
      * <p><b>THREAD</b></p>

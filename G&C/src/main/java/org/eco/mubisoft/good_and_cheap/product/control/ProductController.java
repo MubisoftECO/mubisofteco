@@ -9,6 +9,7 @@ import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductService;
 import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductTypeService;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.service.UserService;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -121,6 +122,17 @@ public class ProductController {
        productService.removeProduct(id);
 
         return "/product/product_list";
+    }
+
+    @GetMapping("view/modify")
+    public String getModifyProductByVendor(Model model, HttpServletRequest request,
+                                           @RequestParam(value = "page") Optional<Integer> pageNum,
+                                           @RequestParam(value = "page-move", required = false) String direction){
+        AppUser vendor = userService.getLoggedUser(request);
+        Integer nextPage = PageManager.getPageNum(pageNum.orElse(null), (int) productService.countPages(vendor), direction);
+        model.addAttribute("page", nextPage);
+        model.addAttribute("productList", productService.getProductByVendor(vendor, nextPage - 1));
+        return "product/product_personal_list";
     }
 
 }
