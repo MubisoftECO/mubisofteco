@@ -58,7 +58,7 @@ public class AnalyticController {
                 response.sendRedirect("/options/menu");
             }
             else {
-                response.sendRedirect("/problem/403");
+                response.sendError(HttpServletResponse.SC_FORBIDDEN);
             }
         } else {
             response.sendRedirect("/login/sign-in/");
