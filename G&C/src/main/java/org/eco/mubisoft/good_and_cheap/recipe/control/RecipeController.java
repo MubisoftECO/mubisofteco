@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.application.pages.PageManager;
 import org.eco.mubisoft.good_and_cheap.application.security.TokenService;
+import org.eco.mubisoft.good_and_cheap.metric.statistic.ActionCounter;
 import org.eco.mubisoft.good_and_cheap.product.domain.model.ProductType;
 import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductService;
 import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductTypeService;
@@ -34,9 +35,12 @@ public class RecipeController {
     private final UserService userService;
     private final FlagService flagService;
     private final StepService stepService;
+    private final ActionCounter actionCounter;
 
     @GetMapping("/create")
-    public String createRecipe(Model model){
+    public String createRecipe(HttpServletRequest request, Model model){
+        AppUser appUser = getLoggedUser(request);
+        actionCounter.increment(appUser,"btn-recipe-create");
         model.addAttribute("flagList", flagService.getAllFlags());
         model.addAttribute("ingredientList", productTypeService.getAllProductTypes());
         model.addAttribute("measurementList", productService.getMeasurementUnits());
@@ -56,11 +60,7 @@ public class RecipeController {
         recipe.setLanguage("ES");
 
         // Get the user.
-        HttpSession session = request.getSession();
-        String accessToken = (String) session.getAttribute("accessToken");
-        TokenService tokenService = new TokenService();
-        String username = tokenService.getUsernameFromToken(accessToken);
-        AppUser loggedUser = userService.getUser(username);
+        AppUser loggedUser = getLoggedUser(request);
         recipe.setAuthor(loggedUser);
 
         // Flags
@@ -187,5 +187,10 @@ public class RecipeController {
 
         response.setStatus(HttpServletResponse.SC_OK);
         response.sendRedirect(response.encodeRedirectURL("/recipe/view/modify"));
+    }
+
+    /** INTERNAL FUNCTIONALITIES */
+    private AppUser getLoggedUser(HttpServletRequest request){
+        return userService.getLoggedUser(request);
     }
 }
