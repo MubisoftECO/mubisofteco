@@ -98,4 +98,5 @@ public class TokenService {
 
         return decodedJWT.getClaim("roles").asList(String.class);
     }
+
 }

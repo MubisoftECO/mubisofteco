@@ -1,5 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.application.exception;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.util.NestedServletException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 
+@Slf4j
 @Controller
 public class ApiExceptionHandler implements ErrorController {
 
@@ -41,6 +42,7 @@ public class ApiExceptionHandler implements ErrorController {
 
             // Get the error code.
             int statusCode = Integer.parseInt(status.toString());
+            log.info("Error {} found", statusCode);
 
             if (statusCode == HttpStatus.FORBIDDEN.value()) {
                 response.sendRedirect("/problem/403");
@@ -51,8 +53,12 @@ public class ApiExceptionHandler implements ErrorController {
             else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
                 response.sendRedirect("/problem/500");
             }
+            else {
+                response.sendRedirect("/problem");
+            }
         }
         else {
+            log.info("Unhandled error found");
             response.sendRedirect("/problem");
         }
     }
@@ -66,6 +72,8 @@ public class ApiExceptionHandler implements ErrorController {
             @ModelAttribute("error") String error,
             @ModelAttribute("trace") String trace
     ) {
+        String viewURL = "/problem/error_base";
+
         if (errorID != null) {
             if (status != null) model.addAttribute("status", status);
             if (path != null) model.addAttribute("path", path);
@@ -73,12 +81,14 @@ public class ApiExceptionHandler implements ErrorController {
             if (trace != null) model.addAttribute("trace", trace);
 
             switch (errorID) {
-                case "403": return "/problem/error_403";
-                case "404": return "/problem/error_404";
-                case "500": return "/problem/error_500";
+                case "403": viewURL = "/problem/error_403"; break;
+                case "404": viewURL = "/problem/error_404"; break;
+                case "500": viewURL = "/problem/error_500"; break;
             }
         }
-        return "/problem/error_base";
+        log.info("Sending to {}", viewURL);
+
+        return viewURL;
     }
 
 }

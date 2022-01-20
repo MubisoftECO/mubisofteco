@@ -101,8 +101,6 @@ public class UserController {
         } else {
             roleService.setUserRole(savedUser.getUsername(), "ROLE_VENDOR");
         }
-
-
         if (!imageFile.isEmpty()){
             String uploadDir = "user-photos/" + savedUser.getId();
             FileUploadUtil.saveFile(uploadDir, fileName, imageFile);

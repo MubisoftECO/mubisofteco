@@ -24,6 +24,7 @@ public class HibernateProxyTypeAdapter extends TypeAdapter<HibernateProxy> {
             return (HibernateProxy.class.isAssignableFrom(type.getRawType()) ? (TypeAdapter<T>) new HibernateProxyTypeAdapter(gson) : null);
         }
     };
+
     private final Gson context;
 
     private HibernateProxyTypeAdapter(Gson context) {

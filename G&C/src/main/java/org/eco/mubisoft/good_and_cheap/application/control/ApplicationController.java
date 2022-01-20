@@ -22,8 +22,7 @@ public class ApplicationController {
      * @return The name of the html file.
      */
     @GetMapping("/")
-    public String getIndex(Model model) {
-        model.addAttribute("pageTitle", "index");
+    public String getIndex() {
         return "index";
     }
 

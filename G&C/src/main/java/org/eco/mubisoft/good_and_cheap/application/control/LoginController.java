@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,8 +26,6 @@ import java.io.IOException;
 @RequestMapping("/login")
 public class LoginController {
 
-    private final AutonomousCommunityService autonomousCommunityService;
-
     /**
      * <p><b>GET LOGIN FORM</b></p>
      * <p>Get the route for the login page through the route "/login/sign-in".</p>
@@ -39,6 +38,7 @@ public class LoginController {
    ) {
         if (errorMsg != null && errorMsg.length() > 1) {
             model.addAttribute("errorMsg", "Error: " + errorMsg);
+            log.info("Login form with error: {}", errorMsg);
         }
         else {
             model.addAttribute("errorMsg", null);
@@ -64,6 +64,7 @@ public class LoginController {
         session.removeAttribute("refreshToken");
 
         // Send response
+        log.info("Redirecting to index");
         response.setStatus(HttpServletResponse.SC_OK);
         response.sendRedirect("/");
     }

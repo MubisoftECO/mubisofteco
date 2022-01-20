@@ -10,7 +10,7 @@ import java.nio.file.StandardCopyOption;
 
 public class FileUploadUtil {
 
-    private FileUploadUtil (){}
+    private FileUploadUtil () { }
 
     public static void saveFile(String uploadDir, String fileName,
                                 MultipartFile multipartFile) throws IOException {
@@ -19,7 +19,6 @@ public class FileUploadUtil {
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
         }
-
         try (InputStream inputStream = multipartFile.getInputStream()) {
             Path filePath = uploadPath.resolve(fileName);
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
