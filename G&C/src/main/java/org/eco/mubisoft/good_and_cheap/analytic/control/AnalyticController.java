@@ -55,7 +55,7 @@ public class AnalyticController {
             if (analyticService.userIsAuthorized(user)) {
                 analyticService.enableUserIdPicker(user);
                 restartList();
-                response.sendRedirect("/options/menu");
+                response.sendRedirect("options/menu");
             }
             else {
                 response.sendError(HttpServletResponse.SC_FORBIDDEN);
