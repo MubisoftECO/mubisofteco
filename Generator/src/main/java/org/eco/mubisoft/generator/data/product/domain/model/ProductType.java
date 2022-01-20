@@ -1,5 +1,6 @@
 package org.eco.mubisoft.generator.data.product.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,16 +25,20 @@ public class ProductType {
     private String nameEu;
     private String imgSrc = null;
     private String measurementUnit;
+
     @ManyToOne(fetch = FetchType.EAGER)
     private ProductFamily productFamily;
+
     @OneToMany(mappedBy = "productType")
+    @JsonBackReference
     private Collection<Ingredient> ingredient;
 
-    public ProductType(Long id, String nameEs, String nameEn, String nameEu, String measurementUnit, ProductFamily productFamily) {
+    public ProductType(Long id, String nameEs, String nameEn, String nameEu, String imgSrc, String measurementUnit, ProductFamily productFamily) {
         this.id = id;
         this.nameEs = nameEs;
         this.nameEn = nameEn;
         this.nameEu = nameEu;
+        this.imgSrc = imgSrc;
         this.measurementUnit = measurementUnit;
         this.productFamily = productFamily;
     }

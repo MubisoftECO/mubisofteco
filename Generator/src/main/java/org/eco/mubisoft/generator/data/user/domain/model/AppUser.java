@@ -61,7 +61,7 @@ public class AppUser {
      * <p><b>ROLES</b></p>
      * <p>A list with the different roles of the user.</p>
      */
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     private Collection<Role> roles = new ArrayList<>();
 
     /**
