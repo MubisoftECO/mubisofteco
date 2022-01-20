@@ -9,27 +9,7 @@
 
     <main class="container">
         <h3>SOMETHING WENT WRONG! CONTACT THE MAINTENANCE TEAM</h3>
-        <table th:if="${status != null}" class="table table-bordered">
-            <tr>
-                <td>status</td>
-                <td th:text="${status}"></td>
-            </tr>
-
-            <tr>
-                <td>error</td>
-                <td th:text="${error}"></td>
-            </tr>
-
-            <tr>
-                <td>path</td>
-                <td th:text="${path}"></td>
-            </tr>
-
-            <tr>
-                <td>Trace</td>
-                <td th:text="${trace}"></td>
-            </tr>
-        </table>
+        <table th:replace="includes/error_table :: error_table"></table>
         <section id="go-back" class="col d-flex justify-content-center">
             <a href="/" class="btn btn-light">Go Home</a>
         </section>

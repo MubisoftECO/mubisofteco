@@ -10,6 +10,10 @@
     flex-direction: column;
 }
 
+#error-description.hidden {
+    display: none !important;
+}
+
 svg {
     margin-bottom: 16px;
 }

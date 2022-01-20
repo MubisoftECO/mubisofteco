@@ -51,11 +51,15 @@ public class AnalyticController {
     public void displayOptions(HttpServletRequest request, HttpServletResponse response) throws InterruptedException, IOException {
         user = getLoggedUser(request);
 
-        if (user != null && analyticService.userIsAuthorized(user)) {
-            analyticService.enableUserIdPicker(user);
-            restartList();
-
-            response.sendRedirect("options/menu");
+        if (user != null) {
+            if (analyticService.userIsAuthorized(user)) {
+                analyticService.enableUserIdPicker(user);
+                restartList();
+                response.sendRedirect("/options/menu");
+            }
+            else {
+                response.sendRedirect("/problem/403");
+            }
         } else {
             response.sendRedirect("/login/sign-in/");
         }

@@ -6,6 +6,13 @@
 <body>
 <!-- Custom Styling -->
 <link rel="stylesheet" th:href="@{'/css/error/error_500.css'}">
+<script type="text/javascript">
+    window.onload = function (ev) {
+        $('button#show-error-button').click(function (e) {
+            $('section#error-description').removeClass('hidden');
+        });
+    }
+</script>
 
 <!-- Header -->
 <header th:replace="includes/header :: header"></header>
@@ -345,7 +352,11 @@
             </svg>
         </div>
     </section>
-    <section id="go-back" class="col d-flex justify-content-center">
+    <section id="error-description" class="hidden containers-fluid d-flex justify-content-center">
+        <table th:replace="includes/error_table :: error_table"></table>
+    </section>
+    <section id="go-back" class="col d-flex flex-column align-items-center justify-content-center">
+        <button type="button" id="show-error-button" class="btn btn-light mb-2">Show Full Error</button>
         <a href="/" class="btn btn-light">Go Home</a>
     </section>
 </main>
