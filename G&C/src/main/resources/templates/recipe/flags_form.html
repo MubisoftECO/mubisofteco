@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:insert="includes/head :: head">
+<head th:replace="includes/head :: head">
     <title id="pageTitle">Flag Form</title>
 </head>
 <body>
@@ -14,11 +14,9 @@
                 <td><label for="name_en">Flag name</label></td>
                 <td><input type="text" id="name_en" name="name"></td>
             </tr>
-            <tr>
-                <td><input type="submit" value="Submit"></td>
-            </tr>
             </tbody>
         </table>
+        <input type="submit" value="Submit">
     </form>
     <!-- Footer -->
     <footer th:replace="includes/footer :: footer"></footer>

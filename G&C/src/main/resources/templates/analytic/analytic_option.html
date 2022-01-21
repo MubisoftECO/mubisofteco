@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:insert="includes/head :: head" >
+<head th:replace="includes/head :: head" >
     <title id="pageTitle">Analytic Options</title>
 </head>
 
-<!-- Custom Styling -->
-<link rel="stylesheet" th:href="@{'/css/analytic/analytic.css'}">
-<!-- Custom Script -->
 
 <body>
+    <!-- Custom Styling -->
+    <link rel="stylesheet" th:href="@{'/css/analytic/analytic.css'}">
+    <!-- Custom Script -->
+
 <!-- Header -->
 <header th:replace="includes/header :: header"></header>
 
