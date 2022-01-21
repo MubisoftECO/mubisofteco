@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional
@@ -24,5 +25,27 @@ public class MetricServiceFacade implements MetricService{
         metric.setUser(appUser);
 
         metricRepository.save(metric);
+    }
+
+    @Override
+    public List<Metric> getAllMetrics() {
+        return metricRepository.findAll();
+    }
+
+    @Override
+    public List<Metric> getMetricSpecificId(Long user_id) {
+        return  metricRepository.findByuser_id(user_id);
+    }
+
+    @Override
+    public void updateCounter(int counter, String buttonName, Long id) {
+        Metric optional = metricRepository.findById(id).orElse(null);
+
+        if (optional != null) {
+            Metric metric = optional;
+            metric.setDate(new Date());
+            metric.setCounter(counter+1);
+            metricRepository.save(metric);
+        }
     }
 }
