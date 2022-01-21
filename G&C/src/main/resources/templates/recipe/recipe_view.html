@@ -105,7 +105,7 @@
         <div id="recipe-steps">
             <div class="card recipe-step mb-3"  th:each="step : ${steps}">
                 <div class="card-header space-between">
-                    <span id="card-header-title-1" class="badge bg-secondary rounded-pill order"
+                    <span th:id="${'card-header-title-' + step.getId()}" class="badge bg-secondary rounded-pill order"
                           th:text="${step.getStepNum()}"></span>
                 </div>
                 <div class="card-body">

@@ -149,7 +149,10 @@ public class UserServiceFacade implements UserService, UserDetailsService {
 
         try {
             username = tokenService.getUsernameFromToken((String) session.getAttribute("accessToken"));
-        } catch (JWTVerificationException e) {
+            if (username == null) {
+                throw new NullPointerException("Access token user is null");
+            }
+        } catch (JWTVerificationException | NullPointerException e) {
             username = tokenService.getUsernameFromToken((String) session.getAttribute("refreshToken"));
         }
         return this.getUser(username);

@@ -87,7 +87,6 @@ public class UserController {
             locationToSave.setStreet(request.getParameter("street"));
         }
         Location savedLocation = locationService.saveLocation(locationToSave);
-
         user.setLocation(savedLocation);
 
         if (!imageFile.isEmpty()) {

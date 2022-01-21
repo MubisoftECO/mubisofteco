@@ -6,7 +6,6 @@ import org.eco.mubisoft.good_and_cheap.product.domain.model.Product;
 import org.eco.mubisoft.good_and_cheap.product.domain.model.ProductType;
 import org.eco.mubisoft.good_and_cheap.product.dto.ProductDto;
 import org.eco.mubisoft.good_and_cheap.product.dto.ProductSoldOnlyDto;
-import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Recipe;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 
 import java.util.List;
@@ -16,7 +15,7 @@ public interface ProductService {
     List<Product> getAllProducts(Integer pageNum);
     List<String> getMeasurementUnits();
     Product getProduct(Long id);
-    void addProduct(Product product);
+    Product addProduct(Product product);
     boolean removeProduct(Long id);
     double countPages();
     List<ProductType> getIngredients();

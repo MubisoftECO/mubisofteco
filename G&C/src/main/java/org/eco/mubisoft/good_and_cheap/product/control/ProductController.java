@@ -35,6 +35,7 @@ public class ProductController {
 
         model.addAttribute("productTypeList", productTypeService.getAllProductTypes());
         model.addAttribute("product", product);
+        log.info("Sending to product create form");
 
         return "/product/product_form";
     }
@@ -44,35 +45,32 @@ public class ProductController {
             HttpServletRequest request,
             @RequestParam(name = "date") String date
     ) throws ParseException {
-
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
         Product product = new Product();
+
+        // Set product fields
         product.setNameEn(request.getParameter("name"));
+        product.setQuantity(Double.parseDouble(request.getParameter("quantity")));
+        product.setPrice(Double.parseDouble(request.getParameter("price")));
 
-        double quantity = Double.parseDouble(request.getParameter("quantity"));
-        product.setQuantity(quantity);
-        double price = Double.parseDouble(request.getParameter("price"));
-        product.setPrice(price);
+        // Set dates
+        product.setExpirationDate(format.parse(date));
+        product.setPublishDate(new Date());
 
-        Date expirationDate = format.parse(date);
-        product.setExpirationDate(expirationDate);
-
-        Date publishDate = new Date();
-        product.setPublishDate(publishDate);
-
+        // Set foreign fields
         product.setVendor(userService.getLoggedUser(request));
-
         product.setProductType(productTypeService.getProductType(
                 Long.parseLong(request.getParameter("productType"))
         ));
-        productService.addProduct(product);
+        Product newProduct = productService.addProduct(product);
+        log.info("Creating product with id={}", newProduct.getId());
 
-        return "redirect:/product/view/"+product.getId().toString();
+        return "redirect:/product/view/" + newProduct.getId().toString();
     }
 
-    @PostMapping("/back")
+    @GetMapping("/back")
     public String backProduct() {
+        log.info("Redirecting to index");
         return "redirect:/";
     }
 
@@ -84,7 +82,6 @@ public class ProductController {
             ) {
         Integer nextPage = PageManager.getPageNum(pageNum.orElse(null), (int) productService.countPages(), direction);
         List<Product> list = productService.getAllProducts(nextPage - 1);
-
 
         model.addAttribute("productList", list);
         model.addAttribute("page", nextPage);
@@ -101,24 +98,22 @@ public class ProductController {
         return "/product/product_current";
     }
 
-
     @GetMapping("/edit/{product_id}")
     public String showUpdateProduct(Model model, @PathVariable(value = "product_id") long id) {
         Product product = productService.getProduct(id);
-
         model.addAttribute("product", product);
 
         return "/product/product_form";
     }
 
-    @GetMapping("/delete/{product_id}")
-    public String deleteProduct(Model model, @PathVariable(value = "product_id") long id) {
-       productService.removeProduct(id);
-
-        return "/product/product_list";
+    @PostMapping("/delete/{product_id}")
+    public String deleteProduct(@PathVariable(value = "product_id") long id) {
+        log.info("Deleting product with id={}", id);
+        productService.removeProduct(id);
+        return "redirect:/product/view";
     }
 
-    @GetMapping("view/modify")
+    @GetMapping("/view/modify")
     public String getModifyProductByVendor(Model model, HttpServletRequest request,
                                            @RequestParam(value = "page") Optional<Integer> pageNum,
                                            @RequestParam(value = "page-move", required = false) String direction){
@@ -126,7 +121,8 @@ public class ProductController {
         Integer nextPage = PageManager.getPageNum(pageNum.orElse(null), (int) productService.countPages(vendor), direction);
         model.addAttribute("page", nextPage);
         model.addAttribute("productList", productService.getProductByVendor(vendor, nextPage - 1));
-        return "product/product_personal_list";
+
+        return "/product/product_personal_list";
     }
 
 }

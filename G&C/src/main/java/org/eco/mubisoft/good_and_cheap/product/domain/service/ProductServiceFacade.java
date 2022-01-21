@@ -15,13 +15,9 @@ import org.eco.mubisoft.good_and_cheap.product.thread.ProductBuffer;
 import org.eco.mubisoft.good_and_cheap.product.thread.ProductSoldOnlyBuffer;
 import org.eco.mubisoft.good_and_cheap.product.thread.ProductSoldOnlyTotalBuffer;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Ingredient;
-import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Recipe;
-import org.eco.mubisoft.good_and_cheap.recipe.domain.repo.IngredientRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -72,8 +68,8 @@ public class ProductServiceFacade implements ProductService {
     }
 
     @Override
-    public void addProduct(Product product) {
-        productRepository.save(product);
+    public Product addProduct(Product product) {
+        return productRepository.save(product);
     }
 
     @Override
