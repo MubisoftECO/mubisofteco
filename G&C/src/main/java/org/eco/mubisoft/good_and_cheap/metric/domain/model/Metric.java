@@ -14,6 +14,7 @@ import java.util.Date;
 @Entity
 @Table(name = "metrics")
 public class Metric {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "metric_id")
     @SequenceGenerator(name = "metric_id", initialValue = 1, allocationSize = 1, sequenceName = "metric_id_seq")
@@ -32,4 +33,5 @@ public class Metric {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private AppUser user;
+
 }

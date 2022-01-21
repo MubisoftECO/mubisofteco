@@ -125,15 +125,14 @@
             </div>
             <div id="add-step" class="wrapper">
                 <th:block th:each="step : ${steps}">
-                    <div id="recipe-step-1" class="card recipe-step mb-3">
+                    <div th:id="${'recipe-step-'+(steps.indexOf(step) + 1)}" class="card recipe-step mb-3">
                         <div class="card-header space-between">
-
-                            <span th:id="${'card-header-title-'+(steps.indexOf(step)+1)}" class="badge bg-secondary rounded-pill order" th:text="${steps.indexOf(step)+1}"></span>
-                            <button type="button" id="button-remove-step-1" class="btn-close" aria-label="Close"></button>
+                            <span th:id="${'card-header-title-'+(steps.indexOf(step) + 1)}" class="badge bg-secondary rounded-pill order" th:text="${steps.indexOf(step)+1}"></span>
+                            <button type="button" th:id="${'button-remove-step-'+(steps.indexOf(step) + 1)}" class="btn-close" aria-label="Close"></button>
                         </div>
                         <div class="card-body">
                             <label class="container-fluid">
-                            <textarea id="recipe-step-description-1" class="form-control recipe-step"
+                            <textarea th:id="${'recipe-step-description-'+(steps.indexOf(step) + 1)}" class="form-control recipe-step"
                                       name="step-1" maxlength="255" th:text="${step.getDescription()}"></textarea>
                             </label>
                         </div>

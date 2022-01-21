@@ -10,5 +10,4 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 })
 @SuiteDisplayName("Good and Cheap application's tests")
 public class GoodAndCheapApplicationTest {
-
 }
