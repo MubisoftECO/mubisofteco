@@ -18,12 +18,4 @@ public interface MetricService {
                    @Param("date") Date date,
                    @Param("userId")AppUser appUser);
 
-    List<Metric> getAllMetrics();
-
-    List<Metric> getMetricSpecificId(@Param("user_id") Long user_id);
-
-    @Query(value = "update metrics set  = :counter  where button_name = :buttonName",nativeQuery = true)
-    void updateCounter(@Param("counter") int counter,
-                       @Param("buttonName") String buttonName, Long id);
-
 }

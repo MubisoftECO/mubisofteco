@@ -9,6 +9,10 @@ $(document).ready(function(){
         }
     });
 
+    $("#create_recipe").on('click', function (e) {
+        updateCounter(e);
+    })
+
 });
 
 function buildUrl(){
@@ -40,4 +44,14 @@ function buildUrl(){
     }
 
     window.location = url;
+}
+
+
+function updateCounter(e) {
+    let id = e.target.id;
+    let parameters = {id : id};
+
+    if (e.target.tagName === "A") {
+        $.post("/metric/counter",parameters);
+    }
 }

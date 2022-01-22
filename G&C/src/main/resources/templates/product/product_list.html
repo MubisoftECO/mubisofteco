@@ -6,13 +6,15 @@
 <body>
     <!-- Custom Styling -->
     <link rel="stylesheet" th:href="@{'/css/product/product_list.css'}">
+    <!-- Custom Script -->
+    <script th:src="@{'/js/product/product.js'}"></script>
 
     <!-- Header -->
     <header th:replace="includes/header :: header"></header>
 
     <div class="button_bar">
         <form th:action="@{/product/create}" method="get" class="justify-content-center container-fluid">
-            <button type="submit" class="btn btn-dark btn-wide">Publish a new product</button>
+            <button type="submit" class="btn btn-dark btn-wide" id="publish_product">Publish a new product</button>
         </form>
     </div>
 

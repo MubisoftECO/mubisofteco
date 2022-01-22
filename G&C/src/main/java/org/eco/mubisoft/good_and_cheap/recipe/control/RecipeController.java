@@ -35,12 +35,9 @@ public class RecipeController {
     private final UserService userService;
     private final FlagService flagService;
     private final StepService stepService;
-    private final ActionCounter actionCounter;
 
     @GetMapping("/create")
-    public String createRecipe(HttpServletRequest request, Model model){
-        AppUser appUser = getLoggedUser(request);
-        actionCounter.increment(appUser,"btn-recipe-create");
+    public String createRecipe(Model model){
         model.addAttribute("flagList", flagService.getAllFlags());
         model.addAttribute("ingredientList", productTypeService.getAllProductTypes());
         model.addAttribute("measurementList", productService.getMeasurementUnits());
