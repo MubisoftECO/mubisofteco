@@ -4,11 +4,11 @@
             <i class="fas fa-bars"></i>
             MENU
         </button>
-        <div class="dropdown-menu center" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" th:href="@{'/product/view'}">PRODUCTS</a>
-            <a class="dropdown-item" th:href="@{'/recipe/view'}">RECIPES</a>
-            <a class="dropdown-item" th:href="@{'/analytic/options'}">ANALYTICS</a>
-            <a class="dropdown-item" href="/user/info">PROFILE</a>
+        <div class="dropdown-menu center btn_menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" id="menu_products" th:href="@{'/product/view'}">PRODUCTS</a>
+            <a class="dropdown-item" id="menu_recipes" th:href="@{'/recipe/view'}">RECIPES</a>
+            <a class="dropdown-item" id="menu_analytics" th:href="@{'/analytic/options'}">ANALYTICS</a>
+            <a class="dropdown-item" id="menu_profile" href="/user/info">PROFILE</a>
         </div>
     </div>
 
@@ -24,7 +24,7 @@
         </button>
         <div class="dropdown-menu dropdown-menu-right center" aria-labelledby="dropdownMenuButton">
             <a class="dropdown-item" href="/user/info">MY USER</a>
-            <a class="dropdown-item" href="/user/edit">SETTINGS</a>
+            <a class="dropdown-item" id="profile_settings" href="/user/edit">SETTINGS</a>
             <a class="dropdown-item" th:href="@{'/login/logout'}">LOGOUT
                 <span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">

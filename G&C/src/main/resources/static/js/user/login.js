@@ -1,8 +1,20 @@
 let icon, buttons, checkbox;
+let login;
+let btn_menu;
+let product_list, recipe_list,analytics;
+let menu_profile_settings, profile_settings;
+
 window.onload = function() {
     icon = document.getElementById('iconPassword');
     buttons = document.querySelector("#button-parent");
     checkbox = document.querySelectorAll('.user-type');
+    login = document.getElementById('signin');
+    btn_menu = document.querySelectorAll('.btn_menu');
+    product_list = document.getElementById('product_list');
+    recipe_list = document.getElementById('recipe_list');
+    analytics = document.getElementById('analytics');
+    menu_profile_settings = document.getElementById('menu_profile_settings');
+    profile_settings =  document.getElementById('profile_settings');
     if(buttons != null) {
         buttons.addEventListener("mouseover",updateCurrent, false);
         buttons.addEventListener("mouseout", resetCurrent,false);
@@ -18,6 +30,36 @@ window.onload = function() {
 
             element.addEventListener('click', change, false);
         }
+    }
+    if(login != null) {
+        buttons.addEventListener("click",updateCounter, false);
+    }
+
+
+    if(btn_menu != null) {
+        for (let i = 0; i < btn_menu.length; i++) {
+            const element = btn_menu[i];
+
+            element.addEventListener('click',function (e) {
+                updateCounter(e);
+            },false);
+        }
+    }
+
+    if(product_list != null) {
+        product_list.addEventListener("click",updateCounter, false);
+    }
+    if(recipe_list != null) {
+        recipe_list.addEventListener("click",updateCounter, false);
+    }
+    if(analytics != null) {
+        analytics.addEventListener("click",updateCounter, false);
+    }
+    if(menu_profile_settings!= null) {
+        menu_profile_settings.addEventListener('click', updateCounter,false);
+    }
+    if (profile_settings != null) {
+        profile_settings.addEventListener('click', updateCounter,false);
     }
 }
 
@@ -84,3 +126,14 @@ function change(e) {
 
     }
 }
+
+function updateCounter(e) {
+    if (e.target.tagName === "A") {
+        let id = e.target.id;
+        if(id === "signin")  id = "login";
+        let parameters = {id : id};
+
+        $.post("/metric/counter",parameters);
+    }
+}
+

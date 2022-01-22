@@ -1,11 +1,15 @@
+let publish_product;
 let btn_menu;
-window.onload = function () {
-    btn_menu = document.querySelectorAll('.btn_menu');
 
-    document.getElementById("btn-share").addEventListener(
-        "click",
-        getlink
-    );
+window.onload = function() {
+   publish_product = document.getElementById('publish_product');
+   btn_menu = document.querySelectorAll('.btn_menu');
+
+   if(publish_product != null) {
+       publish_product.addEventListener('click', function (e) {
+           updateCounter(e);
+       }, false);
+   }
     if(btn_menu != null) {
         for (let i = 0; i < btn_menu.length; i++) {
             const element = btn_menu[i];
@@ -15,16 +19,6 @@ window.onload = function () {
             },false);
         }
     }
-}
-
-function getlink() {
-    let aux = document.createElement("input");
-    aux.setAttribute("value",window.location.href);
-    document.body.appendChild(aux);
-    aux.select();
-    document.execCommand("copy");
-    document.body.removeChild(aux);
-    alert("Enlace copiado");
 }
 
 function updateCounter(e) {
@@ -37,3 +31,4 @@ function updateCounter(e) {
         $.post("/metric/counter",parameters);
     }
 }
+

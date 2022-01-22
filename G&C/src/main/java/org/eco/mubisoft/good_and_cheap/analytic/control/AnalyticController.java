@@ -45,7 +45,6 @@ public class AnalyticController {
     private List<String> reason;
     private List<Double> total;
     private final int MAX_REQUEST_REFRESH = 2;
-    private final ActionCounter actionCounter;
 
     @GetMapping("/options")
     public void displayOptions(HttpServletRequest request, HttpServletResponse response) throws InterruptedException, IOException {
@@ -53,8 +52,6 @@ public class AnalyticController {
 
         if (user != null) {
             if (analyticService.userIsAuthorized(user)) {
-//                analyticService.enableUserIdPicker(user);
-//                restartList();
                 response.sendRedirect("options/menu");
             }
             else {
@@ -76,7 +73,6 @@ public class AnalyticController {
     @GetMapping("/sales-balance")
     public String displaySalesBalance(HttpServletRequest request, Model model) throws ExecutionException, InterruptedException {
         String lang = "EN";
-        actionCounter.increment(user,"btn-sales-balance");
         countSales++;
         if(countSales >= MAX_REQUEST_REFRESH) {
             model.addAttribute("expiredList", expired);
@@ -123,7 +119,6 @@ public class AnalyticController {
     @GetMapping("/business")
     public String displayMyBusiness(HttpServletRequest request, Model model) throws ExecutionException, InterruptedException {
         String lang = "EN";
-        actionCounter.increment(user,"btn-business");
         countBusiness++;
         if(countBusiness>= 2) {
             model.addAttribute("reasonList",reason);
@@ -148,7 +143,6 @@ public class AnalyticController {
 
     @GetMapping("/most-least-sold")
     public String displayMostLeast(){
-        actionCounter.increment(user,"btn-most-least");
         return "analytic/analytic_most_least";
     }
 
