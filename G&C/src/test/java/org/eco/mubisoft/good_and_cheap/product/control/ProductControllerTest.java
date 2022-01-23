@@ -1,32 +1,17 @@
 package org.eco.mubisoft.good_and_cheap.product.control;
 
-import org.eco.mubisoft.good_and_cheap.application.data.MilliTime;
-import org.eco.mubisoft.good_and_cheap.application.security.TokenService;
 import org.eco.mubisoft.good_and_cheap.product.domain.model.Product;
 import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductService;
-import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Recipe;
-import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
-import org.eco.mubisoft.good_and_cheap.user.domain.model.Role;
-import org.eco.mubisoft.good_and_cheap.user.domain.service.RoleService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import javax.servlet.http.HttpSession;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,19 +20,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class ProductControllerTest {
+public class ProductControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private ProductService productService;
-
-    @Autowired
-    private RoleService roleService;
-
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    private final TokenService tokenService = new TokenService();
 
     @BeforeEach
     public void before() {

@@ -11,7 +11,8 @@ import java.util.List;
 
 @Component
 public class MostLeastSoldBuffer extends ThreadBufferDefinition<MostLeastSold> {
-    private List<MostLeastSold> buffer;
+
+    private final List<MostLeastSold> buffer;
 
     public MostLeastSoldBuffer() {
         super();

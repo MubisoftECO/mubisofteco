@@ -1,7 +1,7 @@
 package org.eco.mubisoft.good_and_cheap.metric.statistic;
 
-
-
+import lombok.extern.slf4j.Slf4j;
+import org.eco.mubisoft.good_and_cheap.metric.domain.model.Metric;
 import org.eco.mubisoft.good_and_cheap.metric.domain.service.MetricService;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.springframework.stereotype.Component;
@@ -11,17 +11,18 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+@Slf4j
 @Component
 public class ActionCounter {
 
-
-    private MetricService metricService;
+    private final MetricService metricService;
 
     public ActionCounter(MetricService metricService) {
         this.metricService = metricService;
     }
 
     public void increment(AppUser appUser, String buttonName) {
+        log.info("Storing {} user pressing button {}", appUser.getId(), buttonName);
         record(1, appUser, buttonName);
     }
 
@@ -36,7 +37,6 @@ public class ActionCounter {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         metricService.setMetric(buttonName, (int) count,date,appUser);
     }
 

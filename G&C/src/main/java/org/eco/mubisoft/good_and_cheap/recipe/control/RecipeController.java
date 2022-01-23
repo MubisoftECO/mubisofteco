@@ -3,8 +3,6 @@ package org.eco.mubisoft.good_and_cheap.recipe.control;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.application.pages.PageManager;
-import org.eco.mubisoft.good_and_cheap.application.security.TokenService;
-import org.eco.mubisoft.good_and_cheap.metric.statistic.ActionCounter;
 import org.eco.mubisoft.good_and_cheap.product.domain.model.ProductType;
 import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductService;
 import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductTypeService;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
 
@@ -38,6 +35,8 @@ public class RecipeController {
 
     @GetMapping("/create")
     public String createRecipe(Model model){
+        log.info("Sending user create recipe form");
+
         model.addAttribute("flagList", flagService.getAllFlags());
         model.addAttribute("ingredientList", productTypeService.getAllProductTypes());
         model.addAttribute("measurementList", productService.getMeasurementUnits());
@@ -110,9 +109,10 @@ public class RecipeController {
         Integer nextPage;
         List<Recipe> recipeList;
 
-        if(keyword == null) keyword = "";
-
-        if(flags != null && !flags.isEmpty()){
+        if (keyword == null) {
+            keyword = "";
+        }
+        if (flags != null && !flags.isEmpty()){
             //Filtrar con flags
             List<Flag> flagObjectList = new ArrayList<>();
             flags.forEach(flagId -> flagObjectList.add(new Flag(Long.parseLong(flagId))));
@@ -121,7 +121,7 @@ public class RecipeController {
             recipeList = recipeService.getAllRecipesByFlagsWithTitleContaining(nextPage - 1,
                     flagObjectList, keyword);
         } else {
-            //Si no hay filtros
+            // No filters are present
             nextPage = PageManager.getPageNum(pageNum.orElse(null), (int) recipeService.countPages(keyword), direction);
             recipeList = recipeService.getAllRecipesWithTitleContaining(nextPage - 1, keyword);
         }
@@ -131,22 +131,29 @@ public class RecipeController {
         model.addAttribute("selectedFlags", flags != null ? flags : new ArrayList<Flag>());
         model.addAttribute("page", nextPage);
 
+        log.info("Sending user to recipe list view");
+
         return "recipe/recipe_list";
     }
 
     @GetMapping("view/{recipeId}")
     public String getRecipe(@PathVariable("recipeId") Long id, Model model) {
         Recipe recipe = recipeService.getRecipe(id);
+
+        log.info("Sending user to recipe {}", id);
         model.addAttribute("recipe", recipe);
-        /* Hay que ordenar la lista */
         model.addAttribute("steps", stepService.getStepsByRecipe(recipe));
+
         return "recipe/recipe_view";
     }
 
     @GetMapping("view/user/{recipeAuthor}")
     public String getRecipesByAuthor(@PathVariable("recipeAuthor") Long id, Model model){
         AppUser author = userService.getUser(id);
+
+        log.info("Sending to recipe list by user {}", id);
         model.addAttribute("recipeList", recipeService.getRecipesByAuthor(author));
+
         return "recipe/recipe_personal_list";
     }
 
@@ -154,23 +161,29 @@ public class RecipeController {
     @GetMapping("view/modify")
     public String getModifyRecipesByAuthor(Model model, HttpServletRequest request){
         AppUser author = userService.getLoggedUser(request);
+
+        log.info("Sending user {} to its recipe list", author.getId());
         model.addAttribute("recipeList", recipeService.getRecipesByAuthor(author));
+
         return "recipe/recipe_modify_list";
     }
 
     @GetMapping("modify/{recipeId}")
     public String editRecipe(@PathVariable("recipeId") Long id, Model model) {
         Recipe recipe = recipeService.getRecipe(id);
+
+        log.info("Sending user to modify recipe {}", id);
         model.addAttribute("flagList", flagService.getAllFlags());
         model.addAttribute("recipeIngredients", recipe.getIngredientList());
         model.addAttribute("ingredientList", productTypeService.getAllProductTypes());
         model.addAttribute("measurementList", productService.getMeasurementUnits());
+
         List <Long> selectedFlagList = new ArrayList<>();
         recipe.getRecipeFlags().forEach(flag -> selectedFlagList.add(flag.getId()));
         model.addAttribute("selectedFlagList", selectedFlagList);
         model.addAttribute("recipe", recipe);
-        /* Hay que ordenar la lista */
         model.addAttribute("steps", stepService.getStepsByRecipe(recipe));
+
         return "recipe/recipe_modify_view";
     }
 
@@ -178,15 +191,16 @@ public class RecipeController {
     public void removeRecipe (@PathVariable("recipeId") Long id, HttpServletResponse response) throws IOException {
         Recipe recipe = recipeService.getRecipe(id);
 
+        log.info("Deleting recipe {}", id);
         ingredientService.deleteRecipeIngredients(recipe);
         stepService.deleteRecipeSteps(recipe);
         recipeService.removeRecipe(id);
 
+        log.info("Redirecting to recipe list");
         response.setStatus(HttpServletResponse.SC_OK);
         response.sendRedirect(response.encodeRedirectURL("/recipe/view/modify"));
     }
 
-    /** INTERNAL FUNCTIONALITIES */
     private AppUser getLoggedUser(HttpServletRequest request){
         return userService.getLoggedUser(request);
     }

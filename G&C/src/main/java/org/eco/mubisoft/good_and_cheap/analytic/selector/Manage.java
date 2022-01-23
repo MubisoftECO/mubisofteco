@@ -13,42 +13,34 @@ public class Manage {
     public Map<String, List<ProductDto>> simpleMapProduct(Function<ProductDto, String> selector, List<ProductDto> list) {
         Map<String, List<ProductDto>> group = new HashMap<>();
 
-        for(Iterator<ProductDto> iterator = list.iterator(); iterator.hasNext();) {
-            ProductDto details = (ProductDto) iterator.next();
-
+        for (ProductDto details : list) {
             String key = selector.apply(details);
-
             List<ProductDto> dtoList = group.get(key);
 
-            if(dtoList == null) {
+            if (dtoList == null) {
                 dtoList = new ArrayList<>();
             }
 
             dtoList.add(details);
             group.put(key, dtoList);
         }
-
         return  group;
     }
 
     public Map<String, List<SalesBalanceDetail>> simpleMapSalesBalance(Function<SalesBalanceDetail, String> selector, List<SalesBalanceDetail> list) {
         Map<String, List<SalesBalanceDetail>> group = new HashMap<>();
 
-        for(Iterator<SalesBalanceDetail> iterator = list.iterator(); iterator.hasNext();) {
-            SalesBalanceDetail salesBalance = (SalesBalanceDetail) iterator.next();
-
+        for (SalesBalanceDetail salesBalance : list) {
             String key = selector.apply(salesBalance);
-
             List<SalesBalanceDetail> productListSelector = group.get(key);
 
-            if(productListSelector == null) {
+            if (productListSelector == null) {
                 productListSelector = new ArrayList<>();
             }
             productListSelector.add(salesBalance);
 
-            group.put(key,productListSelector);
+            group.put(key, productListSelector);
         }
-
         return  group;
     }
 
