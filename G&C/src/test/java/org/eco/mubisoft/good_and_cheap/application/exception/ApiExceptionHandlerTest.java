@@ -62,7 +62,7 @@ class ApiExceptionHandlerTest {
     }
 
     @Test
-    public void getErrorPage() {
+    void getErrorPage() {
         Arrays.asList("403", "404", "500", "600").forEach(errorID -> {
             try {
                 mockMvc.perform(get("/problem/" + errorID)

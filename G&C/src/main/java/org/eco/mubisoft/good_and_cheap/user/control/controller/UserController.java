@@ -131,7 +131,7 @@ public class UserController {
     }
 
     @GetMapping("/info")
-    public String getUser(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String getUser(Model model, HttpServletRequest request) {
         AppUser loggedUser = userService.getLoggedUser(request);
         String page = "/problem/error_403";
 

@@ -64,8 +64,8 @@ public class TokenService {
         );
     }
 
-    public User getUserFromToken(String authToken) {
-        String token = authToken.substring("Bearer ".length());
+    public User getUserFromToken(String userToken) {
+        String token = userToken.substring("Bearer ".length());
         DecodedJWT decodedJWT = verifier.verify(token);
 
         String username = decodedJWT.getSubject();

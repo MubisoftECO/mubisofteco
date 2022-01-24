@@ -18,15 +18,10 @@ public class MetricController {
     private final UserService userService;
     private final ActionCounter actionCounter;
 
-
-    @PostMapping("/counter")
     @ResponseBody
+    @PostMapping("/counter")
     public void  getButtonName(@RequestParam(name= "id") String id, HttpServletRequest request) {
         AppUser user = userService.getLoggedUser(request);
-        if (user == null) {
-            actionCounter.increment(null,id);
-        } else {
-            actionCounter.increment(user,id);
-        }
+        actionCounter.increment(user,id);
     }
 }

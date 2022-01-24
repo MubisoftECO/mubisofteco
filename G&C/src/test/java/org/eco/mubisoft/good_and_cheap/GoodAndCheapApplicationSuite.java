@@ -9,5 +9,5 @@ import org.junit.platform.suite.api.SuiteDisplayName;
         "org.eco.mubisoft.good_and_cheap.application"
 })
 @SuiteDisplayName("Good and Cheap application's tests")
-public class GoodAndCheapApplicationTest {
+public class GoodAndCheapApplicationSuite {
 }

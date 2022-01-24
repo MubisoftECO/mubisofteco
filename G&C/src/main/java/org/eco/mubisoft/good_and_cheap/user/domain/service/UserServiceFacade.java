@@ -199,7 +199,6 @@ public class UserServiceFacade implements UserService, UserDetailsService {
         while(userBuffer.getBufferSize() > 0) {
             list.add(userBuffer.get());
         }
-
         return list;
     }
 }
