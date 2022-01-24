@@ -1,5 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.user.thread;
 
+import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.thread.ThreadBufferDefinition;
 import org.eco.mubisoft.good_and_cheap.thread.ThreadCapacityDefinition;
 import org.springframework.stereotype.Component;
@@ -7,10 +8,12 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Component
 public class UserBuffer extends ThreadBufferDefinition<Long> {
 
-    private List<Long> buffer;
+    private final List<Long> buffer;
+
     public UserBuffer() {
         super();
         this.buffer = new ArrayList<>();
@@ -23,7 +26,8 @@ public class UserBuffer extends ThreadBufferDefinition<Long> {
             try {
                 this.getIsFull().await();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.warn("UserBuffer was interrupted while saving an element.");
+                break;
             }
         }
         if(!buffer.contains(id)) {
@@ -37,11 +41,13 @@ public class UserBuffer extends ThreadBufferDefinition<Long> {
     public Long get() {
         Long value = null;
         this.getMutex().lock();
+
         while(buffer.size() == 0) {
             try {
                 this.getIsEmpty().await();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.warn("UserBuffer was interrupted while getting an element.");
+                break;
             }
         }
         value = buffer.remove(0);

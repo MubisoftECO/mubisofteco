@@ -20,7 +20,7 @@ public class UserProducer implements Runnable {
         long start = System.currentTimeMillis();
         log.info("(TASK STARTS) ID from DB to LIST {}", Thread.currentThread().getName());
         List<Long> list = userService.getIdListFromDB(city);
-        list.forEach(v -> userService.setIdListToBuffer(v.longValue()));
+        list.forEach(v -> userService.setIdListToBuffer(v));
         log.info("(TASK ENDS) ID from DB to LIST {}", Thread.currentThread().getName());
         long end = System.currentTimeMillis();
         log.info("Total time {}", (end -start));

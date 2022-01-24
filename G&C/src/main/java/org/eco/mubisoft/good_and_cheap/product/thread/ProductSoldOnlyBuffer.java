@@ -1,5 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.product.thread;
 
+import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.product.dto.ProductSoldOnlyDto;
 import org.eco.mubisoft.good_and_cheap.thread.ThreadBufferDefinition;
 import org.eco.mubisoft.good_and_cheap.thread.ThreadCapacityDefinition;
@@ -8,9 +9,11 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Component
 public class ProductSoldOnlyBuffer extends ThreadBufferDefinition<ProductSoldOnlyDto> {
-    private List<ProductSoldOnlyDto> buffer;
+
+    private final List<ProductSoldOnlyDto> buffer;
 
     public ProductSoldOnlyBuffer() {
         buffer = new ArrayList<>();
@@ -23,7 +26,7 @@ public class ProductSoldOnlyBuffer extends ThreadBufferDefinition<ProductSoldOnl
             try {
                 this.getIsFull().await();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.warn("ProductSoldOnlyBuffer was interrupted while saving an element.");
             }
         }
         this.buffer.add(productSoldOnlyDto);
@@ -39,7 +42,7 @@ public class ProductSoldOnlyBuffer extends ThreadBufferDefinition<ProductSoldOnl
             try {
                 this.getIsEmpty().await();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.warn("ProductSoldOnlyBuffer was interrupted while getting an element.");
             }
         }
         value = buffer.remove(0);

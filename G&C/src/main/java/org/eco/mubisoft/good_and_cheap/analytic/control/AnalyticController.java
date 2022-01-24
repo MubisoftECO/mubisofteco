@@ -7,8 +7,6 @@ import org.eco.mubisoft.good_and_cheap.analytic.domain.business.model.Business;
 import org.eco.mubisoft.good_and_cheap.analytic.domain.most_least.model.MostLeastSold;
 import org.eco.mubisoft.good_and_cheap.analytic.domain.sales_balance.model.SalesBalance;
 import org.eco.mubisoft.good_and_cheap.analytic.service.AnalyticService;
-import org.eco.mubisoft.good_and_cheap.application.security.TokenService;
-import org.eco.mubisoft.good_and_cheap.metric.statistic.ActionCounter;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -32,6 +30,7 @@ import java.util.concurrent.ExecutionException;
 @RequestMapping("/analytic")
 @RequiredArgsConstructor
 public class AnalyticController {
+
     private final AnalyticService analyticService;
     private final UserService userService;
     private AppUser user;
@@ -47,7 +46,7 @@ public class AnalyticController {
     private final int MAX_REQUEST_REFRESH = 2;
 
     @GetMapping("/options")
-    public void displayOptions(HttpServletRequest request, HttpServletResponse response) throws InterruptedException, IOException {
+    public void displayOptions(HttpServletRequest request, HttpServletResponse response) throws IOException {
         user = getLoggedUser(request);
 
         if (user != null) {
@@ -97,13 +96,13 @@ public class AnalyticController {
                 Double values = entry.getValue();
                 switch (key) {
                     case "SOLD":
-                        sold.add(values.doubleValue());
+                        sold.add(values);
                         break;
                     case "EXPIRED":
-                        expired.add(values.doubleValue());
+                        expired.add(values);
                         break;
                     case "OTHER":
-                        other.add(values.doubleValue());
+                        other.add(values);
                         break;
                 }
             }

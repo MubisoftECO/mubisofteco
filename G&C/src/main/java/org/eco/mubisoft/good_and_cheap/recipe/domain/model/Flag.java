@@ -25,4 +25,10 @@ public class Flag {
         this.id = id;
     }
 
+    public Flag(String nameEs, String nameEn, String nameEu) {
+        this.nameEs = nameEs;
+        this.nameEn = nameEn;
+        this.nameEu = nameEu;
+    }
+
 }

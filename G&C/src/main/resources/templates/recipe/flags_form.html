@@ -9,11 +9,18 @@
     <!-- Main -->
     <form action="/flag/save" method="post">
         <table>
+            <caption>Create flag table</caption>
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Input</th>
+                </tr>
+            </thead>
             <tbody>
-            <tr>
-                <td><label for="name_en">Flag name</label></td>
-                <td><input type="text" id="name_en" name="name"></td>
-            </tr>
+                <tr>
+                    <td><label for="name_en">Flag name</label></td>
+                    <td><input type="text" id="name_en" name="name"></td>
+                </tr>
             </tbody>
         </table>
         <input type="submit" value="Submit">

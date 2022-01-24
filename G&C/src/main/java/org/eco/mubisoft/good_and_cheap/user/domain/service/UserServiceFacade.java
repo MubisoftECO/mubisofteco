@@ -66,11 +66,7 @@ public class UserServiceFacade implements UserService, UserDetailsService {
     @Override
     public List<AppUser> getAllUsers(){
         log.info("Fetching all the users from the database");
-        List<AppUser> userList = userRepo.findAll();
-        if (userList == null){
-            userList = new ArrayList<>();
-        }
-        return userList;
+        return userRepo.findAll();
     }
 
     @Override

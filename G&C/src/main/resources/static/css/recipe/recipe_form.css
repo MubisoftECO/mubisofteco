@@ -45,3 +45,57 @@ input[type="button"].btn-remove {
   margin-left: 1rem;
   min-width: 100px;
 }
+
+/* Size dependant styling */
+div.row {
+  flex-direction: column;
+}
+
+div.image {
+  width: 100%;
+  border-top: 0.25rem ;
+}
+
+div#recipe-information {
+  width: 100%;
+}
+
+div#recipe-image {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+@media (min-width: 720px) {
+
+  div.row {
+    flex-direction: row;
+  }
+
+  div#recipe-information {
+    flex: 0 0 auto;
+    width: 66.66666667%;
+  }
+
+  div#recipe-image {
+    flex: 0 0 auto;
+    width: 33.33333333%;
+  }
+  
+}
+
+@media (min-width: 1024px) {
+
+  div#recipe-information {
+    width: 75%;
+  }
+
+  div#recipe-image {
+    width: 25%;
+  }
+
+  img.card-img {
+    max-width: 75%;
+    max-height: 75%;
+  }
+
+}

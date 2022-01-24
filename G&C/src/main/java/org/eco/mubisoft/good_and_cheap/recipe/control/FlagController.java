@@ -20,14 +20,20 @@ public class FlagController {
 
     private final FlagService flagService;
 
-    /*-------FORMULARIO DE FLAGS-------*/
     @GetMapping("/create")
-    public String setFlagForm(){return "/recipe/flags_form";}
+    public String setFlagForm() {
+        return "/recipe/flags_form";
+    }
 
     @PostMapping("/save")
-    public void setRecipeFlag(HttpServletRequest request, HttpServletResponse response){
-        flagService.saveFlag(new Flag(null, null, request.getParameter("name"), null));
+    public void setRecipeFlag(HttpServletRequest request) {
+        flagService.saveFlag(
+                new Flag (
+                        request.getParameter("name"),
+                        request.getParameter("name"),
+                        request.getParameter("name")
+                )
+        );
     }
-    /*----------------------------------------------*/
 
 }

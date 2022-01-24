@@ -14,13 +14,10 @@ import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductService;
 import org.eco.mubisoft.good_and_cheap.product.dto.ProductDto;
 import org.eco.mubisoft.good_and_cheap.product.dto.ProductSoldOnlyDto;
 import org.eco.mubisoft.good_and_cheap.product.thread.*;
-import org.eco.mubisoft.good_and_cheap.thread.ThreadCapacityDefinition;
 import org.eco.mubisoft.good_and_cheap.thread.ThreadExecutorService;
 import org.eco.mubisoft.good_and_cheap.thread.ThreadInitializer;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.service.UserService;
-import org.eco.mubisoft.good_and_cheap.user.thread.UserConsumer;
-import org.eco.mubisoft.good_and_cheap.user.thread.UserProducer;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -58,9 +55,9 @@ public class AnalyticServiceFacade implements AnalyticService{
 
         ThreadExecutorService.INSTANCE.getExecutorService().execute(() -> {
             log.info("(TASK STARTS) PRODUCT (EXPIRED|SOLD|OTHER) INFORMATION from DB to LIST {}", Thread.currentThread().getName());
-            for (int i = 0; i < list.size(); i++) {
+            for (Runnable runnable : list) {
                 log.info("RUNNABLE EXECUTING..");
-                list.get(i).run();
+                runnable.run();
             }
             log.info("(TASK ENDS) PRODUCT (EXPIRED|SOLD|OTHER) INFORMATION from DB to LIST {}", Thread.currentThread().getName());
         });
@@ -73,9 +70,8 @@ public class AnalyticServiceFacade implements AnalyticService{
         Future<List<ProductDto>> futureProductDtoList = ThreadExecutorService.INSTANCE.getExecutorService().submit(new ProductTypeConsumer(productService));
         List<ProductDto> productDtoList = futureProductDtoList.get();
         collectAllToProductDto(productDtoList, lang);
-        List<SalesBalance> salesBalanceList = salesBalanceService.getSalesListFromBuffer();
 
-        return salesBalanceList;
+        return salesBalanceService.getSalesListFromBuffer();
     }
 
     public List<Business> displayMyBusiness(String lang) throws ExecutionException, InterruptedException {
@@ -91,7 +87,7 @@ public class AnalyticServiceFacade implements AnalyticService{
         for (Map.Entry<String,List<ProductDto>> entry : percentageList) {
             String key = entry.getKey();
             List<ProductDto> dtoList = entry.getValue();
-            Double total = Double.valueOf(0);
+            Double total = (double) 0;
             for (ProductDto p: dtoList) {
                 total+= p.getTotal();
             }
@@ -106,7 +102,7 @@ public class AnalyticServiceFacade implements AnalyticService{
                     key = reasonLanguage(lang,"SOLD");
                     break;
             }
-            Business businessDetail = new Business(key, new Double(String.valueOf(new BigDecimal(total).setScale(2, RoundingMode.HALF_UP))));
+            Business businessDetail = new Business(key, new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue());
             if (!businessDetailList.contains(businessDetail)) {
                 businessDetailList.add(businessDetail);
             }
@@ -132,9 +128,9 @@ public class AnalyticServiceFacade implements AnalyticService{
         List<Runnable> list = ThreadInitializer.getListProductMostLeast();
         ThreadExecutorService.INSTANCE.getExecutorService().execute(() -> {
             log.info("(TASK STARTS) PRODUCT (MOST| LEAST) INFORMATION from DB to LIST {}", Thread.currentThread().getName());
-            for (int i = 0; i < list.size(); i++) {
+            for (Runnable runnable : list) {
                 log.info("RUNNABLE EXECUTING..");
-                list.get(i).run();
+                runnable.run();
             }
             log.info("(TASK ENDS) PRODUCT (MOST| LEAST) INFORMATION from DB to LIST {}", Thread.currentThread().getName());
         });
@@ -147,12 +143,10 @@ public class AnalyticServiceFacade implements AnalyticService{
         Future<List<MostLeastSold>> futureMostLeastList = ThreadExecutorService.INSTANCE.getExecutorService().submit(new ProductMostLeastConsumer(productService));
         List<MostLeastSold> productMostLeastDtoList = futureMostLeastList.get();
 
-        List<MostLeastSold> list = productMostLeastDtoList.stream()
+        return productMostLeastDtoList.stream()
                 .filter(m -> m.getType() == MostLeastSoldType.BOTTOM)
                 .sorted(Comparator.comparing(MostLeastSold::getOrder))
                 .collect(Collectors.toList());
-
-        return list;
     }
 
     @Override
@@ -160,12 +154,10 @@ public class AnalyticServiceFacade implements AnalyticService{
         Future<List<MostLeastSold>> futureMostLeastList = ThreadExecutorService.INSTANCE.getExecutorService().submit(new ProductMostLeastConsumer(productService));
         List<MostLeastSold> productMostLeastDtoList = futureMostLeastList.get();
 
-        List<MostLeastSold> list = productMostLeastDtoList.stream()
+        return productMostLeastDtoList.stream()
                 .filter(m -> m.getType() == MostLeastSoldType.TOP)
                 .sorted(Comparator.comparing(MostLeastSold::getOrder))
                 .collect(Collectors.toList());
-
-        return list;
     }
 
     /** NEEDED FUNCTIONALITIES */
@@ -175,8 +167,11 @@ public class AnalyticServiceFacade implements AnalyticService{
         List<SalesBalanceDetail> saleList = new ArrayList<>();
 
         products.forEach(
-                (k,v) ->
-                        v.forEach( s -> saleList.add(new SalesBalanceDetail(productLanguage(lang,s),s.getReason(), calculatePercentage(s.getTotal(), v.stream().collect(Collectors.summingDouble(ProductDto::getTotal)))))
+                (k,v) -> v.forEach( s -> saleList.add(
+                        new SalesBalanceDetail(
+                                productLanguage(lang,s),s.getReason(),
+                                calculatePercentage(s.getTotal(),
+                                        v.stream().mapToDouble(ProductDto::getTotal).sum())))
                         )
         );
 
@@ -196,7 +191,7 @@ public class AnalyticServiceFacade implements AnalyticService{
     }
 
     private String productLanguage(String lang, ProductDto productDto) {
-        String name  = null;
+        String name;
 
         switch (lang) {
             case "ES":
@@ -207,7 +202,6 @@ public class AnalyticServiceFacade implements AnalyticService{
                 break;
             default:
                 name =  productDto.getNameEn();
-
         }
         return name;
     }

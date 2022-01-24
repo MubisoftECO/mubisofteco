@@ -10,7 +10,7 @@
 <main  class="container">
     <h1 class="badge bg-secondary">USER INFO</h1>
     <h2>Hi, [[${user.getName}]]</h2>
-    <img th:src="@{${user.getImagePath}}" />
+    <img th:src="@{${user.getImagePath()}}" alt="User profile picture"/>
 </main>
 <!-- Footer -->
 <footer th:replace="includes/footer :: footer"></footer>

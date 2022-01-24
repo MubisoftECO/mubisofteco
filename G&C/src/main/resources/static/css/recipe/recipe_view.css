@@ -76,6 +76,7 @@ a:link, a:visited, a:active{
 
 
 @media (min-width: 576px) {
+
     #card-container{
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -89,12 +90,15 @@ a:link, a:visited, a:active{
     .recipe_card{
         height: 100%;
     }
+
 }
 
 @media (min-width: 720px) {
+
     #card-container{
         grid-template-columns: repeat(3, 1fr);
     }
+
 }
 
 

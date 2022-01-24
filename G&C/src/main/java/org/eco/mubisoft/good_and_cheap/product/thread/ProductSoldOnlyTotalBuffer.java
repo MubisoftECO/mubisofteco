@@ -1,5 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.product.thread;
 
+import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.analytic.domain.most_least.model.MostLessSoldDetail;
 import org.eco.mubisoft.good_and_cheap.thread.ThreadBufferDefinition;
 import org.eco.mubisoft.good_and_cheap.thread.ThreadCapacityDefinition;
@@ -8,10 +9,11 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Component
 public class ProductSoldOnlyTotalBuffer extends ThreadBufferDefinition<MostLessSoldDetail> {
 
-    private List<MostLessSoldDetail> buffer;
+    private final List<MostLessSoldDetail> buffer;
 
     public ProductSoldOnlyTotalBuffer() {
          super();
@@ -25,7 +27,7 @@ public class ProductSoldOnlyTotalBuffer extends ThreadBufferDefinition<MostLessS
             try {
                 this.getIsFull().await();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.warn("ProductSoldOnlyTotalBuffer was interrupted while saving an element.");
             }
         }
         this.buffer.add(mostLessSoldDetail);
@@ -41,7 +43,7 @@ public class ProductSoldOnlyTotalBuffer extends ThreadBufferDefinition<MostLessS
             try {
                 this.getIsEmpty().await();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.warn("ProductSoldOnlyTotalBuffer was interrupted while getting an element.");
             }
         }
         value = buffer.remove(0);

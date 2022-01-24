@@ -25,9 +25,13 @@ public class IngredientId implements Serializable {
 
     @Override
     public boolean equals(Object object){
-        IngredientId id = (IngredientId) object;
+        if (object == null || object.getClass() != this.getClass()) {
+            return false;
+        }
         try{
-            return (Objects.equals(id.getProductType(), this.getProductType())) && (Objects.equals(id.getRecipe(), this.getRecipe()));
+            IngredientId id = (IngredientId) object;
+            return (Objects.equals(id.getProductType(), this.getProductType()))
+                    && (Objects.equals(id.getRecipe(), this.getRecipe()));
         } catch (NullPointerException e){
             return false;
         }
