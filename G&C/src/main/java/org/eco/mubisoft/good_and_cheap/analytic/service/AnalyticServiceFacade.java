@@ -102,12 +102,11 @@ public class AnalyticServiceFacade implements AnalyticService{
                     key = reasonLanguage(lang,"SOLD");
                     break;
             }
-            Business businessDetail = new Business(key, new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue());
+            Business businessDetail = new Business(key, BigDecimal.valueOf(total).setScale(2, RoundingMode.HALF_UP).doubleValue());
             if (!businessDetailList.contains(businessDetail)) {
                 businessDetailList.add(businessDetail);
             }
         }
-
         return businessDetailList;
     }
 

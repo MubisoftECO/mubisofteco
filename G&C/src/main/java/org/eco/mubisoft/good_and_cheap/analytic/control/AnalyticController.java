@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +42,7 @@ public class AnalyticController {
     private List<String> productName;
     private List<String> reason;
     private List<Double> total;
-    private final int MAX_REQUEST_REFRESH = 2;
+    private static final int MAX_REQUEST_REFRESH = 2;
 
     @GetMapping("/options")
     public void displayOptions(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -103,6 +102,8 @@ public class AnalyticController {
                         break;
                     case "OTHER":
                         other.add(values);
+                        break;
+                    default:
                         break;
                 }
             }
