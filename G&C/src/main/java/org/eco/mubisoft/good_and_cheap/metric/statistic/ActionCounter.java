@@ -39,7 +39,7 @@ public class ActionCounter {
         try {
             date = format.parse(strDate);
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
         metricService.setMetric(buttonName, (int) count,date,appUser);
     }
