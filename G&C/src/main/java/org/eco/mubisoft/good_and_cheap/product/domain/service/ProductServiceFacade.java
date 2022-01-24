@@ -108,7 +108,7 @@ public class ProductServiceFacade implements ProductService {
         query.setParameter(1, id);
         query.setParameter(2,reason);
 
-        return (List<ProductDto>) query.getResultList();
+        return query.getResultList();
     }
 
     @Override
@@ -125,7 +125,7 @@ public class ProductServiceFacade implements ProductService {
         Query query = entityManager.createNativeQuery("SELECT pt.name_en as 'nameEn', pt.name_es as 'nameEs', pt.name_eu as 'nameEu', p.price as 'price', p.quantity as 'quantity' FROM product p JOIN product_type pt on pt.id = p.product_type_id JOIN app_user au on p.vendor_id = au.id JOIN location l on au.location_id = l.id JOIN city c on l.city_id = c.id WHERE (p.remove_reason = 'SOLD') AND (c.name = ?1)","ProductMostLessMapping");
         query.setParameter(1,city);
 
-        return (List<ProductSoldOnlyDto>) query.getResultList();
+        return query.getResultList();
     }
 
     @Override

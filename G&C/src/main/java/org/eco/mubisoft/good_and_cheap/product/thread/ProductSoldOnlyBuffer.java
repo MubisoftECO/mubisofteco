@@ -22,12 +22,12 @@ public class ProductSoldOnlyBuffer extends ThreadBufferDefinition<ProductSoldOnl
     @Override
     public void put(ProductSoldOnlyDto productSoldOnlyDto) throws InterruptedException {
         this.getMutex().lock();
-        if(buffer.size() == ThreadCapacityDefinition.MAX_PRODUCT_CAPACITY) {
+        while (buffer.size() == ThreadCapacityDefinition.MAX_PRODUCT_CAPACITY) {
             try {
                 this.getIsFull().await();
             } catch (InterruptedException e) {
                 log.warn("ProductSoldOnlyBuffer was interrupted while saving an element.");
-                throw new InterruptedException("ProductSoldOnlyBuffer was interrupted while saving an element.");
+                break;
             }
         }
         this.buffer.add(productSoldOnlyDto);
@@ -39,12 +39,12 @@ public class ProductSoldOnlyBuffer extends ThreadBufferDefinition<ProductSoldOnl
     public ProductSoldOnlyDto get() throws InterruptedException {
         ProductSoldOnlyDto value;
         this.getMutex().lock();
-        if(buffer.size() == 0) {
+        while (buffer.isEmpty()) {
             try {
                 this.getIsEmpty().await();
             } catch (InterruptedException e) {
                 log.warn("ProductSoldOnlyBuffer was interrupted while getting an element.");
-                throw new InterruptedException("ProductSoldOnlyBuffer was getting while saving an element.");
+                break;
             }
         }
         value = buffer.remove(0);
