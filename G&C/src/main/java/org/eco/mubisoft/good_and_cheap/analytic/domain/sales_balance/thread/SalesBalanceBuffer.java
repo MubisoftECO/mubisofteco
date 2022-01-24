@@ -25,12 +25,7 @@ public class SalesBalanceBuffer extends ThreadBufferDefinition<SalesBalance> {
     public void put(SalesBalance salesBalance) throws InterruptedException {
         this.getMutex().lock();
         while(buffer.size() == ThreadCapacityDefinition.MAX_SALES_BALANCE_CAPACITY) {
-            try {
-                this.getIsFull().await();
-            } catch (InterruptedException e) {
-                log.warn("SalesBalanceBuffer was interrupted while saving an element.");
-                Thread.currentThread().interrupt();
-            }
+            this.getIsFull().await();
         }
         buffer.add(salesBalance);
         this.getIsEmpty().signal();
@@ -42,12 +37,7 @@ public class SalesBalanceBuffer extends ThreadBufferDefinition<SalesBalance> {
         SalesBalance value;
         this.getMutex().lock();
         while(buffer.isEmpty()) {
-            try {
-                this.getIsEmpty().await();
-            } catch (InterruptedException e) {
-                log.warn("SalesBalanceBuffer was interrupted while getting an element.");
-                Thread.currentThread().interrupt();
-            }
+            this.getIsEmpty().await();
         }
         value = buffer.remove(0);
         this.getIsFull().signal();

@@ -1,5 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.user.domain.service;
 
+import antlr.actions.python.CodeLexer;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -184,7 +185,11 @@ public class UserServiceFacade implements UserService, UserDetailsService {
 
     @Override
     public void setIdListToBuffer(Long id) {
-        userBuffer.put(id);
+        try {
+            userBuffer.put(id);
+        } catch (InterruptedException e) {
+            log.error(e.getMessage());
+        }
     }
 
     @Override
@@ -192,7 +197,11 @@ public class UserServiceFacade implements UserService, UserDetailsService {
         List<Long> list = new ArrayList<>();
 
         while(userBuffer.getBufferSize() > 0) {
-            list.add(userBuffer.get());
+            try {
+                list.add(userBuffer.get());
+            } catch (InterruptedException e) {
+                log.error(e.getMessage());
+            }
         }
         return list;
     }

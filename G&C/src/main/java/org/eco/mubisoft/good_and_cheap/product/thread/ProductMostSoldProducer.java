@@ -10,9 +10,8 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ProductMostSoldProducer implements Runnable {
-
-    private final ProductService productService;
-    private final List<MostLessSoldDetail> productMostLessSoldDetailList;
+    private ProductService productService;
+    List<MostLessSoldDetail> productMostLessSoldDetailList;
 
     public ProductMostSoldProducer(ProductService productService, List<MostLessSoldDetail> productMostLessSoldDetailList) {
         this.productService = productService;
@@ -21,7 +20,7 @@ public class ProductMostSoldProducer implements Runnable {
 
     @Override
     public void run() {
-        List<MostLessSoldDetail> list;
+        List<MostLessSoldDetail> list = null;
         List<MostLeastSold>  topList = new ArrayList<>();
         AtomicInteger i = new AtomicInteger();
 
