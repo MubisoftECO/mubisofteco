@@ -45,7 +45,7 @@ public class RecipeController {
     }
 
     @PostMapping("/save")
-    public String saveRecipe(HttpServletRequest request, HttpServletResponse response){
+    public String saveRecipe(HttpServletRequest request) {
         Recipe recipe = new Recipe();
 
         // Basic fields
@@ -56,44 +56,56 @@ public class RecipeController {
         recipe.setLanguage("ES");
 
         // Get the user.
-        AppUser loggedUser = getLoggedUser(request);
+        AppUser loggedUser = userService.getLoggedUser(request);
         recipe.setAuthor(loggedUser);
 
         // Flags
-        List<String> flags = Arrays.asList(request.getParameterValues("flag"));
-        Collection<Flag> flagList = new ArrayList<>();
+        try {
+            List<String> flags = Arrays.asList(request.getParameterValues("flag"));
+            Collection<Flag> flagList = new ArrayList<>();
 
-        flags.forEach(flagID -> flagList.add(flagService.getFlag(Long.parseLong(flagID))));
-        recipe.setRecipeFlags(flagList);
-
+            flags.forEach(flagID -> {
+                flagList.add(flagService.getFlag(Long.parseLong(flagID)));
+            });
+            recipe.setRecipeFlags(flagList);
+        } catch (NullPointerException e) {
+            log.info("No flags were found.");
+        }
         // Save the recipe
         Recipe savedRecipe = recipeService.saveRecipe(recipe);
 
-        // Ingredients
-        List<String> ingredients = Arrays.asList(request.getParameterValues("ingredient"));
-        List<String> quantity = Arrays.asList(request.getParameterValues("quantity"));
+        try {
+            // Ingredients
+            List<String> ingredients = Arrays.asList(request.getParameterValues("ingredient"));
+            List<String> quantity = Arrays.asList(request.getParameterValues("quantity"));
 
-        ingredients.forEach(ingID -> {
-            ProductType pt = productTypeService.getProductType(Long.parseLong(ingID));
-            Ingredient ingredient = new Ingredient(
-                    new IngredientId(recipe.getId(), pt.getId()),
-                    savedRecipe, pt,
-                    Integer.parseInt(quantity.get(ingredients.indexOf(ingID)))
-            );
-            ingredientService.saveIngredient(ingredient);
-        });
+            ingredients.forEach(ingID -> {
+                ProductType pt = productTypeService.getProductType(Long.parseLong(ingID));
+                Ingredient ingredient = new Ingredient(
+                        new IngredientId(recipe.getId(), pt.getId()),
+                        savedRecipe, pt,
+                        Integer.parseInt(quantity.get(ingredients.indexOf(ingID)))
+                );
+                ingredientService.saveIngredient(ingredient);
+            });
+        } catch (NullPointerException e) {
+            log.info("No ingredients were found.");
+        }
 
-        // Steps
-        List<String> steps = Arrays.asList(request.getParameterValues("step"));
-        steps.forEach(stepValue -> {
-            Step step = new Step(
-                    steps.indexOf(stepValue),
-                    stepValue, savedRecipe
-            );
-            stepService.insertStep(step);
-        });
-
-        return "redirect:/recipe/view";
+        try {
+            // Steps
+            List<String> steps = Arrays.asList(request.getParameterValues("step"));
+            steps.forEach(stepValue -> {
+                Step step = new Step(
+                        steps.indexOf(stepValue),
+                        stepValue, savedRecipe
+                );
+                stepService.insertStep(step);
+            });
+        } catch (NullPointerException e) {
+            log.info("No steps were found");
+        }
+        return "redirect:/recipe/view/" + savedRecipe.getId();
     }
 
     @GetMapping("/view")
@@ -158,11 +170,17 @@ public class RecipeController {
 
     @GetMapping("view/modify")
     public String getModifyRecipesByAuthor(Model model, HttpServletRequest request){
-        AppUser author = userService.getLoggedUser(request);
-
-        log.info("Sending user {} to its recipe list", author.getId());
-        model.addAttribute("recipeList", recipeService.getRecipesByAuthor(author));
-
+        try {
+            AppUser author = userService.getLoggedUser(request);
+            if (author == null) {
+                throw new NullPointerException("Author is null");
+            }
+            log.info("Sending user {} to its recipe list", author.getId());
+            model.addAttribute("recipeList", recipeService.getRecipesByAuthor(author));
+        } catch (NullPointerException e) {
+            log.info("{}, redirecting to recipe list", e.getMessage());
+            return "recipe/recipe_list";
+        }
         return "recipe/recipe_modify_list";
     }
 
@@ -199,7 +217,4 @@ public class RecipeController {
         response.sendRedirect(response.encodeRedirectURL("/recipe/view/modify"));
     }
 
-    private AppUser getLoggedUser(HttpServletRequest request){
-        return userService.getLoggedUser(request);
-    }
 }

@@ -79,7 +79,8 @@ public class ProductController {
             Model model,
             @RequestParam(value = "page") Optional<Integer> pageNum,
             @RequestParam(value = "page-move", required = false) String direction
-            ) {
+            )
+    {
         Integer nextPage = PageManager.getPageNum(pageNum.orElse(null), (int) productService.countPages(), direction);
         List<Product> list = productService.getAllProducts(nextPage - 1);
 
@@ -91,7 +92,7 @@ public class ProductController {
 
 
     @GetMapping("/view/{product_id}")
-    public String viewProduct(Model model, @PathVariable(value = "product_id") long id, HttpServletRequest request) {
+    public String viewProduct(Model model, @PathVariable(value = "product_id") long id) {
         Product product = productService.getProduct(id);
         model.addAttribute("product", product);
 

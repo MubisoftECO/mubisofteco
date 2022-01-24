@@ -84,6 +84,7 @@ public class ApiExceptionHandler implements ErrorController {
                 case "403": viewURL = "/problem/error_403"; break;
                 case "404": viewURL = "/problem/error_404"; break;
                 case "500": viewURL = "/problem/error_500"; break;
+                default: break;
             }
         }
         log.info("Sending to {}", viewURL);

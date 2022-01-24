@@ -14,7 +14,7 @@
         <!-- Main -->
         <main  class="container">
         <div class="product_view_center">
-            <th:block th:if="${#strings.isEmpty(product.getProductType().getImgSrc())}">
+            <th:block th:if="${product.getProductType() == null || #strings.isEmpty(product.getProductType().getImgSrc())}">
                 <img th:src="@{'/media/imgs/product/gc_bag.png'}" alt="Product icon" class="product_image item1">
             </th:block>
             <th:block th:unless="${#strings.isEmpty(product.getProductType().getImgSrc())}">
@@ -35,16 +35,14 @@
                 <a class="btn btn-dark" th:href="'/recipe/view?keyword='+${product.getNameEn()}">RECIPIES</a>
             </div>
 
-            <div class="item3">
+            <div class="item3" th:if="${product.getVendor() != null}">
                 <div class="product_view_horizontal_bajo" >
-
                     <th:block th:if="${#strings.isEmpty(product.getVendor().getImagePath())}">
                         <img th:src="@{'/media/imgs/gc_profile.png'}" alt="Product icon" class="vendor_img">
                     </th:block>
                     <th:block th:unless="${#strings.isEmpty(product.getVendor().getImagePath())}">
                         <img th:src="@{${product.getVendor().getImagePath()}}" alt="Profile Icon" class="vendor_img">
                     </th:block>
-
 
                     <div>
                         <h3 th:text="${product.getVendor().getName()}"></h3>

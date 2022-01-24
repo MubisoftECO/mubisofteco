@@ -1,6 +1,9 @@
 package org.eco.mubisoft.good_and_cheap.product.control;
 
+import org.eco.mubisoft.good_and_cheap.application.data.MilliTime;
+import org.eco.mubisoft.good_and_cheap.application.security.TokenService;
 import org.eco.mubisoft.good_and_cheap.product.domain.model.Product;
+import org.eco.mubisoft.good_and_cheap.product.domain.model.ProductType;
 import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,10 +11,13 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
+import java.util.Collections;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -57,11 +63,10 @@ public class ProductControllerTest {
         assertEquals(productID, product.getId());
 
         // 3. Get the view for the product.
-        Product databaseProduct = productService.getAllProducts(1).get(0);
-        viewProduct(databaseProduct);
+        viewProduct(product);
 
         // 4. Get the update view for the product.
-        showUpdateProduct(databaseProduct);
+        showUpdateProduct(product);
 
         // 5. Delete the product from the database.
         deleteProduct(product);
@@ -69,16 +74,27 @@ public class ProductControllerTest {
 
     private String saveProduct() {
         try {
+            // 1. Create a test user
+            String token = "Bearer " + new TokenService().generateToken(
+                    new User("vendedor.ejemplo", "password",
+                            Collections.singletonList(new SimpleGrantedAuthority("ROLE_VENDOR"))),
+                    "/recipe/save", MilliTime.FIVE_MINUTES.getTime()
+            );
+            // 2. Get the first ingredient on the table
+            ProductType productType = productService.getIngredients().get(0);
+            // 3. Save the product
             ResultActions result = mockMvc.perform(post("/product/save")
                             .param("date", "0000-00-00")
                             .param("name", "test-product")
                             .param("quantity", "1")
                             .param("price", "1")
-                            .param("productType", "1")
+                            .param("productType", productType.getId().toString())
+                            .sessionAttr("accessToken", token)
                     )
                     .andDo(MockMvcResultHandlers.log())
                     .andExpect(redirectedUrlPattern("/product/view/**"))
                     .andExpect(status().isFound());
+            // 4. Return the product ID
             return Objects.requireNonNull(
                             result.andReturn().getResponse().getRedirectedUrl()
                     ).substring("/product/view/".length());
