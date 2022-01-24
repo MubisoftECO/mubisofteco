@@ -7,9 +7,11 @@ import java.util.List;
 
 
 public class ProductTypeOtherProducer implements  Runnable {
+
     private static final String REASON = "OTHER";
-    private Long id;
-    private ProductService productService;
+
+    private final ProductService productService;
+    private final Long id;
 
     public ProductTypeOtherProducer(Long id, ProductService productService) {
         this.id = id;
@@ -19,6 +21,6 @@ public class ProductTypeOtherProducer implements  Runnable {
     @Override
     public void run() {
         List<ProductDto> list = productService.getProductsInformationFromDB(id, REASON);
-        list.forEach(p-> productService.setProductsInformationToBuffer(p));
+        list.forEach(productService::setProductsInformationToBuffer);
     }
 }

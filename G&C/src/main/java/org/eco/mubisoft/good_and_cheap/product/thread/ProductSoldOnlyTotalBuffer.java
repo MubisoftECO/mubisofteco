@@ -1,5 +1,7 @@
 package org.eco.mubisoft.good_and_cheap.product.thread;
 
+import lombok.EqualsAndHashCode;
+import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.analytic.domain.most_least.model.MostLessSoldDetail;
 import org.eco.mubisoft.good_and_cheap.thread.ThreadBufferDefinition;
 import org.eco.mubisoft.good_and_cheap.thread.ThreadCapacityDefinition;
@@ -8,21 +10,27 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Slf4j
 @Component
+@EqualsAndHashCode(callSuper = false)
 public class ProductSoldOnlyTotalBuffer extends ThreadBufferDefinition<MostLessSoldDetail> {
 
     private final List<MostLessSoldDetail> buffer;
 
     public ProductSoldOnlyTotalBuffer() {
-         buffer = new ArrayList<>();
+        buffer = new ArrayList<>();
     }
 
     @Override
-    public void put(MostLessSoldDetail mostLessSoldDetail) throws InterruptedException {
+    public void put(MostLessSoldDetail mostLessSoldDetail) {
         this.getMutex().lock();
-        while(buffer.size() == ThreadCapacityDefinition.MAX_PRODUCT_CAPACITY) {
-            this.getIsFull().await();
+        while (buffer.size() == ThreadCapacityDefinition.MAX_PRODUCT_CAPACITY) {
+            try {
+                this.getIsFull().await();
+            } catch (InterruptedException e) {
+                log.warn("ProductSoldOnlyTotalBuffer was interrupted while saving an element.");
+                Thread.currentThread().interrupt();
+            }
         }
         this.buffer.add(mostLessSoldDetail);
         this.getIsEmpty().signal();
@@ -30,11 +38,16 @@ public class ProductSoldOnlyTotalBuffer extends ThreadBufferDefinition<MostLessS
     }
 
     @Override
-    public MostLessSoldDetail get() throws InterruptedException {
+    public MostLessSoldDetail get() {
         MostLessSoldDetail value;
         this.getMutex().lock();
-        while(buffer.size() == 0) {
-            this.getIsEmpty().await();
+        while (buffer.isEmpty()) {
+            try {
+                this.getIsEmpty().await();
+            } catch (InterruptedException e) {
+                log.warn("ProductSoldOnlyTotalBuffer was interrupted while getting an element.");
+                Thread.currentThread().interrupt();
+            }
         }
         value = buffer.remove(0);
         this.getIsFull().signal();

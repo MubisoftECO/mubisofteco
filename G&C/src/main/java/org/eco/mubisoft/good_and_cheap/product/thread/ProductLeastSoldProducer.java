@@ -23,7 +23,7 @@ public class ProductLeastSoldProducer implements Runnable{
 
     @Override
     public void run() {
-        List<MostLessSoldDetail> list = null;
+        List<MostLessSoldDetail> list;
         List<MostLeastSold>  bottomList = new ArrayList<>();
         AtomicInteger i = new AtomicInteger();
         int sizeList = productMostLessSoldDetailList.size();
@@ -34,8 +34,7 @@ public class ProductLeastSoldProducer implements Runnable{
             list = productMostLessSoldDetailList.subList(sizeList-5,sizeList);
         }
 
-
-        Collections.sort(list, Comparator.comparing(MostLessSoldDetail::getTotal));
+        list.sort(Comparator.comparing(MostLessSoldDetail::getTotal));
         list.forEach(p-> bottomList.add(new MostLeastSold(i.getAndIncrement(),p.getName_en(),p.getName_eu(), p.getName_es(),p.getTotal(), MostLeastSoldType.BOTTOM)));
         bottomList.forEach(m-> productService.setProductsMostSoldInformationToBuffer(m));
     }

@@ -12,7 +12,7 @@ public abstract class ThreadBufferDefinition<T> {
     private Condition isFull = mutex.newCondition();
     private Condition isEmpty = mutex.newCondition();
 
-    protected abstract void put(T t) throws InterruptedException;
-    protected abstract T get() throws InterruptedException;
+    protected abstract void put(T t);
+    protected abstract T get();
     protected abstract int getBufferSize();
 }

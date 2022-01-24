@@ -1,5 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.product.thread;
 
+import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.product.dto.ProductSoldOnlyDto;
 import org.eco.mubisoft.good_and_cheap.thread.ThreadBufferDefinition;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Slf4j
 @Component
+@EqualsAndHashCode(callSuper = false)
 public class ProductSoldOnlyBuffer extends ThreadBufferDefinition<ProductSoldOnlyDto> {
 
     private final List<ProductSoldOnlyDto> buffer;
@@ -20,10 +22,15 @@ public class ProductSoldOnlyBuffer extends ThreadBufferDefinition<ProductSoldOnl
     }
 
     @Override
-    public void put(ProductSoldOnlyDto productSoldOnlyDto) throws InterruptedException {
+    public void put(ProductSoldOnlyDto productSoldOnlyDto) {
         this.getMutex().lock();
         while (buffer.size() == ThreadCapacityDefinition.MAX_PRODUCT_CAPACITY) {
-            this.getIsFull().await();
+            try {
+                this.getIsFull().await();
+            } catch (InterruptedException e) {
+                log.warn("ProductSoldOnlyBuffer was interrupted while saving an element.");
+                Thread.currentThread().interrupt();
+            }
         }
         this.buffer.add(productSoldOnlyDto);
         this.getIsEmpty().signal();
@@ -31,11 +38,16 @@ public class ProductSoldOnlyBuffer extends ThreadBufferDefinition<ProductSoldOnl
     }
 
     @Override
-    public ProductSoldOnlyDto get() throws InterruptedException {
+    public ProductSoldOnlyDto get() {
         ProductSoldOnlyDto value;
         this.getMutex().lock();
         while (buffer.isEmpty()) {
-            this.getIsEmpty().await();
+            try {
+                this.getIsEmpty().await();
+            } catch (InterruptedException e) {
+                log.warn("ProductSoldOnlyBuffer was interrupted while getting an element.");
+                Thread.currentThread().interrupt();
+            }
         }
         value = buffer.remove(0);
         this.getIsFull().signal();

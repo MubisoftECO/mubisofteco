@@ -22,10 +22,15 @@ public class MostLeastSoldBuffer extends ThreadBufferDefinition<MostLeastSold> {
     }
 
     @Override
-    public void put(MostLeastSold mostLeastSold) throws InterruptedException {
+    public void put(MostLeastSold mostLeastSold) {
         this.getMutex().lock();
         while (buffer.size() == ThreadCapacityDefinition.MAX_MOST_LEAST_CAPACITY) {
-            this.getIsFull().await();
+            try {
+                this.getIsFull().await();
+            } catch (InterruptedException e) {
+                log.warn("MostLeastSoldBuffer was interrupted while saving an element.");
+                Thread.currentThread().interrupt();
+            }
         }
         this.buffer.add(mostLeastSold);
         this.getIsEmpty().signal();
@@ -33,11 +38,16 @@ public class MostLeastSoldBuffer extends ThreadBufferDefinition<MostLeastSold> {
     }
 
     @Override
-    public MostLeastSold get() throws InterruptedException {
-        MostLeastSold value = null;
+    public MostLeastSold get() {
+        MostLeastSold value;
         this.getMutex().lock();
         while (buffer.isEmpty()) {
-            this.getIsEmpty().await();
+            try {
+                this.getIsEmpty().await();
+            } catch (InterruptedException e) {
+                log.warn("MostLeastSoldBuffer was interrupted while getting an element.");
+                Thread.currentThread().interrupt();
+            }
         }
         value = buffer.remove(0);
         this.getIsFull().signal();

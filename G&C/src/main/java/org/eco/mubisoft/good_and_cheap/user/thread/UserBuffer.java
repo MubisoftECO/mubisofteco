@@ -19,10 +19,15 @@ public class UserBuffer extends ThreadBufferDefinition<Long> {
     }
 
     @Override
-    public void put(Long id) throws InterruptedException {
+    public void put(Long id) {
         this.getMutex().lock();
         while(buffer.size() == ThreadCapacityDefinition.MAX_USER_CAPACITY) {
-            this.getIsFull().await();
+            try {
+                this.getIsFull().await();
+            } catch (InterruptedException e) {
+                log.warn("UserBuffer was interrupted while saving an element.");
+                Thread.currentThread().interrupt();
+            }
         }
         if(!buffer.contains(id)) {
             buffer.add(id);
@@ -32,12 +37,17 @@ public class UserBuffer extends ThreadBufferDefinition<Long> {
     }
 
     @Override
-    public Long get() throws InterruptedException {
+    public Long get() {
         Long value;
         this.getMutex().lock();
 
         while(buffer.size() == 0) {
-            this.getIsEmpty().await();
+            try {
+                this.getIsEmpty().await();
+            } catch (InterruptedException e) {
+                log.warn("UserBuffer was interrupted while getting an element.");
+                Thread.currentThread().interrupt();
+            }
         }
         value = buffer.remove(0);
         this.getIsFull().signal();

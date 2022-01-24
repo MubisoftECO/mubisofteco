@@ -93,11 +93,7 @@ public class ProductServiceFacade implements ProductService {
     public List<ProductDto> getProductDtoListFromBuffer() {
         List<ProductDto> list = new ArrayList<>();
         while (productBuffer.getBufferSize() > 0) {
-            try {
-                list.add(productBuffer.get());
-            } catch (InterruptedException e) {
-                log.error(e.getMessage());
-            }
+            list.add(productBuffer.get());
         }
         return list;
     }
@@ -113,11 +109,7 @@ public class ProductServiceFacade implements ProductService {
 
     @Override
     public void setProductsInformationToBuffer(ProductDto p) {
-        try {
-            productBuffer.put(p);
-        } catch (InterruptedException e) {
-            log.error(e.getMessage());
-        }
+        productBuffer.put(p);
     }
 
     @Override
@@ -130,34 +122,22 @@ public class ProductServiceFacade implements ProductService {
 
     @Override
     public void setProductsSoldOnlyInformationToBuffer(ProductSoldOnlyDto productSoldOnlyDto) {
-        try {
-            productSoldOnlyBuffer.put(productSoldOnlyDto);
-        } catch (InterruptedException e) {
-            log.error(e.getMessage());
-        }
+        productSoldOnlyBuffer.put(productSoldOnlyDto);
     }
 
     @Override
     public List<ProductSoldOnlyDto> getProductsSoldOnlyListFromBuffer() {
         List<ProductSoldOnlyDto> list = new ArrayList<>();
 
-        while(productSoldOnlyBuffer.getBufferSize() > 0) {
-            try {
-                list.add(productSoldOnlyBuffer.get());
-            } catch (InterruptedException e) {
-                log.error(e.getMessage());
-            }
+        while (productSoldOnlyBuffer.getBufferSize() > 0) {
+            list.add(productSoldOnlyBuffer.get());
         }
         return list;
     }
 
     @Override
     public void setProductsSoldOnlyTotalInformationToBuffer(MostLessSoldDetail mostLessSoldDetail) {
-        try {
-            productSoldOnlyTotalBuffer.put(mostLessSoldDetail);
-        } catch (InterruptedException e) {
-            log.error(e.getMessage());
-        }
+        productSoldOnlyTotalBuffer.put(mostLessSoldDetail);
     }
 
     @Override
@@ -165,11 +145,7 @@ public class ProductServiceFacade implements ProductService {
         List<MostLessSoldDetail> list = new ArrayList<>();
 
         while(productSoldOnlyTotalBuffer.getBufferSize() > 0) {
-            try {
-                list.add(productSoldOnlyTotalBuffer.get());
-            } catch (InterruptedException e) {
-                log.error(e.getMessage());
-            }
+            list.add(productSoldOnlyTotalBuffer.get());
         }
 
         return list;
@@ -177,11 +153,7 @@ public class ProductServiceFacade implements ProductService {
 
     @Override
     public void setProductsMostSoldInformationToBuffer(MostLeastSold mostLeastSold) {
-        try {
-            mostLeastSoldBuffer.put(mostLeastSold);
-        } catch (InterruptedException e) {
-            log.error(e.getMessage());
-        }
+        mostLeastSoldBuffer.put(mostLeastSold);
     }
 
     @Override
@@ -189,11 +161,7 @@ public class ProductServiceFacade implements ProductService {
         List<MostLeastSold> list = new ArrayList<>();
 
         while(mostLeastSoldBuffer.getBufferSize() > 0) {
-            try {
-                list.add(mostLeastSoldBuffer.get());
-            } catch (InterruptedException e) {
-                log.error(e.getMessage());
-            }
+            list.add(mostLeastSoldBuffer.get());
         }
         return list;
     }

@@ -21,10 +21,15 @@ public class ProductBuffer extends ThreadBufferDefinition<ProductDto> {
     }
 
     @Override
-    public void put(ProductDto productDto) throws InterruptedException {
+    public void put(ProductDto productDto) {
         this.getMutex().lock();
         while(buffer.size() == ThreadCapacityDefinition.MAX_PRODUCT_CAPACITY) {
-            this.getIsFull().await();
+            try {
+                this.getIsFull().await();
+            } catch (InterruptedException e) {
+                log.warn("ProductBuffer was interrupted while saving an element.");
+                Thread.currentThread().interrupt();
+            }
         }
         buffer.add(productDto);
         this.getIsEmpty().signal();
@@ -32,11 +37,16 @@ public class ProductBuffer extends ThreadBufferDefinition<ProductDto> {
     }
 
     @Override
-    public ProductDto get() throws InterruptedException {
-        ProductDto value = null;
+    public ProductDto get() {
+        ProductDto value;
         this.getMutex().lock();
         while(buffer.isEmpty()) {
-            this.getIsEmpty().await();
+            try {
+                this.getIsEmpty().await();
+            } catch (InterruptedException e) {
+                log.warn("ProductBuffer was interrupted while getting an element.");
+                Thread.currentThread().interrupt();
+            }
         }
         value = buffer.remove(0);
         this.getIsFull().signal();
