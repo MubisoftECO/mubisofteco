@@ -101,6 +101,7 @@ public class AnalyticServiceFacade implements AnalyticService{
                 case "SOLD":
                     key = reasonLanguage(lang,"SOLD");
                     break;
+                default: break;
             }
             Business businessDetail = new Business(key, BigDecimal.valueOf(total).setScale(2, RoundingMode.HALF_UP).doubleValue());
             if (!businessDetailList.contains(businessDetail)) {
@@ -184,7 +185,7 @@ public class AnalyticServiceFacade implements AnalyticService{
         try {
             percentage = (value/total) *100;
         } catch (ArithmeticException e) {
-            System.out.println("Division by zero forbidden");
+            log.warn("Division by zero forbidden");
         }
         return Math.round(percentage);
     }
@@ -206,7 +207,7 @@ public class AnalyticServiceFacade implements AnalyticService{
     }
 
     private String reasonLanguage(String lang, String key) {
-        String reasonMessage  = null;
+        String reasonMessage;
 
         switch (key) {
             case "OTHER":
@@ -245,6 +246,9 @@ public class AnalyticServiceFacade implements AnalyticService{
                     default:
                         reasonMessage =  "Sold products";
                 }
+                break;
+            default:
+                reasonMessage = null;
                 break;
         }
         return reasonMessage;

@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.eco.mubisoft.good_and_cheap.metric.statistic.ActionCounter;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.service.UserService;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 

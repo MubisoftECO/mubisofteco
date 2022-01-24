@@ -1,7 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.metric.statistic;
 
 import lombok.extern.slf4j.Slf4j;
-import org.eco.mubisoft.good_and_cheap.metric.domain.model.Metric;
 import org.eco.mubisoft.good_and_cheap.metric.domain.service.MetricService;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.springframework.stereotype.Component;
@@ -24,14 +23,14 @@ public class ActionCounter {
     public void increment(AppUser appUser, String buttonName) {
         if(appUser == null) {
             log.info("Storing anonymous user pressing button {}", buttonName);
-            record(1, null, buttonName);
+            recordButtonPress(1, null, buttonName);
         } else {
             log.info("Storing {} user pressing button {}", appUser.getId(), buttonName);
-            record(1, appUser, buttonName);
+            recordButtonPress(1, appUser, buttonName);
         }
     }
 
-    private void record(double count, AppUser appUser, String buttonName) {
+    private void recordButtonPress(double count, AppUser appUser, String buttonName) {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String strDate = format.format(cal.getTime());

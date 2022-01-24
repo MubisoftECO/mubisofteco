@@ -25,7 +25,6 @@ public class SalesBalanceServiceFacade implements SalesBalanceService {
         while (salesBalanceBuffer.getBufferSize() > 0) {
             list.add(salesBalanceBuffer.get());
         }
-
         return list;
     }
 
@@ -45,17 +44,17 @@ public class SalesBalanceServiceFacade implements SalesBalanceService {
             SalesBalance sales = new SalesBalance(key);
 
             for (SalesBalanceDetail s : values) {
-                for (int i = 0; i < currentReason.size(); i++) {
-                    if(s.getReason().equals(currentReason.get(i))) {
-                        currentReason.remove(i);
+                currentReason.stream().iterator().forEachRemaining(reason -> {
+                    if (s.getReason().equals(reason)) {
+                        currentReason.remove(reason);
                     }
-                }
+                });
                 sales.save(s.getReason(), s.getPercentage());
             }
-            for (int i = 0; i < currentReason.size(); i++) {
-                sales.save(currentReason.get(i), 0.0);
+            for (String s : currentReason) {
+                sales.save(s, 0.0);
             }
-            if(sales != null) salesBalanceBuffer.put(sales);
+            salesBalanceBuffer.put(sales);
         }
     }
 }

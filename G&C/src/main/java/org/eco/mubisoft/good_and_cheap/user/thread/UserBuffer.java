@@ -15,19 +15,18 @@ public class UserBuffer extends ThreadBufferDefinition<Long> {
     private final List<Long> buffer;
 
     public UserBuffer() {
-        super();
         this.buffer = new ArrayList<>();
     }
 
     @Override
-    public void put(Long id) {
+    public void put(Long id) throws InterruptedException {
         this.getMutex().lock();
         while(buffer.size() == ThreadCapacityDefinition.MAX_USER_CAPACITY) {
             try {
                 this.getIsFull().await();
             } catch (InterruptedException e) {
                 log.warn("UserBuffer was interrupted while saving an element.");
-                break;
+                throw new InterruptedException("UserBuffer was interrupted while saving an element.");
             }
         }
         if(!buffer.contains(id)) {
@@ -38,8 +37,8 @@ public class UserBuffer extends ThreadBufferDefinition<Long> {
     }
 
     @Override
-    public Long get() {
-        Long value = null;
+    public Long get() throws InterruptedException {
+        Long value;
         this.getMutex().lock();
 
         while(buffer.size() == 0) {
@@ -47,7 +46,7 @@ public class UserBuffer extends ThreadBufferDefinition<Long> {
                 this.getIsEmpty().await();
             } catch (InterruptedException e) {
                 log.warn("UserBuffer was interrupted while getting an element.");
-                break;
+                throw new InterruptedException("UserBuffer was interrupted while getting an element.");
             }
         }
         value = buffer.remove(0);

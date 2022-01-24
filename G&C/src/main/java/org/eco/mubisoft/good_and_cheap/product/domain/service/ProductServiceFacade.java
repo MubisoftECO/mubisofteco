@@ -93,7 +93,11 @@ public class ProductServiceFacade implements ProductService {
     public List<ProductDto> getProductDtoListFromBuffer() {
         List<ProductDto> list = new ArrayList<>();
         while (productBuffer.getBufferSize() > 0) {
-            list.add(productBuffer.get());
+            try {
+                list.add(productBuffer.get());
+            } catch (InterruptedException e) {
+                log.error(e.getMessage());
+            }
         }
         return list;
     }
@@ -104,14 +108,16 @@ public class ProductServiceFacade implements ProductService {
         query.setParameter(1, id);
         query.setParameter(2,reason);
 
-        List<ProductDto> list = query.getResultList();
-
-        return list;
+        return (List<ProductDto>) query.getResultList();
     }
 
     @Override
     public void setProductsInformationToBuffer(ProductDto p) {
-        productBuffer.put(p);
+        try {
+            productBuffer.put(p);
+        } catch (InterruptedException e) {
+            log.error(e.getMessage());
+        }
     }
 
     @Override
@@ -119,14 +125,16 @@ public class ProductServiceFacade implements ProductService {
         Query query = entityManager.createNativeQuery("SELECT pt.name_en as 'nameEn', pt.name_es as 'nameEs', pt.name_eu as 'nameEu', p.price as 'price', p.quantity as 'quantity' FROM product p JOIN product_type pt on pt.id = p.product_type_id JOIN app_user au on p.vendor_id = au.id JOIN location l on au.location_id = l.id JOIN city c on l.city_id = c.id WHERE (p.remove_reason = 'SOLD') AND (c.name = ?1)","ProductMostLessMapping");
         query.setParameter(1,city);
 
-        List<ProductSoldOnlyDto> list = query.getResultList();
-
-        return list;
+        return (List<ProductSoldOnlyDto>) query.getResultList();
     }
 
     @Override
     public void setProductsSoldOnlyInformationToBuffer(ProductSoldOnlyDto productSoldOnlyDto) {
-        productSoldOnlyBuffer.put(productSoldOnlyDto);
+        try {
+            productSoldOnlyBuffer.put(productSoldOnlyDto);
+        } catch (InterruptedException e) {
+            log.error(e.getMessage());
+        }
     }
 
     @Override
@@ -134,14 +142,22 @@ public class ProductServiceFacade implements ProductService {
         List<ProductSoldOnlyDto> list = new ArrayList<>();
 
         while(productSoldOnlyBuffer.getBufferSize() > 0) {
-            list.add(productSoldOnlyBuffer.get());
+            try {
+                list.add(productSoldOnlyBuffer.get());
+            } catch (InterruptedException e) {
+                log.error(e.getMessage());
+            }
         }
         return list;
     }
 
     @Override
     public void setProductsSoldOnlyTotalInformationToBuffer(MostLessSoldDetail mostLessSoldDetail) {
-        productSoldOnlyTotalBuffer.put(mostLessSoldDetail);
+        try {
+            productSoldOnlyTotalBuffer.put(mostLessSoldDetail);
+        } catch (InterruptedException e) {
+            log.error(e.getMessage());
+        }
     }
 
     @Override
@@ -149,7 +165,11 @@ public class ProductServiceFacade implements ProductService {
         List<MostLessSoldDetail> list = new ArrayList<>();
 
         while(productSoldOnlyTotalBuffer.getBufferSize() > 0) {
-            list.add(productSoldOnlyTotalBuffer.get());
+            try {
+                list.add(productSoldOnlyTotalBuffer.get());
+            } catch (InterruptedException e) {
+                log.error(e.getMessage());
+            }
         }
 
         return list;
@@ -157,7 +177,11 @@ public class ProductServiceFacade implements ProductService {
 
     @Override
     public void setProductsMostSoldInformationToBuffer(MostLeastSold mostLeastSold) {
-        mostLeastSoldBuffer.put(mostLeastSold);
+        try {
+            mostLeastSoldBuffer.put(mostLeastSold);
+        } catch (InterruptedException e) {
+            log.error(e.getMessage());
+        }
     }
 
     @Override
@@ -165,7 +189,11 @@ public class ProductServiceFacade implements ProductService {
         List<MostLeastSold> list = new ArrayList<>();
 
         while(mostLeastSoldBuffer.getBufferSize() > 0) {
-            list.add(mostLeastSoldBuffer.get());
+            try {
+                list.add(mostLeastSoldBuffer.get());
+            } catch (InterruptedException e) {
+                log.error(e.getMessage());
+            }
         }
         return list;
     }

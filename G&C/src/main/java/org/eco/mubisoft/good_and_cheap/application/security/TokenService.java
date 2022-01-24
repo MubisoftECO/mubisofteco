@@ -25,6 +25,8 @@ import static java.util.Arrays.stream;
 @Slf4j
 public class TokenService {
 
+    private static final String TOKEN_SIGNATURE_NAME = "Bearer ";
+
     private final Algorithm algorithm;
     private final JWTVerifier verifier;
 
@@ -44,13 +46,13 @@ public class TokenService {
     }
 
     public void setTokenOnSession(String accessToken, String refreshToken, HttpSession session) {
-        session.setAttribute("accessToken", "Bearer " + accessToken);
-        session.setAttribute("refreshToken", "Bearer " + refreshToken);
+        session.setAttribute("accessToken", TOKEN_SIGNATURE_NAME + accessToken);
+        session.setAttribute("refreshToken", TOKEN_SIGNATURE_NAME + refreshToken);
         log.info("AccessToken: {} | RefreshToken: {}", accessToken, refreshToken);
     }
 
     public UsernamePasswordAuthenticationToken getUserPasswordToken(String authToken) throws JWTVerificationException {
-        String token = authToken.substring("Bearer ".length());
+        String token = authToken.substring(TOKEN_SIGNATURE_NAME.length());
         DecodedJWT decodedJWT = verifier.verify(token);
 
         String username = decodedJWT.getSubject();
@@ -65,7 +67,7 @@ public class TokenService {
     }
 
     public User getUserFromToken(String userToken) {
-        String token = userToken.substring("Bearer ".length());
+        String token = userToken.substring(TOKEN_SIGNATURE_NAME.length());
         DecodedJWT decodedJWT = verifier.verify(token);
 
         String username = decodedJWT.getSubject();
@@ -80,7 +82,7 @@ public class TokenService {
     public String getUsernameFromToken (String authToken) {
         try {
             // 1. Get the token.
-            String token = authToken.substring("Bearer ".length());
+            String token = authToken.substring(TOKEN_SIGNATURE_NAME.length());
 
             // 2. Decode the token.
             DecodedJWT decodedJWT = verifier.verify(token);
@@ -93,7 +95,7 @@ public class TokenService {
     }
 
     public Collection<String> getRolesFromToken(String authToken) throws JWTVerificationException{
-        String token = authToken.substring("Bearer ".length());
+        String token = authToken.substring(TOKEN_SIGNATURE_NAME.length());
         DecodedJWT decodedJWT = verifier.verify(token);
 
         return decodedJWT.getClaim("roles").asList(String.class);

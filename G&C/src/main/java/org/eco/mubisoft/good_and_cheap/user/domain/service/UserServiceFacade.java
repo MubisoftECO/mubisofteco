@@ -185,7 +185,11 @@ public class UserServiceFacade implements UserService, UserDetailsService {
 
     @Override
     public void setIdListToBuffer(Long id) {
-        userBuffer.put(id);
+        try {
+            userBuffer.put(id);
+        } catch (InterruptedException e) {
+            log.error(e.getMessage());
+        }
     }
 
     @Override
@@ -193,7 +197,11 @@ public class UserServiceFacade implements UserService, UserDetailsService {
         List<Long> list = new ArrayList<>();
 
         while(userBuffer.getBufferSize() > 0) {
-            list.add(userBuffer.get());
+            try {
+                list.add(userBuffer.get());
+            } catch (InterruptedException e) {
+                log.error(e.getMessage());
+            }
         }
         return list;
     }

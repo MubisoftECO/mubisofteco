@@ -16,18 +16,18 @@ public class ProductSoldOnlyTotalBuffer extends ThreadBufferDefinition<MostLessS
     private final List<MostLessSoldDetail> buffer;
 
     public ProductSoldOnlyTotalBuffer() {
-         super();
          buffer = new ArrayList<>();
     }
 
     @Override
-    public void put(MostLessSoldDetail mostLessSoldDetail) {
+    public void put(MostLessSoldDetail mostLessSoldDetail) throws InterruptedException {
         this.getMutex().lock();
         if(buffer.size() == ThreadCapacityDefinition.MAX_PRODUCT_CAPACITY) {
             try {
                 this.getIsFull().await();
             } catch (InterruptedException e) {
                 log.warn("ProductSoldOnlyTotalBuffer was interrupted while saving an element.");
+                throw new InterruptedException("ProductSoldOnlyTotalBuffer was interrupted while saving an element.");
             }
         }
         this.buffer.add(mostLessSoldDetail);
@@ -36,14 +36,15 @@ public class ProductSoldOnlyTotalBuffer extends ThreadBufferDefinition<MostLessS
     }
 
     @Override
-    public MostLessSoldDetail get() {
-        MostLessSoldDetail value = null;
+    public MostLessSoldDetail get() throws InterruptedException {
+        MostLessSoldDetail value;
         this.getMutex().lock();
         if(buffer.size() == 0) {
             try {
                 this.getIsEmpty().await();
             } catch (InterruptedException e) {
                 log.warn("ProductSoldOnlyTotalBuffer was interrupted while getting an element.");
+                throw new InterruptedException("ProductSoldOnlyTotalBuffer was interrupted while getting an element.");
             }
         }
         value = buffer.remove(0);

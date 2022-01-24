@@ -1,5 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.analytic.domain.sales_balance.thread;
 
+import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.analytic.domain.sales_balance.model.SalesBalance;
 import org.eco.mubisoft.good_and_cheap.thread.ThreadBufferDefinition;
@@ -11,9 +12,10 @@ import java.util.List;
 
 @Slf4j
 @Component
+@EqualsAndHashCode(callSuper = false)
 public class SalesBalanceBuffer extends ThreadBufferDefinition<SalesBalance> {
 
-    private List<SalesBalance> buffer;
+    private final List<SalesBalance> buffer;
     public SalesBalanceBuffer() {
         super();
         buffer = new ArrayList<>();
@@ -36,9 +38,9 @@ public class SalesBalanceBuffer extends ThreadBufferDefinition<SalesBalance> {
 
     @Override
     public SalesBalance get() {
-        SalesBalance value = null;
+        SalesBalance value;
         this.getMutex().lock();
-        while(buffer.size() == 0) {
+        while(buffer.isEmpty()) {
             try {
                 this.getIsEmpty().await();
             } catch (InterruptedException e) {
