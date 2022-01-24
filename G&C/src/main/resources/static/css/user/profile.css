@@ -35,9 +35,6 @@
 .profile_action>img{
     width: 4%;
 }
-.profile_action > h2{
-
-}
 .user_img{
     width: 30%;
     aspect-ratio: auto 1 / 1;
@@ -78,26 +75,4 @@
 .profile_info > h1{
 
     margin-left: 3rem;
-}
-/* Medium devices (tablets, 768px and up) */
-@media (min-width: 576px) {
-    .profile_action{
-
-    }
-}
-/* Medium devices (tablets, 768px and up) */
-@media (min-width: 768px) {
-    .profile_action{
-
-    }
-}
-
-/* Large devices (desktops, 992px and up) */
-@media (min-width: 992px) {
-
-}
-
-/* Extra large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {
-
 }
