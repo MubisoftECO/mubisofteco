@@ -23,10 +23,6 @@ public class MetricController {
     @ResponseBody
     public void  getButtonName(@RequestParam(name= "id") String id, HttpServletRequest request) {
         AppUser user = userService.getLoggedUser(request);
-        if (user == null) {
-            actionCounter.increment(null,id);
-        } else {
-            actionCounter.increment(user,id);
-        }
+        actionCounter.increment(user,id);
     }
 }

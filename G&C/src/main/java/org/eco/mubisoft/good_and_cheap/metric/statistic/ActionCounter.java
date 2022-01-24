@@ -22,8 +22,13 @@ public class ActionCounter {
     }
 
     public void increment(AppUser appUser, String buttonName) {
-        log.info("Storing {} user pressing button {}", appUser.getId(), buttonName);
-        record(1, appUser, buttonName);
+        if(appUser == null) {
+            log.info("Storing anonymous user pressing button {}", buttonName);
+            record(1, null, buttonName);
+        } else {
+            log.info("Storing {} user pressing button {}", appUser.getId(), buttonName);
+            record(1, appUser, buttonName);
+        }
     }
 
     private void record(double count, AppUser appUser, String buttonName) {
