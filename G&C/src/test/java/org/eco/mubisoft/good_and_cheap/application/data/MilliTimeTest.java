@@ -8,12 +8,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class MilliTimeTest {
+class MilliTimeTest {
 
     private static final int INCREMENT = 60 * 1000;
 
     @Test
-    public void getTime() {
+    void getTime() {
         assertEquals(MilliTime.FIVE_MINUTES.getTime(), 5 * INCREMENT);
         assertEquals(MilliTime.TEN_MINUTES.getTime(), 10 * INCREMENT);
         assertEquals(MilliTime.FIFTEEN_MINUTES.getTime(), 15 * INCREMENT);

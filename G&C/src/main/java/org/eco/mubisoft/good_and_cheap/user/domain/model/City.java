@@ -1,6 +1,5 @@
 package org.eco.mubisoft.good_and_cheap.user.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 
 import javax.persistence.*;

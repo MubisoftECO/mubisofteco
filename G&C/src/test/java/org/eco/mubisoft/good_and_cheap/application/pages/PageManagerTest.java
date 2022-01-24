@@ -25,7 +25,7 @@ public class PageManagerTest {
 
     @ParameterizedTest
     @MethodSource("values")
-    public void getPageNum(int pageNum, String direction, int result) {
+    void getPageNum(int pageNum, String direction, int result) {
         assertEquals(
                 result,
                 PageManager.getPageNum(

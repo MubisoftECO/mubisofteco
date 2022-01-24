@@ -1,8 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.analytic.domain.sales_balance.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
 import java.util.Map;

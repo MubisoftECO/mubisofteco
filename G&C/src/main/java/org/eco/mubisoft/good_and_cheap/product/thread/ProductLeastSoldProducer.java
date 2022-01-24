@@ -1,6 +1,5 @@
 package org.eco.mubisoft.good_and_cheap.product.thread;
 
-import lombok.extern.slf4j.Slf4j;
 
 import org.eco.mubisoft.good_and_cheap.analytic.domain.most_least.model.MostLeastSold;
 import org.eco.mubisoft.good_and_cheap.analytic.domain.most_least.model.MostLeastSoldType;

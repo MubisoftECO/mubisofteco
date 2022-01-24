@@ -1,6 +1,5 @@
 package org.eco.mubisoft.good_and_cheap.product.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

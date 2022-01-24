@@ -47,7 +47,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void testProductCRUD() {
+    void testProductCRUD() {
         // 1. Create product and get its ID.
         Long productID = Long.parseLong(Objects.requireNonNull(saveProduct()));
 

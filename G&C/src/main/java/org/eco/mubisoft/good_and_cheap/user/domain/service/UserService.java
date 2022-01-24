@@ -3,7 +3,6 @@ package org.eco.mubisoft.good_and_cheap.user.domain.service;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.Location;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.Role;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;

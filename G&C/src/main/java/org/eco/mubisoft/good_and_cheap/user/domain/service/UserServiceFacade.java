@@ -184,8 +184,7 @@ public class UserServiceFacade implements UserService, UserDetailsService {
 
     @Override
     public List<Long> getIdListFromDB(String city) {
-        List<Long> list = userRepo.getIdListByCity(city);
-        return list;
+        return userRepo.getIdListByCity(city);
     }
 
     @Override

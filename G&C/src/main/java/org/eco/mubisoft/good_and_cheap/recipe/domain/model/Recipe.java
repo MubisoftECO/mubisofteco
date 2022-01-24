@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.eco.mubisoft.good_and_cheap.product.domain.model.ProductType;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 
 import javax.persistence.*;

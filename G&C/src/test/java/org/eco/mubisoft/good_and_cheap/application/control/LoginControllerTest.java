@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class LoginControllerTest {
+class LoginControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -25,7 +25,7 @@ public class LoginControllerTest {
     }
 
     @Test
-    public void getLoginForm() {
+    void getLoginForm() {
         try {
             // Test without error message.
             mockMvc.perform(get("/login/sign-in"))
@@ -44,7 +44,7 @@ public class LoginControllerTest {
     }
 
     @Test
-    public void logout() {
+    void logout() {
         try {
             mockMvc.perform(get("/login/logout"))
                     .andDo(MockMvcResultHandlers.log())

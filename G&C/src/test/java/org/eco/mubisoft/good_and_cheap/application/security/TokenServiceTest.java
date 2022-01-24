@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class TokenServiceTest {
+class TokenServiceTest {
 
     private final TokenService tokenService = new TokenService();
 
@@ -25,7 +25,7 @@ public class TokenServiceTest {
     private PasswordEncoder passwordEncoder;
 
     @Test
-    public void tokenOperations() {
+    void tokenOperations() {
         assertNotNull(passwordEncoder);
         User user = new User(
                 "test.user", "test.password",
@@ -83,7 +83,7 @@ public class TokenServiceTest {
     }
 
     @Test
-    public void setTokenOnSession() {
+    void setTokenOnSession() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         HttpSession session = Objects.requireNonNull(request.getSession());
 

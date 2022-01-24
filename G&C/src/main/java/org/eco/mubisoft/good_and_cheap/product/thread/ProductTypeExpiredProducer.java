@@ -1,6 +1,5 @@
 package org.eco.mubisoft.good_and_cheap.product.thread;
 
-import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductService;
 import org.eco.mubisoft.good_and_cheap.product.dto.ProductDto;
 

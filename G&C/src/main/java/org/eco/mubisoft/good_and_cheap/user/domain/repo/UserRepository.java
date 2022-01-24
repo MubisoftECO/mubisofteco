@@ -1,7 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.user.domain.repo;
 
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
-import org.eco.mubisoft.good_and_cheap.user.domain.model.Location;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

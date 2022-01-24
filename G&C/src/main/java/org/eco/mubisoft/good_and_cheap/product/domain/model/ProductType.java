@@ -1,7 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.product.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Ingredient;
 
