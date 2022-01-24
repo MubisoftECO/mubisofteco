@@ -7,7 +7,7 @@ import java.util.List;
 
 
 public class ProductTypeExpiredProducer implements Runnable {
-    private final String REASON = "EXPIRED";
+    private static final String REASON = "EXPIRED";
     private Long id;
     private ProductService productService;
 

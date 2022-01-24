@@ -18,14 +18,7 @@ public class UserConsumer implements Callable<List<Long>> {
     @Override
     public List<Long> call() throws Exception {
         List<Long> list = null;
-        long start = System.currentTimeMillis();
-        log.info("(TASK STARTS) ID from BUFFER to LIST {}", Thread.currentThread().getName());
-
         list = userService.getIdListFromBuffer();
-
-        log.info("(TASK ENDS) ID from BUFFER to LIST {}", Thread.currentThread().getName());
-        long end = System.currentTimeMillis();
-        log.info("Total time {}", (end -start));
         Thread.sleep(200);
         return list;
     }

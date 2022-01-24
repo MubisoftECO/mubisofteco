@@ -6,7 +6,7 @@ import org.eco.mubisoft.good_and_cheap.product.dto.ProductDto;
 import java.util.List;
 
 public class ProductTypeSoldProducer implements Runnable {
-    private final String REASON = "SOLD";
+    private static final String REASON = "SOLD";
     private Long id;
     private ProductService productService;
 

@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Component
 public interface SalesBalanceService {
-    List<SalesBalance>  getSalesListFromBuffer();
-    void createSalesBalanceList(Map<String, List<SalesBalanceDetail>> salesBalanceList);
+    List<SalesBalance>  getSalesListFromBuffer() throws InterruptedException;
+    void createSalesBalanceList(Map<String, List<SalesBalanceDetail>> salesBalanceList) throws InterruptedException;
 
 }

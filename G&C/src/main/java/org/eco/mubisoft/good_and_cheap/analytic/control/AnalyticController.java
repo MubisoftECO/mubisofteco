@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.analytic.domain.business.model.Business;
 import org.eco.mubisoft.good_and_cheap.analytic.domain.most_least.model.MostLeastSold;
 import org.eco.mubisoft.good_and_cheap.analytic.domain.sales_balance.model.SalesBalance;
+import org.eco.mubisoft.good_and_cheap.analytic.service.AnalyticInternalManager;
 import org.eco.mubisoft.good_and_cheap.analytic.service.AnalyticService;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.service.UserService;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,14 +34,7 @@ public class AnalyticController {
     private final UserService userService;
     private AppUser user;
     private Long id;
-    private int countSales;
-    private int countBusiness;
-    private List<Double> expired;
-    private List<Double> sold;
-    private List<Double> other;
-    private List<String> productName;
-    private List<String> reason;
-    private List<Double> total;
+    private AnalyticInternalManager analyticDataManager;
     private static final int MAX_REQUEST_REFRESH = 2;
 
     @GetMapping("/options")
@@ -62,8 +55,8 @@ public class AnalyticController {
 
     @GetMapping("/options/menu")
     public String displayMenu()  {
+        analyticDataManager = new AnalyticInternalManager();
         analyticService.enableUserIdPicker(user);
-        restartList();
 
         return "analytic/analytic_option";
     }
@@ -71,12 +64,12 @@ public class AnalyticController {
     @GetMapping("/sales-balance")
     public String displaySalesBalance(HttpServletRequest request, Model model) throws ExecutionException, InterruptedException {
         String lang = "EN";
-        countSales++;
-        if(countSales >= MAX_REQUEST_REFRESH) {
-            model.addAttribute("expiredList", expired);
-            model.addAttribute("soldList", sold);
-            model.addAttribute("otherList", other);
-            model.addAttribute("productNameList", productName);
+        analyticDataManager.setCountSales(analyticDataManager.getCountSales() + 1);
+        if(analyticDataManager.getCountSales() >= MAX_REQUEST_REFRESH) {
+            model.addAttribute("expiredList", analyticDataManager.getExpired());
+            model.addAttribute("soldList", analyticDataManager.getSold());
+            model.addAttribute("otherList", analyticDataManager.getOther());
+            model.addAttribute("productNameList", analyticDataManager.getProductName());
             return "analytic/analytic_salesbalance";
         }
 
@@ -86,32 +79,20 @@ public class AnalyticController {
         List<SalesBalance> salesBalanceList = analyticService.displaySalesBalance(lang);
 
         for (SalesBalance s: salesBalanceList) {
-            productName.add(s.getProductName());
+            analyticDataManager.addProduct(s.getProductName());
             Map<String, Double> percentages = s.getPercentage();
             Set<Map.Entry<String, Double>> percentageList = percentages.entrySet();
 
             for (Map.Entry<String,Double> entry : percentageList) {
                 String key = entry.getKey();
-                Double values = entry.getValue();
-                switch (key) {
-                    case "SOLD":
-                        sold.add(values);
-                        break;
-                    case "EXPIRED":
-                        expired.add(values);
-                        break;
-                    case "OTHER":
-                        other.add(values);
-                        break;
-                    default:
-                        break;
-                }
+                Double value = entry.getValue();
+                analyticDataManager.addPriceByReason(value,key);
             }
         }
-        model.addAttribute("expiredList", expired);
-        model.addAttribute("soldList", sold);
-        model.addAttribute("otherList", other);
-        model.addAttribute("productNameList", productName);
+        model.addAttribute("expiredList", analyticDataManager.getExpired());
+        model.addAttribute("soldList", analyticDataManager.getSold());
+        model.addAttribute("otherList", analyticDataManager.getOther());
+        model.addAttribute("productNameList", analyticDataManager.getProductName());
 
         return "analytic/analytic_salesbalance";
     }
@@ -119,10 +100,11 @@ public class AnalyticController {
     @GetMapping("/business")
     public String displayMyBusiness(HttpServletRequest request, Model model) throws ExecutionException, InterruptedException {
         String lang = "EN";
-        countBusiness++;
-        if(countBusiness>= 2) {
-            model.addAttribute("reasonList",reason);
-            model.addAttribute("totalList", total);
+
+        analyticDataManager.setCountBusiness(analyticDataManager.getCountBusiness() + 1);
+        if(analyticDataManager.getCountBusiness() >= 2) {
+            model.addAttribute("reasonList",analyticDataManager.getReason());
+            model.addAttribute("totalList", analyticDataManager.getTotal());
             return "analytic/analytic_business";
         }
 
@@ -131,12 +113,12 @@ public class AnalyticController {
         List<Business> businessDetailList = analyticService.displayMyBusiness(lang);
 
         for (Business b: businessDetailList) {
-            reason.add(b.getReason());
-            total.add(b.getTotal());
+            analyticDataManager.addReason(b.getReason());
+            analyticDataManager.addTotal(b.getTotal());
         }
 
-        model.addAttribute("reasonList",reason);
-        model.addAttribute("totalList", total);
+        model.addAttribute("reasonList",analyticDataManager.getReason());
+        model.addAttribute("totalList", analyticDataManager.getTotal());
 
         return "analytic/analytic_business";
     }
@@ -177,14 +159,4 @@ public class AnalyticController {
         return userService.getLoggedUser(request);
     }
 
-    private void restartList() {
-        expired = new ArrayList<>();
-        sold = new ArrayList<>();
-        other  = new ArrayList<>();
-        productName  = new ArrayList<>();
-        reason = new ArrayList<>();
-        total = new ArrayList<>();
-        countSales = 0;
-        countBusiness = 0;
-    }
 }

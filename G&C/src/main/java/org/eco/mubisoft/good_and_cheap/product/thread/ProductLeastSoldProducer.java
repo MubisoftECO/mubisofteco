@@ -8,6 +8,7 @@ import org.eco.mubisoft.good_and_cheap.product.domain.service.ProductService;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -22,7 +23,7 @@ public class ProductLeastSoldProducer implements Runnable{
 
     @Override
     public void run() {
-        List<MostLessSoldDetail> list = new ArrayList<>();
+        List<MostLessSoldDetail> list = null;
         List<MostLeastSold>  bottomList = new ArrayList<>();
         AtomicInteger i = new AtomicInteger();
         int sizeList = productMostLessSoldDetailList.size();
@@ -34,7 +35,7 @@ public class ProductLeastSoldProducer implements Runnable{
         }
 
 
-        Collections.sort(list, (t1, t2) -> t1.getTotal().compareTo(t2.getTotal()));
+        Collections.sort(list, Comparator.comparing(MostLessSoldDetail::getTotal));
         list.forEach(p-> bottomList.add(new MostLeastSold(i.getAndIncrement(),p.getName_en(),p.getName_eu(), p.getName_es(),p.getTotal(), MostLeastSoldType.BOTTOM)));
         bottomList.forEach(m-> productService.setProductsMostSoldInformationToBuffer(m));
     }

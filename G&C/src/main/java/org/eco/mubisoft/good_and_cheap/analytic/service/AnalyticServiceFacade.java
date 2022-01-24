@@ -37,6 +37,13 @@ public class AnalyticServiceFacade implements AnalyticService{
     private final ProductService productService;
     private final SalesBalanceService salesBalanceService;
     private final Manage manage;
+    private static final String REASON_SOLD = "SOLD";
+    private static final String REASON_EXPIRED = "EXPIRED";
+    private static final String REASON_OTHER = "OTHER";
+    private static final String LANG_EN = "EN";
+    private static final String LANG_ES = "ES";
+    private static final String LANG_EU = "EU";
+
 
     @Override
     public void enableUserIdPicker(AppUser appUser){
@@ -66,11 +73,10 @@ public class AnalyticServiceFacade implements AnalyticService{
 
     @Override
     public List<SalesBalance> displaySalesBalance(String lang) throws ExecutionException, InterruptedException {
-        Thread.sleep(50);
+        Thread.sleep(1000);
         Future<List<ProductDto>> futureProductDtoList = ThreadExecutorService.INSTANCE.getExecutorService().submit(new ProductTypeConsumer(productService));
         List<ProductDto> productDtoList = futureProductDtoList.get();
         collectAllToProductDto(productDtoList, lang);
-
         return salesBalanceService.getSalesListFromBuffer();
     }
 
@@ -92,14 +98,14 @@ public class AnalyticServiceFacade implements AnalyticService{
                 total+= p.getTotal();
             }
             switch (key) {
-                case "OTHER":
-                    key = reasonLanguage(lang,"OTHER");
+                case REASON_OTHER:
+                    key = reasonLanguage(lang,REASON_OTHER);
                     break;
-                case "EXPIRED":
-                    key = reasonLanguage(lang,"EXPIRED");
+                case REASON_EXPIRED:
+                    key = reasonLanguage(lang,REASON_EXPIRED);
                     break;
-                case "SOLD":
-                    key = reasonLanguage(lang,"SOLD");
+                case REASON_SOLD:
+                    key = reasonLanguage(lang,REASON_SOLD);
                     break;
                 default: break;
             }
@@ -114,28 +120,20 @@ public class AnalyticServiceFacade implements AnalyticService{
     @Override
     public void storeSoldOnlyData(String city) throws ExecutionException, InterruptedException {
         ThreadExecutorService.INSTANCE.getExecutorService().execute(new ProductSoldOnlyProducer(city, productService));
-        Thread.sleep(200);
+        Thread.sleep(500);
         Future<List<ProductSoldOnlyDto>> futureProductSoldList = ThreadExecutorService.INSTANCE.getExecutorService().submit(new ProductSoldOnlyConsumer(productService));
         List<ProductSoldOnlyDto> productSoldOnlyDtoList = futureProductSoldList.get();
 
         // total value
         ThreadExecutorService.INSTANCE.getExecutorService().execute(new ProductSoldOnlyTotalProducer(productService,productSoldOnlyDtoList));
-        Thread.sleep(100);
+        Thread.sleep(500);
         Future<List<MostLessSoldDetail>> futureMostLessSoldDetail = ThreadExecutorService.INSTANCE.getExecutorService().submit(new ProductSoldOnlyTotalConsumer(productService));
         List<MostLessSoldDetail> productMostLessSoldDetailList = futureMostLessSoldDetail.get();
-        ThreadInitializer.setProductMostLeastList(productService,productMostLessSoldDetailList);
 
-        List<Runnable> list = ThreadInitializer.getListProductMostLeast();
-        ThreadExecutorService.INSTANCE.getExecutorService().execute(() -> {
-            log.info("(TASK STARTS) PRODUCT (MOST| LEAST) INFORMATION from DB to LIST {}", Thread.currentThread().getName());
-            for (Runnable runnable : list) {
-                log.info("RUNNABLE EXECUTING..");
-                runnable.run();
-            }
-            log.info("(TASK ENDS) PRODUCT (MOST| LEAST) INFORMATION from DB to LIST {}", Thread.currentThread().getName());
-        });
+        ThreadExecutorService.INSTANCE.getExecutorService().execute(new ProductMostSoldProducer(productService,productMostLessSoldDetailList));
+        ThreadExecutorService.INSTANCE.getExecutorService().execute(new ProductLeastSoldProducer(productService,productMostLessSoldDetailList));
 
-        Thread.sleep(200);
+        Thread.sleep(500);
     }
 
     @Override
@@ -162,7 +160,7 @@ public class AnalyticServiceFacade implements AnalyticService{
 
     /** NEEDED FUNCTIONALITIES */
 
-    private Map<String, List<SalesBalanceDetail>> collectAllToProductDto(List<ProductDto> productDtoList, String lang) {
+    private void collectAllToProductDto(List<ProductDto> productDtoList, String lang) throws InterruptedException {
         Map<String, List<ProductDto>> products = manage.simpleMapProduct(ProductDto::getNameEn, productDtoList);
         List<SalesBalanceDetail> saleList = new ArrayList<>();
 
@@ -177,7 +175,6 @@ public class AnalyticServiceFacade implements AnalyticService{
 
         Map<String, List<SalesBalanceDetail>> sales = manage.simpleMapSalesBalance(SalesBalanceDetail::getProductName, saleList);
         salesBalanceService.createSalesBalanceList(sales);
-        return  sales;
     }
 
     private double calculatePercentage(double value, double total) {
@@ -194,10 +191,10 @@ public class AnalyticServiceFacade implements AnalyticService{
         String name;
 
         switch (lang) {
-            case "ES":
+            case LANG_ES:
                 name = productDto.getNameEs();
                 break;
-            case "EU":
+            case LANG_EU:
                 name = productDto.getNameEu();
                 break;
             default:
@@ -210,24 +207,24 @@ public class AnalyticServiceFacade implements AnalyticService{
         String reasonMessage;
 
         switch (key) {
-            case "OTHER":
+            case REASON_OTHER:
                 switch (lang) {
-                    case "ES":
+                    case LANG_ES:
                         reasonMessage = "Productos rechazados";
                         break;
-                    case "EU":
+                    case LANG_EU:
                         reasonMessage = "Baztertutako produktuak";
                         break;
                     default:
                         reasonMessage =  "Discarted products";
                 }
                 break;
-            case "EXPIRED":
+            case REASON_EXPIRED:
                 switch (lang) {
-                    case "ES":
+                    case LANG_ES:
                         reasonMessage = "Productos no vendidos";
                         break;
-                    case "EU":
+                    case LANG_EU:
                         reasonMessage = "Saldu gabeko produktuak";
                         break;
                     default:
@@ -235,12 +232,12 @@ public class AnalyticServiceFacade implements AnalyticService{
 
                 }
                 break;
-            case "SOLD":
+            case REASON_SOLD:
                 switch (lang) {
-                    case "ES":
+                    case LANG_ES:
                         reasonMessage = "Productos vendidos";
                         break;
-                    case "EU":
+                    case LANG_EU:
                         reasonMessage = "Saldutako produktuak";
                         break;
                     default:

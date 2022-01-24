@@ -20,7 +20,7 @@ public class ProductMostSoldProducer implements Runnable {
 
     @Override
     public void run() {
-        List<MostLessSoldDetail> list = new ArrayList<>();
+        List<MostLessSoldDetail> list = null;
         List<MostLeastSold>  topList = new ArrayList<>();
         AtomicInteger i = new AtomicInteger();
 

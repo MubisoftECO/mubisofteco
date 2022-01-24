@@ -1,6 +1,5 @@
 package org.eco.mubisoft.good_and_cheap.product.thread;
 
-import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.analytic.domain.most_least.model.MostLessSoldDetail;
 import org.eco.mubisoft.good_and_cheap.thread.ThreadBufferDefinition;
 import org.eco.mubisoft.good_and_cheap.thread.ThreadCapacityDefinition;
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
+
 @Component
 public class ProductSoldOnlyTotalBuffer extends ThreadBufferDefinition<MostLessSoldDetail> {
 
@@ -22,13 +21,8 @@ public class ProductSoldOnlyTotalBuffer extends ThreadBufferDefinition<MostLessS
     @Override
     public void put(MostLessSoldDetail mostLessSoldDetail) throws InterruptedException {
         this.getMutex().lock();
-        if(buffer.size() == ThreadCapacityDefinition.MAX_PRODUCT_CAPACITY) {
-            try {
-                this.getIsFull().await();
-            } catch (InterruptedException e) {
-                log.warn("ProductSoldOnlyTotalBuffer was interrupted while saving an element.");
-                throw new InterruptedException("ProductSoldOnlyTotalBuffer was interrupted while saving an element.");
-            }
+        while(buffer.size() == ThreadCapacityDefinition.MAX_PRODUCT_CAPACITY) {
+            this.getIsFull().await();
         }
         this.buffer.add(mostLessSoldDetail);
         this.getIsEmpty().signal();
@@ -39,13 +33,8 @@ public class ProductSoldOnlyTotalBuffer extends ThreadBufferDefinition<MostLessS
     public MostLessSoldDetail get() throws InterruptedException {
         MostLessSoldDetail value;
         this.getMutex().lock();
-        if(buffer.size() == 0) {
-            try {
-                this.getIsEmpty().await();
-            } catch (InterruptedException e) {
-                log.warn("ProductSoldOnlyTotalBuffer was interrupted while getting an element.");
-                throw new InterruptedException("ProductSoldOnlyTotalBuffer was interrupted while getting an element.");
-            }
+        while(buffer.size() == 0) {
+            this.getIsEmpty().await();
         }
         value = buffer.remove(0);
         this.getIsFull().signal();
