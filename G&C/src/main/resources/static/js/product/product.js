@@ -10,10 +10,8 @@ window.onload = function() {
            updateCounter(e);
        }, false);
    }
-    if(btn_menu != null) {
-        for (let i = 0; i < btn_menu.length; i++) {
-            const element = btn_menu[i];
-
+    if (btn_menu != null) {
+        for (let element of btn_menu) {
             element.addEventListener('click',function (e) {
                 updateCounter(e);
             },false);
@@ -22,13 +20,6 @@ window.onload = function() {
 }
 
 function updateCounter(e) {
-    let id = e.target.id;
-    let parameters = {id : id};
-
-    if (e.target.tagName === "A") {
-        $.post("/metric/counter",parameters);
-    } else if(e.target.tagName === "BUTTON") {
-        $.post("/metric/counter",parameters);
-    }
+    $.post("/metric/counter",{id : e.target.id});
 }
 

@@ -15,6 +15,7 @@ window.onload = function() {
     analytics = document.getElementById('analytics');
     menu_profile_settings = document.getElementById('menu_profile_settings');
     profile_settings =  document.getElementById('profile_settings');
+
     if(buttons != null) {
         buttons.addEventListener("mouseover",updateCurrent, false);
         buttons.addEventListener("mouseout", resetCurrent,false);
@@ -24,10 +25,7 @@ window.onload = function() {
     }
 
     if(checkbox != null){
-
-        for (let i = 0; i < checkbox.length; i++) {
-            const element = checkbox[i];
-
+        for (let element of checkbox) {
             element.addEventListener('click', change, false);
         }
     }
@@ -37,9 +35,7 @@ window.onload = function() {
 
 
     if(btn_menu != null) {
-        for (let i = 0; i < btn_menu.length; i++) {
-            const element = btn_menu[i];
-
+        for (let element of btn_menu) {
             element.addEventListener('click',function (e) {
                 updateCounter(e);
             },false);
@@ -65,11 +61,11 @@ window.onload = function() {
 
 
 function toggleIconPassword(evt) {
-
     let inputPassword = document.getElementById('inputPassword');
     let id = evt.currentTarget.id;
     let element = document.getElementById(id);
-    if(inputPassword.type === "password") {
+
+    if (inputPassword.type === "password") {
         element.classList.remove('fa-lock');
         element.classList.add('fa-lock-open')
         inputPassword.type = "text";
@@ -112,8 +108,6 @@ function change(e) {
     let vendor = document.getElementById("form-vendor");
 
     if(e.target.tagName === "INPUT") {
-        id = e.target.id;
-
         switch (e.target.value) {
             case "vendor":
                 vendor.classList.remove('hidden');

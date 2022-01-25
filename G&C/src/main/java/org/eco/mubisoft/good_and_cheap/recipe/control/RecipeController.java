@@ -64,9 +64,7 @@ public class RecipeController {
             List<String> flags = Arrays.asList(request.getParameterValues("flag"));
             Collection<Flag> flagList = new ArrayList<>();
 
-            flags.forEach(flagID -> {
-                flagList.add(flagService.getFlag(Long.parseLong(flagID)));
-            });
+            flags.forEach(flagID -> flagList.add(flagService.getFlag(Long.parseLong(flagID))));
             recipe.setRecipeFlags(flagList);
         } catch (NullPointerException e) {
             log.info("No flags were found.");

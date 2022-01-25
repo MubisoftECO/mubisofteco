@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ApplicationControllerTest {
+class ApplicationControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -25,7 +25,7 @@ public class ApplicationControllerTest {
     }
 
     @Test
-    public void getIndex() {
+    void getIndex() {
         try {
             mockMvc.perform(get("/"))
                     .andExpect(status().isOk())

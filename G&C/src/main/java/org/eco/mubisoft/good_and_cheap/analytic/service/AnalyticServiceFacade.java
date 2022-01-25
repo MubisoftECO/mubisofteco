@@ -40,7 +40,6 @@ public class AnalyticServiceFacade implements AnalyticService{
     private static final String REASON_SOLD = "SOLD";
     private static final String REASON_EXPIRED = "EXPIRED";
     private static final String REASON_OTHER = "OTHER";
-    private static final String LANG_EN = "EN";
     private static final String LANG_ES = "ES";
     private static final String LANG_EU = "EU";
 
@@ -48,7 +47,6 @@ public class AnalyticServiceFacade implements AnalyticService{
     @Override
     public void enableUserIdPicker(AppUser appUser){
         ThreadInitializer.setTypeRunnableList(appUser.getId(),productService);
-        ThreadInitializer.setFutureListProductDto(productService);
     }
 
     @Override

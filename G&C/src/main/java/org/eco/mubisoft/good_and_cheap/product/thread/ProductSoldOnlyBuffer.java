@@ -1,5 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.product.thread;
 
+import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.product.dto.ProductSoldOnlyDto;
 import org.eco.mubisoft.good_and_cheap.thread.ThreadBufferDefinition;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Slf4j
 @Component
+@EqualsAndHashCode(callSuper = false)
 public class ProductSoldOnlyBuffer extends ThreadBufferDefinition<ProductSoldOnlyDto> {
 
     private final List<ProductSoldOnlyDto> buffer;

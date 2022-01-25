@@ -1,5 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.user.thread;
 
+import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.thread.ThreadBufferDefinition;
 import org.eco.mubisoft.good_and_cheap.thread.ThreadCapacityDefinition;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Slf4j
 @Component
+@EqualsAndHashCode(callSuper = false)
 public class UserBuffer extends ThreadBufferDefinition<Long> {
 
     private final List<Long> buffer;
@@ -36,7 +38,7 @@ public class UserBuffer extends ThreadBufferDefinition<Long> {
         Long value;
         this.getMutex().lock();
 
-        while(buffer.size() == 0) {
+        while(buffer.isEmpty()) {
             this.getIsEmpty().await();
         }
         value = buffer.remove(0);

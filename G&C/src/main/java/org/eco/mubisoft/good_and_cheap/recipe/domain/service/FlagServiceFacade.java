@@ -19,9 +19,9 @@ public class FlagServiceFacade implements FlagService {
     private final FlagRepository flagRepo;
 
     @Override
-    public void saveFlag(Flag flag) {
+    public Flag saveFlag(Flag flag) {
         log.info("Saving flag {} on the database.", flag.getNameEn());
-        flagRepo.save(flag);
+        return flagRepo.save(flag);
     }
 
     @Override
@@ -32,6 +32,11 @@ public class FlagServiceFacade implements FlagService {
     @Override
     public Flag getFlag(Long id) {
         return flagRepo.getById(id);
+    }
+
+    @Override
+    public void deleteFlag(Flag flag) {
+        flagRepo.delete(flag);
     }
 
 }

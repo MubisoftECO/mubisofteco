@@ -7,8 +7,8 @@ $(document).ready(function(){
             success: function(operationResult) {
                 let result = JSON.parse(operationResult);
                 let s = '<option  value="" disabled selected>Province</option>';
-                for(let i = 0; i < result.length; i++) {
-                    s += '<option value="' + result[i].id + '">' + result[i].name + '</option>';
+                for(let res of result) {
+                    s += '<option value="' + res.id + '">' + res.name + '</option>';
                 }
                 $('.province-dropdown').html(s);
             }
@@ -22,8 +22,8 @@ $(document).ready(function(){
             success: function(operationResult) {
                 let result = JSON.parse(operationResult);
                 let s = '<option  value="" disabled selected>City</option>';
-                for(let i = 0; i < result.length; i++) {
-                    s += '<option value="' + result[i].id + '">' + result[i].name + '</option>';
+                for(let res of result) {
+                    s += '<option value="' + res.id + '">' + res.name + '</option>';
                 }
                 $('.city-dropdown').html(s);
             }

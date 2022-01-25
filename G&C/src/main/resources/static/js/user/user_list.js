@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $('#role-dropdown').on('change', function(){
-        var roleId = $(this).val();
+        let roleId = $(this).val();
         $.ajax({
             type: 'GET',
             url: '/user/view/getUsers/' + roleId,
@@ -8,13 +8,13 @@ $(document).ready(function(){
                 let result = JSON.parse(operationResult);
                 let s = '';
 
-                for(let i = 0; i < result.length; i++) {
+                for (let res of result) {
                     s += '<tr>';
-                    s += '<th scope="row">' + result[i].id + '</th>';
-                    s += '<td>' + result[i].name + '</td>';
-                    s += '<td>' + result[i].secondName + '</td>';
-                    s += '<td>' + result[i].username + '</td>';
-                    s += '<td><a class="btn btn-danger" href=' + '"/user/delete/' + result[i].id +'"' + ' role="button">Delete</a></td>';
+                    s += '<th scope="row">' + res.id + '</th>';
+                    s += '<td>' + res.name + '</td>';
+                    s += '<td>' + res.secondName + '</td>';
+                    s += '<td>' + res.username + '</td>';
+                    s += '<td><a class="btn btn-danger" href=' + '"/user/delete/' + res.id +'"' + ' role="button">Delete</a></td>';
                     s += '</tr>'
                 }
                 $('#tbody').html(s);

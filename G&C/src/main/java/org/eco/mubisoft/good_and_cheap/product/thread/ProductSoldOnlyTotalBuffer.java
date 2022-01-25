@@ -1,5 +1,6 @@
 package org.eco.mubisoft.good_and_cheap.product.thread;
 
+import lombok.EqualsAndHashCode;
 import org.eco.mubisoft.good_and_cheap.analytic.domain.most_least.model.MostLessSoldDetail;
 import org.eco.mubisoft.good_and_cheap.thread.ThreadBufferDefinition;
 import org.eco.mubisoft.good_and_cheap.thread.ThreadCapacityDefinition;
@@ -8,8 +9,8 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Component
+@EqualsAndHashCode(callSuper = false)
 public class ProductSoldOnlyTotalBuffer extends ThreadBufferDefinition<MostLessSoldDetail> {
 
     private final List<MostLessSoldDetail> buffer;
@@ -33,7 +34,7 @@ public class ProductSoldOnlyTotalBuffer extends ThreadBufferDefinition<MostLessS
     public MostLessSoldDetail get() throws InterruptedException {
         MostLessSoldDetail value;
         this.getMutex().lock();
-        while(buffer.size() == 0) {
+        while(buffer.isEmpty()) {
             this.getIsEmpty().await();
         }
         value = buffer.remove(0);

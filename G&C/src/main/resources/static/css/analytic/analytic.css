@@ -22,13 +22,9 @@
 .profile_action>img{
     width: 4%;
 }
-.profile_action > h2{
-
-}
 
 .material_action{
     background-color: rgb(255, 255, 255);
-
 
     width: 20%;
     border-radius: 10px;
@@ -41,26 +37,9 @@
     width: 100%;
 }
 
-
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 576px) {
     .profile_action{
 
     }
-}
-/* Medium devices (tablets, 768px and up) */
-@media (min-width: 768px) {
-    .profile_action{
-
-    }
-}
-
-/* Large devices (desktops, 992px and up) */
-@media (min-width: 992px) {
-
-}
-
-/* Extra large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {
-
 }

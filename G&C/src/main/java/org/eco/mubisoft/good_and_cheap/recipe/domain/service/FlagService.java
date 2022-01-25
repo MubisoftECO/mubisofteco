@@ -6,8 +6,9 @@ import java.util.List;
 
 public interface FlagService {
 
-    void saveFlag(Flag flag);
+    Flag saveFlag(Flag flag);
     List<Flag> getAllFlags();
     Flag getFlag(Long id);
+    void deleteFlag(Flag flag);
 
 }

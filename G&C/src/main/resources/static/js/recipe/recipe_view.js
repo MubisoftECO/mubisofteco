@@ -7,9 +7,7 @@ window.onload = function () {
         getlink
     );
     if(btn_menu != null) {
-        for (let i = 0; i < btn_menu.length; i++) {
-            const element = btn_menu[i];
-
+        for (let element of btn_menu) {
             element.addEventListener('click',function (e) {
                 updateCounter(e);
             },false);

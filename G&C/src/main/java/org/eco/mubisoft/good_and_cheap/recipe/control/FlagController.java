@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.model.Flag;
 import org.eco.mubisoft.good_and_cheap.recipe.domain.service.FlagService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,14 +28,16 @@ public class FlagController {
     }
 
     @PostMapping("/save")
-    public void setRecipeFlag(HttpServletRequest request) {
+    public ResponseEntity<Long> setRecipeFlag(HttpServletRequest request) {
         String flagName = request.getParameter("name");
-        flagService.saveFlag(
-                new Flag (
-                        flagName,
-                        flagName,
-                        flagName
-                )
+        return ResponseEntity.ok().body(
+                flagService.saveFlag(
+                        new Flag (
+                                flagName,
+                                flagName,
+                                flagName
+                        )
+                ).getId()
         );
     }
 
