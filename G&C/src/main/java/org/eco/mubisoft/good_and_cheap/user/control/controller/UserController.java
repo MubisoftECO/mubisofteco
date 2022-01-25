@@ -1,17 +1,14 @@
 package org.eco.mubisoft.good_and_cheap.user.control.controller;
 
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eco.mubisoft.good_and_cheap.application.data.FileUploadUtil;
 import org.eco.mubisoft.good_and_cheap.application.data.HibernateProxyTypeAdapter;
-import org.eco.mubisoft.good_and_cheap.application.security.TokenService;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.AppUser;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.City;
 import org.eco.mubisoft.good_and_cheap.user.domain.model.Location;
-import org.eco.mubisoft.good_and_cheap.user.domain.model.Role;
 import org.eco.mubisoft.good_and_cheap.user.domain.service.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -22,9 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -44,14 +39,19 @@ public class UserController {
 
     @GetMapping("/create")
     public String createUser(Model model) {
+        log.info("Sending to create user form");
+
         model.addAttribute("pageTitle", "user_form");
         model.addAttribute("acList", autonomousCommunityService.getAllAutonomousCommunities());
+
         return "user/user_form";
     }
 
     @GetMapping("/create/getProvince/{acId}")
     public @ResponseBody String getProvincesByAutonomousCommunity (@PathVariable("acId") Long acId){
         Gson gson = new Gson();
+
+        log.info("Fetching provinces from {}", acId);
         return gson.toJson(
                 provinceService.getProvincesByAutonomousCommunity(
                         autonomousCommunityService.getAutonomousCommunity(acId)
@@ -62,10 +62,10 @@ public class UserController {
     @GetMapping("/create/getCity/{provinceId}")
     public @ResponseBody String getCitiesByProvince (@PathVariable("provinceId") Long provinceId){
         List<City> cities = cityService.getCitiesByProvince(provinceService.getProvince(provinceId));
-        log.warn("La provincia que buscas tiene {} ciudades", cities.size());
+        log.info("Fetching provinces from {}", provinceId);
+
         GsonBuilder b = new GsonBuilder();
-        b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
-        Gson gson = b.create();
+        Gson gson = b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY).create();
         return gson.toJson(cities);
     }
 
@@ -127,6 +127,7 @@ public class UserController {
         GsonBuilder b = new GsonBuilder();
         b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
         Gson gson = b.create();
+
         return gson.toJson(users);
     }
 
@@ -158,7 +159,7 @@ public class UserController {
     }
 
     @GetMapping("/edit")
-    public String editUser(Model model, HttpServletRequest request, HttpServletResponse response){
+    public String editUser(Model model, HttpServletRequest request) {
         AppUser loggedUser = userService.getLoggedUser(request);
         model.addAttribute("acList", autonomousCommunityService.getAllAutonomousCommunities());
         model.addAttribute("provinceList", provinceService.getProvincesByAutonomousCommunity(
