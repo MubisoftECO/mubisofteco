@@ -97,6 +97,7 @@ public class ProductServiceFacade implements ProductService {
                 list.add(productBuffer.get());
             } catch (InterruptedException e) {
                 log.error(e.getMessage());
+                Thread.currentThread().interrupt();
             }
         }
         return list;
@@ -117,6 +118,7 @@ public class ProductServiceFacade implements ProductService {
             productBuffer.put(p);
         } catch (InterruptedException e) {
             log.error(e.getMessage());
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -134,6 +136,7 @@ public class ProductServiceFacade implements ProductService {
             productSoldOnlyBuffer.put(productSoldOnlyDto);
         } catch (InterruptedException e) {
             log.error(e.getMessage());
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -146,6 +149,7 @@ public class ProductServiceFacade implements ProductService {
                 list.add(productSoldOnlyBuffer.get());
             } catch (InterruptedException e) {
                 log.error(e.getMessage());
+                Thread.currentThread().interrupt();
             }
         }
         return list;
@@ -157,6 +161,7 @@ public class ProductServiceFacade implements ProductService {
             productSoldOnlyTotalBuffer.put(mostLessSoldDetail);
         } catch (InterruptedException e) {
             log.error(e.getMessage());
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -169,6 +174,7 @@ public class ProductServiceFacade implements ProductService {
                 list.add(productSoldOnlyTotalBuffer.get());
             } catch (InterruptedException e) {
                 log.error(e.getMessage());
+                Thread.currentThread().interrupt();
             }
         }
 
@@ -181,6 +187,7 @@ public class ProductServiceFacade implements ProductService {
             mostLeastSoldBuffer.put(mostLeastSold);
         } catch (InterruptedException e) {
             log.error(e.getMessage());
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -193,6 +200,7 @@ public class ProductServiceFacade implements ProductService {
                 list.add(mostLeastSoldBuffer.get());
             } catch (InterruptedException e) {
                 log.error(e.getMessage());
+                Thread.currentThread().interrupt();
             }
         }
         return list;

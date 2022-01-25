@@ -22,16 +22,18 @@ public class FlagController {
 
     @GetMapping("/create")
     public String setFlagForm() {
+        log.info("Sending to flag form");
         return "/recipe/flags_form";
     }
 
     @PostMapping("/save")
     public void setRecipeFlag(HttpServletRequest request) {
+        String flagName = request.getParameter("name");
         flagService.saveFlag(
                 new Flag (
-                        request.getParameter("name"),
-                        request.getParameter("name"),
-                        request.getParameter("name")
+                        flagName,
+                        flagName,
+                        flagName
                 )
         );
     }

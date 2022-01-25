@@ -189,6 +189,7 @@ public class UserServiceFacade implements UserService, UserDetailsService {
             userBuffer.put(id);
         } catch (InterruptedException e) {
             log.error(e.getMessage());
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -201,6 +202,7 @@ public class UserServiceFacade implements UserService, UserDetailsService {
                 list.add(userBuffer.get());
             } catch (InterruptedException e) {
                 log.error(e.getMessage());
+                Thread.currentThread().interrupt();
             }
         }
         return list;
