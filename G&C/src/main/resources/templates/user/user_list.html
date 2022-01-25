@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="includes/head :: head">
+    <title id="pageTitle">User Form</title>
+</head>
+
+<body>
+<!-- Js -->
+<script th:src="@{'/js/user/user_list.js'}"></script>
+
+<!-- Header -->
+<header th:replace="includes/header :: header"></header>
+
+<main  class="container">
+    <h1 class="badge bg-secondary">Product list ROLE_ADMIN ONLY</h1>
+    <select id="role-dropdown" name="role" class="col-12 form-select">
+        <option  value="" disabled selected>Please select a role</option>
+        <th:block th:each="role : ${roleList}">
+            <option th:value="${role.getId()}">[[${role.getName()}]]</option>
+        </th:block>
+        <option th:value="-1">ALL USERS</option>
+    </select>
+    <div class="table-responsive">
+        <table class="table">
+            <caption>User list</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Second Name</th>
+                    <th scope="col">Username</th>
+                </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>
+    </div>
+</main>
+<!-- Footer -->
+<footer th:replace="includes/footer :: footer"></footer>
+</body>
+</html>

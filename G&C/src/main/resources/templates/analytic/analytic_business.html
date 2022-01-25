@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="includes/head :: head" >
+    <title id="pageTitle">My Business</title>
+</head>
+
+<body>
+<!-- Custom Styling -->
+
+<!-- Custom Script -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<!-- Header -->
+<header th:replace="includes/header :: header"></header>
+
+<!-- Main -->
+<main  class="container align-items-center">
+
+
+    <div class="">
+        <figure>
+            <div id="graphic"></div>
+        </figure>
+    </div>
+    <script th:inline="javascript">
+        $(function() {
+            Highcharts.chart('graphic', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'My Business'
+                },
+                xAxis: {
+                    categories: [[${reasonList}]]
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: null
+                    }
+                },
+                legend: {
+                    reversed: true
+                },
+                plotOptions: {
+                    series: {
+                        stacking: 'normal',
+                        dataLabels: {
+                            enabled: true,
+                            format: '{y} €'
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Profit-Loss',
+                    data: [[${totalList}]]
+                }]
+            });
+        });
+    </script>
+</main>
+<!-- Footer -->
+<footer th:replace="includes/footer :: footer"></footer>
+</body>
+</html>

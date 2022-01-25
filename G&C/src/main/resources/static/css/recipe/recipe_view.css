@@ -1,0 +1,105 @@
+.w-30 {
+    width: 30% !important;
+}
+
+form + form{
+    margin-left: 1rem;
+}
+
+.btn_search{
+    align-items: center;
+    width: calc(90% - 3rem);
+    background-color: var(--mubisoft-lightgrey);
+    color: var(--mubisoft-darkgrey);
+    border: 0;
+    box-shadow: 0px 0px 6px 3px rgba(48,46,46,0.34);
+}
+
+#search{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#search-form{
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    width: 75%;
+    gap: 1rem;
+}
+
+main{
+    margin:20px;
+}
+
+.recipe_card {
+    text-decoration: none;
+    color: rgb(48, 46, 46);
+}
+
+a:link, a:visited, a:active{
+    text-decoration: none !important;
+}
+
+
+.card:hover {
+    background: #302E2E;
+    color: #EBECE1 !important;
+}
+
+.recipe_card:hover{
+    color: #EBECE1;
+    background: #302E2E;
+}
+
+#card-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card{
+    width: 80%;
+}
+
+.button-modify{
+    position: absolute;
+    right:    0.5rem;
+    bottom:   0.5rem;
+}
+
+.form-btn{
+    display: inline-block;
+}
+
+
+@media (min-width: 576px) {
+
+    #card-container{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 1rem;
+        grid-auto-rows: 1fr
+    }
+    .card{
+        width: 100%;
+        height: 100%;
+    }
+    .recipe_card{
+        height: 100%;
+    }
+
+}
+
+@media (min-width: 720px) {
+
+    #card-container{
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+}
+
+
+

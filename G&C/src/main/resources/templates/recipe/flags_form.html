@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="includes/head :: head">
+    <title id="pageTitle">Flag Form</title>
+</head>
+<body>
+    <!-- Header -->
+    <header th:replace="includes/header :: header"></header>
+    <!-- Main -->
+    <form action="/flag/save" method="post">
+        <table>
+            <caption>Create flag table</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Type</th>
+                    <th scope="col">Input</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><label for="name_en">Flag name</label></td>
+                    <td><input type="text" id="name_en" name="name"></td>
+                </tr>
+            </tbody>
+        </table>
+        <input type="submit" value="Submit">
+    </form>
+    <!-- Footer -->
+    <footer th:replace="includes/footer :: footer"></footer>
+</body>
+</html>

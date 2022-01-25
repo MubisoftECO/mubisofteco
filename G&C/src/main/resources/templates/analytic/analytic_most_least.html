@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="includes/head :: head" >
+    <title id="pageTitle">Least Sold Producst</title>
+</head>
+
+<body>
+<!-- Custom Styling -->
+
+<!-- Custom Script -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script th:src="@{'/js/analytic/mostleast.js'}"></script>
+
+<!-- Header -->
+<header th:replace="includes/header :: header"></header>
+
+<!-- Main -->
+<main  class="container align-items-center">
+
+
+    <div class="">
+        <figure>
+            <div id="graphic"></div>
+        </figure>
+       <div class="d-flex flex-row justify-content-center">
+           <div class="form-check form-check-inline">
+               <input class="form-check-input"  type="radio" name="most-least" id="most">
+               <label class="form-check-label" for="most">Most sold</label>
+
+           </div>
+           <div class="form-check form-check-inline">
+               <input class="form-check-input" type="radio" name="most-least" id="least">
+               <label class="form-check-label" for="least">Less sold</label>
+           </div>
+       </div>
+    </div>
+</main>
+<!-- Footer -->
+<footer th:replace="includes/footer :: footer"></footer>
+</body>
+</html>

@@ -16,6 +16,9 @@
     <description>Good And Cheap</description>
     <properties>
         <java.version>1.8</java.version>
+        <property name="hibernate.connection.CharSet">utf8</property>
+        <property name="hibernate.connection.characterEncoding">utf8</property>
+        <property name="hibernate.connection.useUnicode">true</property>
     </properties>
     <dependencies>
         <dependency>
@@ -43,7 +46,6 @@
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity5</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -75,9 +77,27 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.9</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-suite-engine</artifactId>
+            <version>1.8.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
+        <finalName>ROOT</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -91,7 +111,53 @@
                     </excludes>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <update>true</update>
+                    <server>maven-tomcat-war-deployment-server</server>
+                    <url>https://goodandcheap.duckdns.org/manager/text</url>
+                    <path>/${project.build.finalName}</path>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.6</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <destFile>target/coverage-reports/jacoco-ut.exec</destFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>post-unit-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <dataFile>target/coverage-reports/jacoco-ut.exec</dataFile>
+                            <outputDirectory>target/jacoco-ut</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
-
 </project>

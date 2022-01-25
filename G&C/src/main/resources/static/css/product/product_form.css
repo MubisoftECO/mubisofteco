@@ -1,0 +1,76 @@
+:root{
+    --mubisoft-lightgrey: #EFEFEF;
+    --mubisoft-darkgrey: #302E2E;
+    font-size: 3vh;
+}
+
+.container{
+
+    display: flex;
+    flex-direction: column;
+
+
+    margin-top: 2rem;
+    width: 100vw;
+}
+
+#form-customer{
+    display: grid;
+    grid-template-areas:
+        'name name'
+        'quantity price'
+        'expiration_date expiration_date'
+        'choose choose'
+}
+.name{grid-area: name;}
+.quantity{grid-area: quantity;}
+.price{grid-area: price;}
+.expiration_date{grid-area: expiration_date;}
+.choose{grid-area: choose;}
+.title{
+    margin-bottom: 2rem;
+
+}
+
+.input-box{
+    width: 100%;
+
+}
+.input-box > input{
+    border: solid rgba(48, 46, 46, 0.46);
+}
+
+.input-box > .bootstrap-select{
+    border: solid rgba(48, 46, 46, 0.46);
+}
+
+/* Expiration Date Placeholder */
+input[type="date"]:before {
+    color: #2125298f;
+    content: attr(placeholder) !important;
+    margin-right: 0.5em;
+}
+input[type="date"]:focus:before {
+    content: '' !important;
+}
+
+
+.btn_save{
+    display: block;
+    margin: auto;
+    width: 40%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+
+    background-color: var(--mubisoft-darkgrey);
+    box-shadow: 0px 0px 6px 3px rgba(48,46,46,0.34);
+}
+.btn-wide{
+    display: block;
+    margin: auto;
+
+    background-color: var(--mubisoft-lightgrey);
+    color: var(--mubisoft-darkgrey);
+    border: 0;
+    box-shadow: 0px 0px 6px 3px rgba(48,46,46,0.34);
+}

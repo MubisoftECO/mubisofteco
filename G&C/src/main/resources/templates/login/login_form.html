@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="includes/head :: head">
+    <title id="pageTitle">Login</title>
+</head>
+<body>
+    <!-- Custom Styling -->
+    <link rel="stylesheet" th:href="@{'/css/user/login.css'}">
+    <script th:src="@{'/js/user/login.js'}"></script>
+
+    <!-- Header -->
+    <header th:replace="includes/header :: header"></header>
+
+    <!-- Main -->
+    <main>
+        <div class="container">
+            <div id="error-msg" class="alert alert-danger" th:if="${errorMsg != null}" th:text="${errorMsg}"></div>
+            <div class="row" >
+                <div class="center_signIn">
+                    <div class="login_ilustration">
+                        <img th:src="@{'/media/imgs/ilustration.png'}" alt="G&C Ilustration">
+                    </div>
+                        <div class="right_login" >
+                            <div class="btn-group mt-3 login_button" id="button-parent">
+                                <a id="signin"  th:classappend="${pageTitle == 'login_form' ? 'current' : ''}" class="col btn custom-btn-signin btn-lg selected"  th:href="@{'/login/sign-in'}">SIGN IN</a>
+                                <a id="signup"  th:classappend="${pageTitle == 'user_form' ? 'current' : ''}" class=" col btn custom-btn-signup btn-lg" th:href="@{'/user/create'}">SIGN UP</a>
+                            </div>
+                        <div class="mt-4 col-12 col-sm-12 col-md-12 col-lg-12 login_forms">
+                            <form action="/login" method="post"  class="justify-content-center">
+                                <div class="row gy-4 login_form" id="form-customer">
+                                    <div class="col-12 col-sm-6 input-box">
+                                        <input type="email" class="form-control" placeholder="Email"  name="username" id="inputEmail">
+                                        <span>
+                                            <em class="fas fa-envelope custom-form-icon" id="iconEmail"></em>
+                                        </span>
+                                    </div>
+                                    <div class="col-12 col-sm-6 input-box">
+                                        <input type="password" placeholder="Password" name="password" class="form-control" id="inputPassword">
+                                        <span>
+                                            <em class="fas fa-lock custom-form-icon" id="iconPassword"></em>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row gy-2 mt-3">
+                                    <div class="col-12">
+                                        <button type="submit" class="form-control btn btn-dark">SUBMIT</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer th:replace="includes/footer :: footer"></footer>
+</body>
+</html>

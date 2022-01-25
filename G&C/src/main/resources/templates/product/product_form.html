@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="includes/head :: head" >
+    <title id="pageTitle">Add new Product</title>
+</head>
+
+<body>
+    <!-- Custom Styling -->
+    <link rel="stylesheet" th:href="@{'/css/product/product_form.css'}">
+    <!-- Custom Script -->
+    <script th:src="@{'/js/product/product.js'}"></script>
+    <!-- Header -->
+    <header th:replace="includes/header :: header"></header>
+
+    <!-- Main -->
+    <main  class="container align-items-center">
+        <h1 class="title">NEW PRODUCT</h1>
+        <form th:action="@{/product/save}" method="post" class="justify-content-center">
+            <div class="row gy-2" id="form-customer">
+                <div class="input-box name">
+                    <input type="text" name="name" placeholder="Name" class="form-control" required>
+                </div>
+                <div class="input-box quantity">
+                    <input type="number" name="quantity" step="any" placeholder="Quantity" class="form-control" required>
+                </div>
+                <div class="input-box price">
+                    <input type="number" name="price" placeholder="Price" step="any" class="form-control" required>
+                </div>
+                <div class="input-box expiration_date">
+                    <input type="date" name="date" class="form-control" required>
+                </div>
+                 <div class="input-box choose custom-select">
+                     <select id="ac-dropdown" name="productType" class="selectpicker col-12 form-select" data-live-search="true" data-style="btn" required>
+                         <option value="" disabled selected>Product Type</option>
+                         <th:block th:each="productType : ${productTypeList}">
+                             <option th:value="${productType.getId()}" th:text="${productType.getNameEn()}"></option>
+                         </th:block>
+                     </select>
+
+                </div>
+            </div>
+            <button type="submit" class="btn btn-dark btn_save ">SAVE</button>
+        </form>
+        <form th:action="@{/product/view}" method="get" class="justify-content-center">
+            <button type="submit" class="btn btn-dark btn-wide">BACK</button>
+        </form>
+    </main>
+    <!-- Footer -->
+    <footer th:replace="includes/footer :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="includes/head :: head" >
+    <title id="pageTitle">Analytic Options</title>
+</head>
+
+
+<body>
+    <!-- Custom Styling -->
+    <link rel="stylesheet" th:href="@{'/css/analytic/analytic.css'}">
+    <!-- Custom Script -->
+
+<!-- Header -->
+<header th:replace="includes/header :: header"></header>
+
+<!-- Main -->
+<main  class="container align-items-center">
+    <div class="actions">
+        <a th:href="@{'/analytic/sales-balance'}" class="profile_action">
+            <div class="material_action">
+                <img th:src="@{'/media/imgs/euskadi.svg'}" alt="Icono recetas">
+            </div>
+            <h2>Sales Balance</h2>
+            <img th:src="@{'/media/imgs/arrow.svg'}" alt="Flecha">
+        </a>
+        <br>
+        <a th:href="@{'/analytic/most-least-sold'}" class="profile_action">
+            <div class="material_action">
+                <img th:src="@{'/media/imgs/most-less.svg'}" alt="Icono recetas">
+            </div>
+            <h2>Most/Less Sold Products</h2>
+            <img th:src="@{'/media/imgs/arrow.svg'}" alt="Flecha">
+        </a>
+        <br>
+        <a th:href="@{'/analytic/business'}" class="profile_action">
+            <div class="material_action">
+                <img th:src="@{'/media/imgs/business.svg'}" alt="Icono recetas">
+            </div>
+            <h2>My Business</h2>
+            <img th:src="@{'/media/imgs/arrow.svg'}" alt="Flecha">
+        </a>
+    </div>
+
+</main>
+<!-- Footer -->
+<footer th:replace="includes/footer :: footer"></footer>
+</body>
+</html>

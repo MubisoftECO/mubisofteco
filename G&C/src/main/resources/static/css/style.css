@@ -1,0 +1,220 @@
+*{
+    margin: 0;
+    font-weight: 500;
+}
+
+:root{
+    font-family: 'Manrope', sans-serif;
+    font-size: 20px;
+    --color-background-green: #5BB964;
+    --input-background-color: #f8f9fa;
+    --color-btn-bg-dark: #302E2E;
+    --color-btn-bg-lightgrey: #EBEEE2;
+    --color-text-bg-dark: white;
+    --color-text-bg-white: black;
+}
+body{
+    min-width: 547px;
+}
+
+.center{
+    text-align: center;
+    margin: auto;
+}
+
+
+/* HEADER */
+.header{
+    height: 6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: #5BB964;
+    margin-bottom: 0.8rem;
+    width: 100%;
+    padding: 1rem;
+}
+.header_btn{
+    background-color: #EBEEE2;
+    color: #302E2E;
+    border: 0;
+
+    padding: 0.4rem 1rem;
+    border-radius: 10px;
+    font-size: x-large;
+}
+
+/* LOGO */
+.header_logo{
+    width: 30%;
+}
+
+.header_image {
+    width: 100%;
+}
+
+/* PROFILE */
+.profile{
+    background-color: #EBEEE2;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 10px 50px 50px 10px;
+    padding-left: 0.3rem;
+}
+
+.profile > h3{
+    margin:0;
+    padding: 0.4rem;
+}
+
+.profile_img{
+    width: 3rem;
+    height: 4rem;
+    margin-left: 0.4rem;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+.dropdown-menu{
+    background-color: #5BB964;
+    padding: 0.5rem 1.5rem 1.5rem;
+}
+
+.dropdown-menu > a{
+    background-color: #EBEEE2;
+    margin-top: 1rem;
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+#profile_dropdown{
+    border: 0;
+    height: 2.7rem;
+    padding: 0 0 0 0.6rem;
+}
+
+
+/* HEADER -> PROFILE -> LANGUAGE */
+.language{
+    display: flex;
+    justify-content: space-around;
+
+    width: 100%;
+
+    background-color: #EBEEE2;
+    margin-top: 1rem;
+    padding: 0.3rem;
+    border-radius: 10px;
+}
+.dropdown_language_item{
+    
+    width: 30%;
+    background-color: #302E2E;
+    color: #EBEEE2;
+    border-radius: 10px;
+    padding: 0.3rem;
+}
+.dropdown_language_item_selected{
+    background-color: #babbb8;
+    color: #302E2E;
+}
+
+/* MAIN */
+hr {
+    height: 1px;
+    width: 70%;
+    background-color: #302E2E;
+    margin: 3rem auto;
+    text-align: center;
+}
+.pagination_form{
+    display: flex;
+    justify-content: center;
+}
+
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.space-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.button_bar{
+    margin: auto;
+    padding: 1.5rem;
+    width: 90%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.btn-wide {
+    width: 100%;
+    background-color: var(--mubisoft-lightgrey);
+    color: var(--mubisoft-darkgrey);
+    border: 0;
+    box-shadow: 0px 0px 6px 3px rgba(48,46,46,0.34);
+}
+
+.btn-green {
+    background-color: var(--color-background-green);
+    border-color: var(--color-background-green);
+    color: white;
+}
+
+.custom-select > div.dropdown.bootstrap-select > div {
+    background-color: white;
+}
+
+.custom-select > div.dropdown.bootstrap-select ul {
+    background-color: white;
+}
+
+.custom-select > div.dropdown.bootstrap-select ul a {
+    border-radius: 0.25rem;
+}
+
+.custom-select > div.dropdown.bootstrap-select ul a.dropdown-item.active,
+.custom-select > div.dropdown.bootstrap-select ul a.dropdown-item.selected,
+.custom-select > div.dropdown.bootstrap-select ul a.dropdown-item:active {
+    background-color: var(--color-background-green);
+    color: white;
+}
+
+/* FOOTER */
+.footer_main{
+    margin-top: 1rem;
+}
+.footer_main > p{
+    margin: 2rem;
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+.header_logo {
+        width: 25%;
+}
+
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+.header_logo {
+        width: 15%;
+}  
+}
+
+.index-banner {
+    width: 100%;
+}
+
+.card-banner {
+    text-align: center;
+}

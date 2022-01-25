@@ -1,0 +1,124 @@
+/*:root {*/
+/*    --color-btn-bg-dark: #302E2E;*/
+/*    --color-btn-bg-lightgrey: #EBEEE2;*/
+/*    --color-text-bg-dark: white;*/
+/*    --color-text-bg-white: black;*/
+/*}*/
+
+.input-box {
+    position: relative;
+    text-align: end;
+    width: 100%;
+}
+
+form-control {
+    outline: none;
+    margin:20px 0 0 0;
+}
+
+.custom-form-icon {
+    position:absolute;
+    font-size: 25px;
+    margin: -32px 0 0 -32px;
+}
+
+#iconPassword {
+    cursor: pointer;
+}
+
+/* -- Buttons --*/
+
+.custom-btn-signin {
+    background-color: var(--color-btn-bg-lightgrey);
+    color:var(--color-text-bg-white);
+}
+
+
+.custom-btn-signin:hover {
+    background-color: var(--color-btn-bg-dark);
+    color:var(--color-text-bg-dark);
+}
+
+
+
+.custom-btn-signup {
+    background-color: var(--color-btn-bg-lightgrey);
+    color:var(--color-text-bg-white);
+}
+
+.custom-btn-signup:hover{
+    background-color: var(--color-btn-bg-dark);
+    color:var(--color-text-bg-dark);
+}
+
+
+.custom-btn-submit {
+    background-color: var(--color-btn-bg-dark);
+    color: var(--color-text-bg-dark);
+
+    /*margin: 30px 0 0 0;*/
+}
+
+.custom-btn-submit:hover {
+    background-color: var(--color-btn-bg-dark);
+    color: var(--color-text-bg-dark);
+
+    /*margin: 30px 0 0 0;*/
+}
+
+.login_form{
+    display: flex;
+    flex-direction: column;
+}
+.login_forms{
+    width: 100%;
+}
+.login_ilustration{
+    display: none;
+}
+.right_login{
+    margin: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+
+    padding: 1rem;
+}
+
+/* -- actions --*/
+
+.current {
+    background-color: var(--color-btn-bg-dark);
+    color: var(--color-text-bg-dark);
+}
+
+.hidden {
+    display:none;
+}
+
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+.login_ilustration{
+
+    display: block;
+}
+.center_signIn{
+    display: flex;
+    flex-direction: row;
+}
+
+.login_forms{
+    width: 100%;
+}
+
+}
+
+/*Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
+
+.right_login{
+    width: 40vw;
+}
+
+}

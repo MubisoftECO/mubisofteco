@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="includes/head :: head">
+    <title id="pageTitle">Error Base</title>
+</head>
+<body>
+    <!-- Header -->
+    <header th:replace="includes/header :: header"></header>
+
+    <main class="container">
+        <h3>SOMETHING WENT WRONG! CONTACT THE MAINTENANCE TEAM</h3>
+        <table th:replace="includes/error_table :: error_table">
+        </table>
+        <section id="go-back" class="col d-flex justify-content-center">
+            <a href="/" class="btn btn-light">Go Home</a>
+        </section>
+    </main>
+</body>
+</html>

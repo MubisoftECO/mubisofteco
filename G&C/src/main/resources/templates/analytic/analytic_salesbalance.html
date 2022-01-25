@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="includes/head :: head" >
+    <title id="pageTitle">Sales Balance</title>
+</head>
+
+<body>
+<!-- Custom Styling -->
+
+<!-- Custom Script -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script th:src="@{'/js/analytic/draw_graphic.js'}"></script>
+
+<!-- Header -->
+<header th:replace="includes/header :: header"></header>
+
+<!-- Main -->
+<main  class="container align-items-center">
+
+    <div class="">
+        <figure>
+            <div id="graphic"></div>
+        </figure>
+    </div>
+    <script th:inline="javascript">
+        $(function() {
+            Highcharts.chart('graphic', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Sales Balance'
+                },
+                xAxis: {
+                    categories: [[${productNameList}]]
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: null
+                    }
+                },
+                legend: {
+                    reversed: true
+                },
+                plotOptions: {
+                    series: {
+                        stacking: 'percent'
+                    }
+                },
+                series: [{
+                    name: 'Expired',
+                    data: [[${expiredList}]]
+                }, {
+                    name: 'Sold',
+                    data: [[${soldList}]]
+                }, {
+                    name: 'Other',
+                    data: [[${otherList}]]
+                }]
+            });
+        });
+        </script>
+</main>
+<!-- Footer -->
+<footer th:replace="includes/footer :: footer"></footer>
+</body>
+</html>

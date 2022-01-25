@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="includes/head :: head">
+    <title id="pageTitle">Modify recipe list</title>
+</head>
+<body>
+<!-- Custom Styling -->
+<link rel="stylesheet" th:href="@{'/css/recipe/recipe_view.css'}">
+
+<!-- Header -->
+<header th:replace="includes/header :: header"></header>
+
+<div class="button_bar">
+    <form th:action="@{/recipe/create}" method="get" class="justify-content-center container-fluid">
+        <button type="submit" class="btn btn-dark btn-wide">Create a New Recipe</button>
+    </form>
+</div>
+
+<!-- Main -->
+<main class="container-fluid">
+    <div id="card-container">
+        <th:block th:each="recipe : ${recipeList}">
+            <div class="card mb-3" >
+                <a th:href="@{'/recipe/view/'+${recipe.getId()}}" class="recipe_card">
+                    <div class="row no-gutters">
+                        <div th:if="${recipe.getImgSrc() == null || recipe.getImgSrc().equals('')}">
+                            <img src="/media/imgs/recipe/recipe-base.png" class="card-img" alt="Default Recipe Image">
+                        </div>
+                        <div th:unless="${recipe.getImgSrc() == null || recipe.getImgSrc().equals('')}">
+                            <img src="/media/imgs/recipe/recipe-base.png" class="card-img" th:alt="${recipe.getTitle()}">
+                        </div>
+                        <div>
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${recipe.getTitle()}"></h5>
+                                <p class="card-text" th:text="${recipe.getDescription()}"></p>
+                                <p class="card-text" th:text="${recipe.getTimeInMinutes() + ' min'}"></p>
+
+                                <div class="button-modify">
+                                    <form th:action="'/recipe/modify/'+${recipe.getId()}" method="get" class="form-btn">
+                                        <button type="submit" class="btn btn-secondary">Edit</button>
+                                    </form>
+                                    <form th:action="'/recipe/delete/'+${recipe.getId()}" method="post" class="form-btn">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
+                             </div>
+                         </div>
+                     </div>
+                 </a>
+             </div>
+         </th:block>
+     </div>
+ </main>
+
+ <!-- Footer -->
+<footer th:replace="includes/footer :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="includes/head :: head">
+    <title id="pageTitle">Profile</title>
+</head>
+
+<body>
+<!-- Custom Styling -->
+<link rel="stylesheet" th:href="@{'/css/user/profile.css'}">
+<script th:src="@{'/js/user/login.js'}"></script>
+
+<!-- Header -->
+<header th:replace="includes/header :: header"></header>
+
+<!-- Main -->
+<main>
+    <div class="container">
+        <div class="profile_info">
+            <th:block th:if="${#strings.isEmpty(user.getImagePath())}">
+                <img th:src="@{'/media/imgs/gc_profile.png'}" alt="Profile Icon" class="rounded-circle user_img">
+            </th:block>
+            <th:block th:unless="${#strings.isEmpty(user.getImagePath())}">
+                <img th:src="@{${user.getImagePath()}}" alt="Profile Icon" class="rounded-circle user_img">
+            </th:block>
+            <h1 id="userName" th:text="${user.getName}+' '+ ${user.secondName}"></h1>
+        </div>
+
+        <div class="actions">
+            <a href="/user/view" class="profile_action">
+                <div class="material_action">
+                    <img th:src="@{'/media/imgs/supervised_user_circle.svg'}" alt="All users">
+                </div>
+                <h2>All users</h2>
+                <img th:src="@{'/media/imgs/arrow.svg'}" alt="Flecha">
+            </a>
+
+            <a href="/user/edit" class="profile_action" id="menu_profile_settings">
+                <div class="material_action">
+                    <img th:src="@{'/media/imgs/settings.svg'}" alt="Settings">
+                </div>
+                <h2>User Settings</h2>
+                <img th:src="@{'/media/imgs/arrow.svg'}" alt="Flecha">
+            </a>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer th:replace="includes/footer :: footer"></footer>
+</body>
+</html>

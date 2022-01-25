@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="includes/head :: head">
+    <title id="pageTitle">Create a Role</title>
+</head>
+<body>
+    <!-- Header -->
+    <header th:replace="includes/header :: header"></header>
+    <!-- Main -->
+    <h1>Create User</h1>
+    <form action="/role/save" method="post">
+        <table>
+            <caption>Create a new role table</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Field</th>
+                    <th scope="col">Value</th>
+                    <th scope="col">Button</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><label for="name" class="form-control">Role Name</label></td>
+                    <td><input type="text" id="name" class="form-control" name="name" required></td>
+                    <td><input type="submit" class="btn form-control" value="Submit"></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <!-- Footer -->
+    <footer th:replace="includes/footer :: footer"></footer>
+</body>
+</html>

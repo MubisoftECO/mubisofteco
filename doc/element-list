@@ -1,0 +1,9 @@
+org.eco.mubisoft.good_and_cheap
+org.eco.mubisoft.good_and_cheap.application.control
+org.eco.mubisoft.good_and_cheap.application.data
+org.eco.mubisoft.good_and_cheap.application.security
+org.eco.mubisoft.good_and_cheap.user.control.controller
+org.eco.mubisoft.good_and_cheap.user.control.filter
+org.eco.mubisoft.good_and_cheap.user.domain.model
+org.eco.mubisoft.good_and_cheap.user.domain.repo
+org.eco.mubisoft.good_and_cheap.user.domain.service

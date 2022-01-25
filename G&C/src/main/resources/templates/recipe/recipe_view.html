@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="includes/head :: head">
+    <title id="pageTitle">Recipe view</title>
+</head>
+<body>
+<!-- js Libraries -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<!-- Custom Styling -->
+<link rel="stylesheet" th:href="@{'/css/recipe/recipe_form.css'}">
+
+<!-- Header -->
+<header th:replace="includes/header :: header"></header>
+
+<!-- Main -->
+<main class="container-fluid align-items-center">
+
+    <section id="recipe-introduction" class="container container-fluid border border-light border-4 mt-2">
+        <div id="recipe-title" class="col">
+            <h2 class="title display-2 mx-auto" th:text="${recipe.getTitle()}"></h2>
+            <a th:href="${'/recipe/view/user/' + recipe.getAuthor().getId()}" id="author"
+               class="link-info ms-2" th:text="${recipe.getAuthor().getUsername()}"></a>
+        </div>
+        <div class="container container-fluid row justify-content-between align-items-center">
+            <div id="recipe-information" class="col-6">
+                <div class="form-floating">
+                    <p class="fw-normal text-break" th:text="${recipe.getDescription()}"></p>
+                </div>
+                <div class="form-floating">
+                    <th:block th:switch="${recipe.getLanguage()}">
+                        <div th:case="'es'" class="fw-normal">
+                            Se tardan <span th:text="${recipe.getTimeInMinutes()}"></span> minutos en realizar esta receta.
+                        </div>
+                        <div th:case="'eu'" class="fw-normal">
+                            Errezeta hau <span th:text="${recipe.getTimeInMinutes()}"></span> minutu behar ditu.
+                        </div>
+                        <div th:case="'en'" class="fw-normal">
+                            This recipe will take <span th:text="${recipe.getTimeInMinutes()}"></span> minutes.
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+            <div id="recipe-image">
+                <div th:if="${recipe.getImgSrc() == null || recipe.getImgSrc().equals('')}" class="image">
+                    <img src="/media/imgs/recipe/recipe-base.png" class="card-img" alt="Default Recipe Image">
+                </div>
+                <div th:unless="${recipe.getImgSrc() == null || recipe.getImgSrc().equals('')}" class="image">
+                    <img th:src="${recipe.getImgSrc()}" class="card-img" th:alt="${recipe.getTitle()}">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--FLAGS-->
+    <section th:if="${recipe.getRecipeFlags().size() > 0}" class="allergen-selection container-xl mt-2">
+        <h3 class="title display-6">Flags</h3>
+        <table class="container-fluid table table-bordered">
+            <caption>These are the flags of the recipe</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Flag</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="flag : ${recipe.getRecipeFlags()}">
+                    <td th:text="${flag.getNameEn()}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!--INGREDIENTS-->
+    <section id="recipe-ingredients" class="container-xl">
+        <h3 class="title display-6">Ingredients</h3>
+        <table id="add_ingredient" class="table table-bordered table-responsive">
+            <caption>These are the ingredients of the recipe</caption>
+            <thead id="add_ingredient_head">
+            <tr>
+                <th scope="col" class="col-1">#</th>
+                <th scope="col" class="col-5">Ingredient</th>
+                <th scope="col" class="col-2">Quantity</th>
+                <th scope="col" class="col-3">Unit/Value</th>
+            </tr>
+            </thead>
+            <tbody id="add_ingredient_body">
+            <tr class="new-ingredient" th:each="ingredient : ${recipe.getIngredientList()}">
+                <th scope="row" class="ingredient-id align-middle"
+                    th:text="${recipe.getIngredientList().indexOf(ingredient) + 1}"></th>
+                <td class="ingredient-description">
+                    <span th:text="${ingredient.getProductType().getNameEn()}"></span>
+                </td>
+                <td class="ingredient-quantity">
+                    <span th:text="${ingredient.getQuantity()}"></span>
+                </td>
+                <td class="ingredient-unit">
+                    <span th:text="${ingredient.getProductType().getMeasurementUnit()}"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!--ADD STEP-->
+    <section class="recipe-step container-xl">
+        <h3 class="title display-6">Steps</h3>
+        <div id="recipe-steps">
+            <div class="card recipe-step mb-3"  th:each="step : ${steps}">
+                <div class="card-header space-between">
+                    <span th:id="${'card-header-title-' + step.getId()}" class="badge bg-secondary rounded-pill order"
+                          th:text="${step.getStepNum()}"></span>
+                </div>
+                <div class="card-body">
+                    <span th:text="${step.getDescription()}"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <form th:action="@{'/recipe/view'}" method="get">
+        <div class="button">
+            <input id="back" type="submit" class="btn btn-secondary" value="BACK">
+        </div>
+    </form>
+</main>
+
+<!-- Footer -->
+<footer th:replace="includes/footer :: footer"></footer>
+</body>
+</html>

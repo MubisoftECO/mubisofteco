@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="includes/head :: head">
+    <title id="pageTitle">User Form</title>
+</head>
+
+<body>
+<!-- Custom Styling -->
+<script th:src="@{'/js/user/cascadingDropdown.js'}"></script>
+
+<!-- Header -->
+<header th:replace="includes/header :: header"></header>
+
+<!-- Main -->
+<main>
+    <div class="container">
+        <h1>Edit user</h1>
+                <form action="/user/update" method="post" enctype="multipart/form-data" class="justify-content-center">
+                    <div class="row gy-2" id="form-customer">
+                        <div class="col-12 col-sm-6">
+                            <input type="text" th:value="${user.getName()}" name="name" class="form-control">
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <input type="text" th:value="${user.getSecondName()}" name="secondName" class="form-control">
+                        </div>
+                        <div class="col-12">
+                            <input type="email" th:value="${user.getUsername()}" name="username" class="form-control">
+                        </div>
+                        <div class="col-12">
+                            <select name="autonomousCommunity" class="ac-dropdown col-12 form-select">
+                                <option  value="" disabled selected>Autonomous Community</option>
+                                <th:block th:each="ac : ${acList}">
+                                    <th:block th:if="${#strings.equals(ac.getId(), user.getLocation().getCity().getProvince().getAutonomousCommunity().getId())}">
+                                        <option selected th:value="${ac.getId()}">[[${ac.getName()}]]</option>
+                                    </th:block>
+                                    <th:block th:unless="${#strings.equals(ac.getId(), user.getLocation().getCity().getProvince().getAutonomousCommunity().getId())}">
+                                        <option th:value="${ac.getId()}">[[${ac.getName()}]]</option>
+                                    </th:block>
+                                </th:block>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <select class="province-dropdown col-12 form-select" name="province" >
+                                <option  value="" disabled selected>Province</option>
+                                <th:block th:each="province : ${provinceList}">
+                                    <th:block th:if="${#strings.equals(province.getId(), user.getLocation().getCity().getProvince().getId())}">
+                                        <option selected th:value="${province.getId()}">[[${province.getName()}]]</option>
+                                    </th:block>
+                                    <th:block th:unless="${#strings.equals(province.getId(), user.getLocation().getCity().getProvince().getId())}">
+                                        <option th:value="${province.getId()}">[[${province.getName()}]]</option>
+                                    </th:block>
+                                </th:block>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                        <select class="city-dropdown col-12 form-select" name="city" >
+                            <option  value="" disabled selected>City</option>
+                            <th:block th:each="city : ${cityList}">
+                                <th:block th:if="${#strings.equals(city.getId(), user.getLocation().getCity().getId())}">
+                                    <option selected th:value="${city.getId()}">[[${city.getName()}]]</option>
+                                </th:block>
+                                <th:block th:unless="${#strings.equals(city.getId(), user.getLocation().getCity().getId())}">
+                                    <option th:value="${city.getId()}">[[${city.getName()}]]</option>
+                                </th:block>
+                            </th:block>
+                        </select>
+                            <th:block th:if="${isVendor}">
+                                <div class="col-12 mt-2">
+                                    <input type="text" th:value="${user.getLocation().getStreet()}" name="street" class="form-control">
+                                </div>
+                            </th:block>
+                        </div>
+                        <div class="col-12">
+                            <label>Profile picture: 1MB MAX</label>
+                            <input type="file" name="image" accept="image/png, image/jpeg" />
+                        </div>
+                    </div>
+                    <div class="row gy-2 mt-3">
+                        <div class="col-12">
+                            <button type="submit" class="form-control btn btn-dark">SUBMIT</button>
+                        </div>
+                    </div>
+                </form>
+        <div class="row gy-2 mt-3">
+            <div class="col-12">
+                <a class="form-control btn btn-dark" th:href="${'/user/changepassword'}">CHANGE PASSWORD</a>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- Footer -->
+<footer th:replace="includes/footer :: footer"></footer>
+</body>
+</html>
