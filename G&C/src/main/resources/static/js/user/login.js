@@ -104,7 +104,6 @@ function resetCurrent(e) {
 
 /*SIGN UP customer & vendor*/
 function change(e) {
-    let id;
     let vendor = document.getElementById("form-vendor");
 
     if(e.target.tagName === "INPUT") {
@@ -117,7 +116,6 @@ function change(e) {
                 vendor.classList.add('hidden');
                 break;
         }
-
     }
 }
 

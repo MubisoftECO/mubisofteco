@@ -10,7 +10,7 @@ import java.util.List;
 @Component
 public class ThreadInitializer {
 
-    public static List<Runnable> listProductType = new ArrayList<>();
+    private static final List<Runnable> listProductType = new ArrayList<>();
 
     private ThreadInitializer() {
     }

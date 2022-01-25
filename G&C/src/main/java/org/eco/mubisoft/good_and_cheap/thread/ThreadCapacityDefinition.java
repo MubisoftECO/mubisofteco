@@ -1,7 +1,5 @@
 package org.eco.mubisoft.good_and_cheap.thread;
 
-import lombok.NoArgsConstructor;
-
 public class ThreadCapacityDefinition {
 
     public static final int MAX_USER_CAPACITY = 25;

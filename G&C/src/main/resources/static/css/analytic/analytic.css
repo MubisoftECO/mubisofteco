@@ -16,9 +16,8 @@
     justify-content: space-between;
 
     padding: 1rem 2rem 1rem 1rem;
-
-
 }
+
 .profile_action>img{
     width: 4%;
 }
@@ -35,11 +34,4 @@
 
 .material_action > img{
     width: 100%;
-}
-
-/* Medium devices (tablets, 768px and up) */
-@media (min-width: 576px) {
-    .profile_action{
-
-    }
 }
