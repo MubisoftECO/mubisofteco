@@ -6,6 +6,7 @@
 
 - [G&C, Keep It Fresh!](#intro)
 - [Sustainable Development Goals](#sdg)
+- [Local Server Setup](#local)
 - [Application Requirements](#requirements)
 
 <h2 id="intro">G&C, Keep It Fresh!</h2>
@@ -16,6 +17,9 @@ The application will provide users with a marketplace where shops around them wi
 
 The application will also provide different recipes for the user to elaborate using the products they have bought. These recipes will provide a way of taking advantage of those products and reduce the waste of food at retail.
 
+Check our amazing introductory video!
+[![G&C introductory video](/media/readme/video_thumbnail.png)](https://youtu.be/noULh-zgVd0)
+
 <h2 id="sdg">Sustainable Development Goals</h2>
 
 Food loss and waste has indeed become an issue of great public concern. The 2030 Agenda for Sustainable Development reflects the increased global awareness of the problem. [Target 12.3](https://www.fao.org/sustainable-development-goals/goals/goal-12/en/) of the Sustainable Development Goals calls for halving per capita global food waste at retail and consumer levels by 2030, as well as reducing food losses along the production and supply chains.
@@ -25,6 +29,25 @@ Food loss and waste has indeed become an issue of great public concern. The 2030
 Due to this project nature, it is directly aligned with the Responsible Production and Consumption goal, to be more precise, with the Ensure Sustainable Consumption and Production Patterns.
 
 The main objective of the mubisoft team, regarding of this projects, is to work to achive sustainable consumption, reducing wasted products at retail level.
+
+<h2 id="local">Local Server Setup</h2>
+
+In order to run the application as a local server in your computer, first of all, you have to make sure you have MySQL installed on your computer, you have a user with the name _mubisoft_admmin_ and a password _admin@mubisoft_ and you have created a database called _mubisoft_eco_, where the user has access.
+
+Before running any of the applications, the _aplication.properties_ file must be modified to specify that the database is located in the computer that is being executed. The change must be the following:
+
+```java
+    // From:
+    spring.datasource.url=jdbc:mysql://10.128.0.3:3306/mubisoft_eco
+    
+    // To:
+    spring.datasource.url=jdbc:mysql://localhost:3306/mubisoft_eco
+```
+
+Once the properties file has been modified, the next step is to generate the database. If you want an empty database, just execute de G&C aplication. If you want to generate the database with content inside of it, the Generator aplication must be first executed. Just execute the Generate aplication and search 
+[localhost/generate](http://localhost:8080/generate). The database will be generated, to follow the process check the server console.
+
+With or without the the data generated on the database, if you want to try the aplication just run the G&C server and go to [index](http://localhost).
 
 <h2 id="requirements">Requirements</h2>
 
