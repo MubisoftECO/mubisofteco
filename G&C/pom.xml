@@ -136,6 +136,10 @@
                         </goals>
                         <configuration>
                             <destFile>target/coverage-reports/jacoco-ut.exec</destFile>
+                            <excludes>
+                                <exclude>static/**/*</exclude>
+                                <exclude>templates/**/*</exclude>
+                            </excludes>
                         </configuration>
                     </execution>
                     <execution>
