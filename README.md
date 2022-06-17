@@ -1,4 +1,4 @@
-<img src="media/readme/mubisoft_eco_logo.jpg" alt="mubisoft eco logo" width="60" height="60" align="right">
+<img src="media\readme\LOGO_3.png" alt="good&cheap logo" width="60" height="60" align="right">
 
 # MUBISOFT ECO
 
